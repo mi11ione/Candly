@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct PatternsView: View {
+struct PatternView: View {
     @StateObject private var container = PatternContainer()
     private let filterKeys = ["Single", "Double", "Triple", "Complex"]
 
