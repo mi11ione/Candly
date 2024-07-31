@@ -1,18 +1,23 @@
-import Combine
 import SwiftUI
+import Combine
 
 @MainActor
 class PatternContainer: ObservableObject {
     @Published private(set) var state: PatternState
+    private let repository: PatternRepository
 
-    init(initialState: PatternState = PatternState()) {
-        state = initialState
+    init(repository: PatternRepository) {
+        self.repository = repository
+        self.state = PatternState()
     }
 
     func dispatch(_ intent: PatternIntent) {
         switch intent {
         case .loadPatterns:
-            state.patterns = PatternRepository.fetchPatterns()
+            Task {
+                let patterns = await repository.fetchPatterns()
+                state.patterns = patterns
+            }
         case let .selectFilter(filter):
             state.selectedFilter = state.selectedFilter == filter ? "" : filter
         case let .toggleExpandPattern(patternId):
@@ -20,9 +25,15 @@ class PatternContainer: ObservableObject {
         }
     }
 
-    var filteredPatterns: [Pattern] {
+    var filteredPatterns: [PatternDTO] {
         guard !state.selectedFilter.isEmpty else { return state.patterns }
         return state.patterns.filter { $0.filter.lowercased() == state.selectedFilter.lowercased() }
             .sorted { $0.id.uuidString < $1.id.uuidString }
     }
+}
+
+struct PatternState {
+    var patterns: [PatternDTO] = []
+    var selectedFilter: String = ""
+    var expandedPatternId: UUID?
 }

@@ -2,7 +2,7 @@ import Charts
 import SwiftUI
 
 struct PatternStickChart: View {
-    let pattern: Pattern
+    let pattern: PatternDTO
     @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
@@ -22,16 +22,23 @@ struct PatternStickChart: View {
         .chartYAxis {
             AxisMarks(position: .trailing, values: .automatic(desiredCount: 5))
         }
-        .chartYScale(domain: pattern.yAxisDomain)
+        .chartYScale(domain: calculateYAxisDomain())
+    }
+
+    private func calculateYAxisDomain() -> ClosedRange<Double> {
+        let prices = pattern.candles.flatMap { [$0.lowPrice, $0.highPrice] }
+        guard let min = prices.min(), let max = prices.max() else { return 0...100 }
+        let padding = (max - min) * 0.15
+        return (min - padding)...(max + padding)
     }
 }
 
 private struct CandleStick: ChartContent {
-    let candle: Candle
+    let candle: CandleDTO
 
     var body: some ChartContent {
         RectangleMark(
-            x: .value("Time", candle.formattedTime),
+            x: .value("Time", candle.date.formatted(date: .omitted, time: .shortened)),
             yStart: .value("Low", candle.lowPrice),
             yEnd: .value("High", candle.highPrice),
             width: .fixed(2)
@@ -40,7 +47,7 @@ private struct CandleStick: ChartContent {
         .clipShape(RoundedRectangle(cornerRadius: 2))
 
         RectangleMark(
-            x: .value("Time", candle.formattedTime),
+            x: .value("Time", candle.date.formatted(date: .omitted, time: .shortened)),
             yStart: .value("Open", candle.openPrice),
             yEnd: .value("Close", candle.closePrice),
             width: .fixed(10)

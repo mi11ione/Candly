@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct PatternCell: View {
-    let pattern: Pattern
+    let pattern: PatternDTO
     let isExpanded: Bool
     let onTap: () -> Void
     @Environment(\.colorScheme) private var colorScheme

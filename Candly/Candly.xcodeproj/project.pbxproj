@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		33DD4A3B2C5A44F2002CA246 /* PatternFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 33DD4A3A2C5A44F2002CA246 /* PatternFeature */; };
+		33EC51702C5AACE700DB7ECF /* CoreUI in Frameworks */ = {isa = PBXBuildFile; productRef = 33EC516F2C5AACE700DB7ECF /* CoreUI */; };
+		33EC51732C5AAF4800DB7ECF /* CoreDI in Frameworks */ = {isa = PBXBuildFile; productRef = 33EC51722C5AAF4800DB7ECF /* CoreDI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +35,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33EC51732C5AAF4800DB7ECF /* CoreDI in Frameworks */,
 				33DD4A3B2C5A44F2002CA246 /* PatternFeature in Frameworks */,
+				33EC51702C5AACE700DB7ECF /* CoreUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +81,8 @@
 			name = Candly;
 			packageProductDependencies = (
 				33DD4A3A2C5A44F2002CA246 /* PatternFeature */,
+				33EC516F2C5AACE700DB7ECF /* CoreUI */,
+				33EC51722C5AAF4800DB7ECF /* CoreDI */,
 			);
 			productName = Candly;
 			productReference = 33DD4A232C5A447B002CA246 /* Candly.app */;
@@ -108,6 +114,8 @@
 			mainGroup = 33DD4A1A2C5A447B002CA246;
 			packageReferences = (
 				33DD4A392C5A44F2002CA246 /* XCLocalSwiftPackageReference "../PatternFeature" */,
+				33EC516E2C5AACE700DB7ECF /* XCLocalSwiftPackageReference "../CoreUI" */,
+				33EC51712C5AAF4800DB7ECF /* XCLocalSwiftPackageReference "../CoreDI" */,
 			);
 			productRefGroup = 33DD4A242C5A447B002CA246 /* Products */;
 			projectDirPath = "";
@@ -364,12 +372,28 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../PatternFeature;
 		};
+		33EC516E2C5AACE700DB7ECF /* XCLocalSwiftPackageReference "../CoreUI" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../CoreUI;
+		};
+		33EC51712C5AAF4800DB7ECF /* XCLocalSwiftPackageReference "../CoreDI" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../CoreDI;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		33DD4A3A2C5A44F2002CA246 /* PatternFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PatternFeature;
+		};
+		33EC516F2C5AACE700DB7ECF /* CoreUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CoreUI;
+		};
+		33EC51722C5AAF4800DB7ECF /* CoreDI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CoreDI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

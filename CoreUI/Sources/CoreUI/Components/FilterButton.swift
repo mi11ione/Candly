@@ -1,12 +1,18 @@
 import SwiftUI
 
-struct FilterButton: View {
-    let filter: String
-    let isSelected: Bool
-    let action: () -> Void
+public struct FilterButton: View {
+    public let filter: String
+    public let isSelected: Bool
+    public let action: () -> Void
     @Environment(\.colorScheme) private var colorScheme
 
-    var body: some View {
+    public init(filter: String, isSelected: Bool, action: @escaping () -> Void) {
+        self.filter = filter
+        self.isSelected = isSelected
+        self.action = action
+    }
+
+    public var body: some View {
         Button(action: { withAnimation { action() } }) {
             Text(filter)
                 .font(.headline)

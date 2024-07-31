@@ -4,22 +4,19 @@
 import PackageDescription
 
 let package = Package(
-    name: "PatternFeature",
+    name: "CoreDI",
     platforms: [.iOS(.v17), .macOS(.v14), .visionOS(.v1)],
     products: [
         .library(
-            name: "PatternFeature",
-            targets: ["PatternFeature"]
+            name: "CoreDI",
+            targets: ["CoreDI"]
         ),
     ],
-    dependencies: [
-        .package(path: "../CoreUI"),
-        .package(path: "../CoreDI")
-    ],
+    dependencies: [],
     targets: [
         .target(
-            name: "PatternFeature",
-            dependencies: ["CoreUI", "CoreDI"]
+            name: "CoreDI",
+            dependencies: []
         ),
     ]
 )

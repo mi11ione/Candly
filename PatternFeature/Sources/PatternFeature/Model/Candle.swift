@@ -1,5 +1,5 @@
-import Foundation
 import SwiftData
+import Foundation
 
 @Model
 final class Candle: Identifiable {
@@ -18,14 +18,22 @@ final class Candle: Identifiable {
         self.highPrice = highPrice
         self.lowPrice = lowPrice
     }
-}
 
-extension Candle {
     var formattedTime: String {
         date.formatted(date: .omitted, time: .shortened)
     }
 
     static func from(dateString: String) -> Date {
         ISO8601DateFormatter().date(from: dateString) ?? Date()
+    }
+}
+
+extension Candle {
+    func toDTO() -> CandleDTO {
+        CandleDTO(id: id, date: date, openPrice: openPrice, closePrice: closePrice, highPrice: highPrice, lowPrice: lowPrice)
+    }
+
+    convenience init(from dto: CandleDTO) {
+        self.init(id: dto.id, date: dto.date, openPrice: dto.openPrice, closePrice: dto.closePrice, highPrice: dto.highPrice, lowPrice: dto.lowPrice)
     }
 }

@@ -1,9 +1,13 @@
 import SwiftUI
 
 public struct PatternFeature: View {
-    public init() {}
+    private let repository: PatternRepository
+
+    public init(repository: PatternRepository) {
+        self.repository = repository
+    }
 
     public var body: some View {
-        PatternView()
+        PatternView(repository: repository)
     }
 }

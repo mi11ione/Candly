@@ -1,8 +1,13 @@
 import SwiftUI
+import CoreUI
 
 struct PatternView: View {
-    @StateObject private var container = PatternContainer()
+    @StateObject private var container: PatternContainer
     private let filterKeys = ["Single", "Double", "Triple", "Complex"]
+
+    init(repository: PatternRepository) {
+        _container = StateObject(wrappedValue: PatternContainer(repository: repository))
+    }
 
     var body: some View {
         NavigationStack {

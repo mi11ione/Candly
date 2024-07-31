@@ -1,8 +1,26 @@
 import Foundation
+import SwiftData
 
-enum PatternRepository {
-    static func fetchPatterns() -> [Pattern] {
-        [
+public actor PatternRepository {
+    private let modelContext: ModelContext
+    
+    public init(modelContext: ModelContext) {
+        self.modelContext = modelContext
+    }
+    
+    func fetchPatterns() async -> [PatternDTO] {
+        let descriptor = FetchDescriptor<Pattern>(sortBy: [SortDescriptor(\.name)])
+        do {
+            let patterns = try await modelContext.fetch(descriptor)
+            return patterns.isEmpty ? await createInitialPatterns() : patterns.map { $0.toDTO() }
+        } catch {
+            print("Failed to fetch patterns: \(error)")
+            return []
+        }
+    }
+    
+    private func createInitialPatterns() async -> [PatternDTO] {
+        let patterns = [
             createPattern(name: "Three White Soldiers", info: "Bullish reversal pattern consisting of three consecutive long white candles.", filter: "Triple", dates: ["2016-04-14T10:00:00+0000", "2016-04-14T11:00:00+0000", "2016-04-14T12:00:00+0000"], opens: [108, 109, 121], closes: [120, 122, 130], highs: [122, 125, 130], lows: [107.5, 109, 121]),
             createPattern(name: "Inverted Hammer", info: "Bullish reversal pattern with a small body and a long upper shadow.", filter: "Single", dates: ["2016-04-21T10:00:00+0000"], opens: [100], closes: [102], highs: [107], lows: [99]),
             createPattern(name: "Doji", info: "Neutral pattern where opening and closing prices are nearly equal.", filter: "Single", dates: ["2016-04-25T10:00:00+0000"], opens: [105], closes: [105], highs: [110], lows: [100]),
@@ -22,12 +40,23 @@ enum PatternRepository {
             createPattern(name: "Cup and Handle", info: "Bullish continuation pattern resembling a cup with a handle, indicating a potential upward breakout.", filter: "Complex", dates: ["2016-04-24T10:00:00+0000", "2016-04-24T11:00:00+0000", "2016-04-24T12:00:00+0000", "2016-04-24T13:00:00+0000", "2016-04-24T14:00:00+0000"], opens: [100, 95, 98, 100, 99], closes: [95, 98, 100, 99, 103], highs: [102, 99, 101, 101, 104], lows: [94, 94, 97, 98, 98]),
             createPattern(name: "Rising Wedge", info: "Bearish reversal pattern with converging trendlines, both sloping upward, indicating a potential downward breakout.", filter: "Complex", dates: ["2016-04-25T10:00:00+0000", "2016-04-25T11:00:00+0000", "2016-04-25T12:00:00+0000", "2016-04-25T13:00:00+0000", "2016-04-25T14:00:00+0000"], opens: [100, 102, 104, 105, 106], closes: [102, 104, 105, 106, 104], highs: [103, 105, 106, 107, 107], lows: [99, 101, 103, 104, 103]),
         ]
-    }
-
-    private static func createPattern(name: String, info: String, filter: String, dates: [String], opens: [Double], closes: [Double], highs: [Double], lows: [Double]) -> Pattern {
-        let candles = zip(dates, zip(opens, zip(closes, zip(highs, lows)))).map { date, values in
-            Candle(date: Candle.from(dateString: date), openPrice: values.0, closePrice: values.1.0, highPrice: values.1.1.0, lowPrice: values.1.1.1)
+        for pattern in patterns {
+            modelContext.insert(Pattern(from: pattern))
         }
-        return Pattern(name: name, info: info, filter: filter, candles: candles)
+        
+        do {
+            try await modelContext.save()
+        } catch {
+            print("Failed to save initial patterns: \(error)")
+        }
+        
+        return patterns
+    }
+    
+    private func createPattern(name: String, info: String, filter: String, dates: [String], opens: [Double], closes: [Double], highs: [Double], lows: [Double]) -> PatternDTO {
+        let candles = zip(dates, zip(opens, zip(closes, zip(highs, lows)))).map { date, values in
+            CandleDTO(id: UUID(), date: Candle.from(dateString: date), openPrice: values.0, closePrice: values.1.0, highPrice: values.1.1.0, lowPrice: values.1.1.1)
+        }
+        return PatternDTO(id: UUID(), name: name, info: info, filter: filter, candles: candles)
     }
 }

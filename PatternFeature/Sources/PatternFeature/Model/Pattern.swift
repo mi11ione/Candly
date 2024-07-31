@@ -1,5 +1,5 @@
-import Foundation
 import SwiftData
+import Foundation
 
 @Model
 final class Pattern: Identifiable {
@@ -7,7 +7,7 @@ final class Pattern: Identifiable {
     var name: String
     var info: String
     var filter: String
-    var candles: [Candle]
+    @Relationship(deleteRule: .cascade) var candles: [Candle]
 
     init(id: UUID = UUID(), name: String, info: String, filter: String, candles: [Candle]) {
         self.id = id
@@ -24,5 +24,15 @@ extension Pattern {
         guard let min = prices.min(), let max = prices.max() else { return 0 ... 100 }
         let padding = (max - min) * 0.15
         return (min - padding) ... (max + padding)
+    }
+}
+
+extension Pattern {
+    func toDTO() -> PatternDTO {
+        PatternDTO(id: id, name: name, info: info, filter: filter, candles: candles.map { $0.toDTO() })
+    }
+
+    convenience init(from dto: PatternDTO) {
+        self.init(id: dto.id, name: dto.name, info: dto.info, filter: dto.filter, candles: dto.candles.map { Candle(from: $0) })
     }
 }

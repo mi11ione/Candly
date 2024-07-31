@@ -5,6 +5,12 @@
       location = "group:Candly/Candly.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:CoreUI">
+   </FileRef>
+   <FileRef
+      location = "group:CoreDI">
+   </FileRef>
+   <FileRef
       location = "group:PatternFeature">
    </FileRef>
 </Workspace>
