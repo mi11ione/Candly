@@ -27,9 +27,9 @@ struct PatternStickChart: View {
 
     private func calculateYAxisDomain() -> ClosedRange<Double> {
         let prices = pattern.candles.flatMap { [$0.lowPrice, $0.highPrice] }
-        guard let min = prices.min(), let max = prices.max() else { return 0...100 }
+        guard let min = prices.min(), let max = prices.max() else { return 0 ... 100 }
         let padding = (max - min) * 0.15
-        return (min - padding)...(max + padding)
+        return (min - padding) ... (max + padding)
     }
 }
 

@@ -13,4 +13,7 @@
    <FileRef
       location = "group:PatternFeature">
    </FileRef>
+   <FileRef
+      location = "group:SharedModels">
+   </FileRef>
 </Workspace>

@@ -1,24 +1,25 @@
 import Foundation
+import SharedModels
 import SwiftData
 
 public actor PatternRepository {
-    private let modelContext: ModelContext
-    
-    public init(modelContext: ModelContext) {
+    private let modelContext: ModelContextWrapper
+
+    public init(modelContext: ModelContextWrapper) {
         self.modelContext = modelContext
     }
-    
+
     func fetchPatterns() async -> [PatternDTO] {
         let descriptor = FetchDescriptor<Pattern>(sortBy: [SortDescriptor(\.name)])
         do {
-            let patterns = try await modelContext.fetch(descriptor)
-            return patterns.isEmpty ? await createInitialPatterns() : patterns.map { $0.toDTO() }
+            let patterns = try await modelContext.fetch(descriptor) { $0.toDTO() }
+            return patterns.isEmpty ? await createInitialPatterns() : patterns
         } catch {
             print("Failed to fetch patterns: \(error)")
             return []
         }
     }
-    
+
     private func createInitialPatterns() async -> [PatternDTO] {
         let patterns = [
             createPattern(name: "Three White Soldiers", info: "Bullish reversal pattern consisting of three consecutive long white candles.", filter: "Triple", dates: ["2016-04-14T10:00:00+0000", "2016-04-14T11:00:00+0000", "2016-04-14T12:00:00+0000"], opens: [108, 109, 121], closes: [120, 122, 130], highs: [122, 125, 130], lows: [107.5, 109, 121]),
@@ -40,19 +41,20 @@ public actor PatternRepository {
             createPattern(name: "Cup and Handle", info: "Bullish continuation pattern resembling a cup with a handle, indicating a potential upward breakout.", filter: "Complex", dates: ["2016-04-24T10:00:00+0000", "2016-04-24T11:00:00+0000", "2016-04-24T12:00:00+0000", "2016-04-24T13:00:00+0000", "2016-04-24T14:00:00+0000"], opens: [100, 95, 98, 100, 99], closes: [95, 98, 100, 99, 103], highs: [102, 99, 101, 101, 104], lows: [94, 94, 97, 98, 98]),
             createPattern(name: "Rising Wedge", info: "Bearish reversal pattern with converging trendlines, both sloping upward, indicating a potential downward breakout.", filter: "Complex", dates: ["2016-04-25T10:00:00+0000", "2016-04-25T11:00:00+0000", "2016-04-25T12:00:00+0000", "2016-04-25T13:00:00+0000", "2016-04-25T14:00:00+0000"], opens: [100, 102, 104, 105, 106], closes: [102, 104, 105, 106, 104], highs: [103, 105, 106, 107, 107], lows: [99, 101, 103, 104, 103]),
         ]
-        for pattern in patterns {
-            modelContext.insert(Pattern(from: pattern))
+
+        for patternDTO in patterns {
+            await modelContext.insert(Pattern(from: patternDTO))
         }
-        
+
         do {
             try await modelContext.save()
         } catch {
             print("Failed to save initial patterns: \(error)")
         }
-        
+
         return patterns
     }
-    
+
     private func createPattern(name: String, info: String, filter: String, dates: [String], opens: [Double], closes: [Double], highs: [Double], lows: [Double]) -> PatternDTO {
         let candles = zip(dates, zip(opens, zip(closes, zip(highs, lows)))).map { date, values in
             CandleDTO(id: UUID(), date: Candle.from(dateString: date), openPrice: values.0, closePrice: values.1.0, highPrice: values.1.1.0, lowPrice: values.1.1.1)

@@ -10,6 +10,7 @@
 		33DD4A3B2C5A44F2002CA246 /* PatternFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 33DD4A3A2C5A44F2002CA246 /* PatternFeature */; };
 		33EC51702C5AACE700DB7ECF /* CoreUI in Frameworks */ = {isa = PBXBuildFile; productRef = 33EC516F2C5AACE700DB7ECF /* CoreUI */; };
 		33EC51732C5AAF4800DB7ECF /* CoreDI in Frameworks */ = {isa = PBXBuildFile; productRef = 33EC51722C5AAF4800DB7ECF /* CoreDI */; };
+		33EC51782C5AD06600DB7ECF /* SharedModels in Frameworks */ = {isa = PBXBuildFile; productRef = 33EC51772C5AD06600DB7ECF /* SharedModels */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 				33EC51732C5AAF4800DB7ECF /* CoreDI in Frameworks */,
 				33DD4A3B2C5A44F2002CA246 /* PatternFeature in Frameworks */,
 				33EC51702C5AACE700DB7ECF /* CoreUI in Frameworks */,
+				33EC51782C5AD06600DB7ECF /* SharedModels in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +85,7 @@
 				33DD4A3A2C5A44F2002CA246 /* PatternFeature */,
 				33EC516F2C5AACE700DB7ECF /* CoreUI */,
 				33EC51722C5AAF4800DB7ECF /* CoreDI */,
+				33EC51772C5AD06600DB7ECF /* SharedModels */,
 			);
 			productName = Candly;
 			productReference = 33DD4A232C5A447B002CA246 /* Candly.app */;
@@ -116,6 +119,7 @@
 				33DD4A392C5A44F2002CA246 /* XCLocalSwiftPackageReference "../PatternFeature" */,
 				33EC516E2C5AACE700DB7ECF /* XCLocalSwiftPackageReference "../CoreUI" */,
 				33EC51712C5AAF4800DB7ECF /* XCLocalSwiftPackageReference "../CoreDI" */,
+				33EC51762C5AD06600DB7ECF /* XCLocalSwiftPackageReference "../SharedModels" */,
 			);
 			productRefGroup = 33DD4A242C5A447B002CA246 /* Products */;
 			projectDirPath = "";
@@ -380,6 +384,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../CoreDI;
 		};
+		33EC51762C5AD06600DB7ECF /* XCLocalSwiftPackageReference "../SharedModels" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../SharedModels;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -394,6 +402,10 @@
 		33EC51722C5AAF4800DB7ECF /* CoreDI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CoreDI;
+		};
+		33EC51772C5AD06600DB7ECF /* SharedModels */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SharedModels;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

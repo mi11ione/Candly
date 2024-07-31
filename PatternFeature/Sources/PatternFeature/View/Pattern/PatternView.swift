@@ -1,5 +1,5 @@
-import SwiftUI
 import CoreUI
+import SwiftUI
 
 struct PatternView: View {
     @StateObject private var container: PatternContainer

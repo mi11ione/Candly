@@ -14,12 +14,13 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../CoreUI"),
-        .package(path: "../CoreDI")
+        .package(path: "../CoreDI"),
+        .package(path: "../SharedModels"),
     ],
     targets: [
         .target(
             name: "PatternFeature",
-            dependencies: ["CoreUI", "CoreDI"]
+            dependencies: ["CoreUI", "CoreDI", "SharedModels"]
         ),
     ]
 )

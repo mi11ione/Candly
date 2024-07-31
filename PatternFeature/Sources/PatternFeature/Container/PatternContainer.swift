@@ -1,5 +1,5 @@
-import SwiftUI
 import Combine
+import SwiftUI
 
 @MainActor
 class PatternContainer: ObservableObject {
@@ -8,7 +8,7 @@ class PatternContainer: ObservableObject {
 
     init(repository: PatternRepository) {
         self.repository = repository
-        self.state = PatternState()
+        state = PatternState()
     }
 
     func dispatch(_ intent: PatternIntent) {

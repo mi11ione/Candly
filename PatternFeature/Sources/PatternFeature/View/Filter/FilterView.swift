@@ -1,5 +1,5 @@
-import SwiftUI
 import CoreUI
+import SwiftUI
 
 struct FilterView: View {
     let selectedFilter: String

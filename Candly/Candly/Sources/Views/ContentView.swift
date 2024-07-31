@@ -1,14 +1,14 @@
 import PatternFeature
+import SharedModels
+import SwiftData
 import SwiftUI
-import CoreUI
-import CoreDI
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    
+
     var body: some View {
         TabView {
-            PatternFeature(repository: PatternRepository(modelContext: modelContext))
+            PatternFeature(repository: PatternRepository(modelContext: ModelContextWrapper(modelContext)))
                 .tabItem {
                     Label("Patterns", systemImage: "chart.bar.fill")
                 }
