@@ -38,9 +38,3 @@ class PatternContainer: ObservableObject {
             .sorted { $0.id.uuidString < $1.id.uuidString }
     }
 }
-
-struct PatternState {
-    var patterns: [PatternDTO] = []
-    var selectedFilter: String = ""
-    var expandedPatternId: UUID?
-}

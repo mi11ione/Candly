@@ -2,7 +2,7 @@ import SharedModels
 import SwiftUI
 
 struct TickerCell: View {
-    let ticker: SharedModels.TickerDTO
+    let ticker: TickerDTO
     @State private var isExpanded = false
     @Environment(\.colorScheme) private var colorScheme
 
