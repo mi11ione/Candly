@@ -34,11 +34,18 @@ public final class NetworkService: NetworkServiceProtocol, @unchecked Sendable {
     }
 
     private func performRequest<T: Decodable>(_ request: URLRequest) async throws -> T {
-        let (data, response) = try await session.data(for: request)
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-            throw NetworkError.invalidResponse
+        do {
+            let (data, response) = try await session.data(for: request)
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                throw NetworkError.invalidResponse
+            }
+            return try decoder.decode(T.self, from: data)
+        } catch let error as NSError {
+            if error.domain == NSURLErrorDomain, error.code == NSURLErrorCannotFindHost {
+                throw NetworkError.hostNotFound
+            }
+            throw error
         }
-        return try decoder.decode(T.self, from: data)
     }
 
     private func parseMoexTickers(_ moexTickers: MoexTickers) -> [TickerDTO] {

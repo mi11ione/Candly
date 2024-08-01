@@ -6,16 +6,16 @@ public protocol TradingDataServiceProtocol: Sendable {
     func getMoexCandles(ticker: String, timePeriod: ChartTimePeriod) async throws -> [CandleDTO]
 }
 
-import Foundation
-import SharedModels
-
 public final class TradingDataService: TradingDataServiceProtocol {
     private let session: URLSession
     private let decoder: JSONDecoder
 
-    public init(session: URLSession = .shared, decoder: JSONDecoder = JSONDecoder()) {
-        self.session = session
-        self.decoder = decoder
+    public init() {
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 30
+        configuration.timeoutIntervalForResource = 30
+        session = URLSession(configuration: configuration)
+        decoder = JSONDecoder()
     }
 
     public func getMoexTickers() async throws -> [TickerDTO] {
@@ -23,13 +23,27 @@ public final class TradingDataService: TradingDataServiceProtocol {
             throw NetworkError.invalidURL
         }
 
-        let (data, response) = try await session.data(from: url)
-        guard let httpResponse = response as? HTTPURLResponse, 200 ... 299 ~= httpResponse.statusCode else {
-            throw NetworkError.invalidResponse
-        }
+        do {
+            let (data, response) = try await session.data(from: url)
+            guard let httpResponse = response as? HTTPURLResponse, 200 ... 299 ~= httpResponse.statusCode else {
+                throw NetworkError.invalidResponse
+            }
 
-        let moexTickers = try decoder.decode(MoexTickers.self, from: data)
-        return parseMoexTickers(moexTickers: moexTickers)
+            let moexTickers = try decoder.decode(MoexTickers.self, from: data)
+            print("Decoded MoexTickers: \(moexTickers)")
+
+            let parsedTickers = parseMoexTickers(moexTickers: moexTickers)
+            print("Parsed \(parsedTickers.count) tickers")
+
+            for ticker in parsedTickers {
+                print("Ticker: \(ticker.title), Price: \(ticker.price), Change: \(ticker.priceChange)")
+            }
+
+            return parsedTickers
+        } catch {
+            print("Network error: \(error)")
+            throw error
+        }
     }
 
     public func getMoexCandles(ticker: String, timePeriod: ChartTimePeriod) async throws -> [CandleDTO] {
@@ -47,25 +61,33 @@ public final class TradingDataService: TradingDataServiceProtocol {
     }
 
     private func parseMoexTickers(moexTickers: MoexTickers) -> [TickerDTO] {
-        moexTickers.securities.data.compactMap { tickerData in
-            guard
-                case let .string(title) = tickerData[0],
-                case let .string(subTitle) = tickerData[2],
-                case let .double(closePrice) = tickerData[11],
-                case let .double(openPrice) = tickerData[6],
-                openPrice != 0
-            else { return nil }
+        let parsedTickers = moexTickers.securities.data.compactMap { tickerData -> TickerDTO? in
+            guard tickerData.count >= 26 else {
+                print("Ticker data has insufficient elements: \(tickerData)")
+                return nil
+            }
 
-            let priceChange = closePrice - openPrice
+            guard case let .string(title) = tickerData[0],
+                  case let .string(subTitle) = tickerData[2],
+                  case let .double(price) = tickerData[3],
+                  case let .double(priceChange) = tickerData[25]
+            else {
+                print("Invalid ticker data types: \(tickerData)")
+                return nil
+            }
+
             return TickerDTO(
                 id: UUID(),
                 title: title,
                 subTitle: subTitle,
-                price: closePrice,
+                price: price,
                 priceChange: priceChange,
                 currency: "RUB"
             )
         }
+
+        print("Parsed \(parsedTickers.count) tickers")
+        return parsedTickers
     }
 
     private func parseMoexCandles(moexCandles: MoexCandles) -> [CandleDTO] {

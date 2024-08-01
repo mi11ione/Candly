@@ -38,7 +38,7 @@ struct TickerCell: View {
         HStack {
             tickerDetails
             Spacer()
-            // Placeholder for chart
+            // chart placeholder
             Rectangle()
                 .fill(Color.gray.opacity(0.2))
                 .frame(width: 100, height: 50)

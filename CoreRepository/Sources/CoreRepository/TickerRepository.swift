@@ -14,16 +14,15 @@ public actor TickerRepository: TickerRepositoryProtocol {
     }
 
     public func fetchTickers() async throws -> [TickerDTO] {
-        let descriptor = FetchDescriptor<Ticker>()
-        let localTickers = try await modelContext.fetch(descriptor) { $0.toDTO() }
-
-        if !localTickers.isEmpty {
-            return localTickers
+        do {
+            let networkTickers = try await tradingDataService.getMoexTickers()
+            print("Successfully fetched \(networkTickers.count) tickers from network")
+            await saveTickers(networkTickers)
+            return networkTickers
+        } catch {
+            print("Error fetching tickers: \(error)")
+            throw error
         }
-
-        let networkTickers = try await tradingDataService.getMoexTickers()
-        await saveTickers(networkTickers)
-        return networkTickers
     }
 
     public func fetchCandles(for ticker: String, timePeriod: ChartTimePeriod) async throws -> [CandleDTO] {

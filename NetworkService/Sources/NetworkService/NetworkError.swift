@@ -5,4 +5,5 @@ public enum NetworkError: Error {
     case requestFailed
     case invalidResponse
     case decodingError
+    case hostNotFound
 }
