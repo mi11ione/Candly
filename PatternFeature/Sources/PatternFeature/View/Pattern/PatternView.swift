@@ -1,6 +1,4 @@
-import CoreUI
 import RepositoryInterfaces
-import SharedModels
 import SwiftUI
 
 struct PatternView: View {

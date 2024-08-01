@@ -18,12 +18,14 @@ public final class Ticker {
         self.priceChange = priceChange
         self.currency = currency
     }
+}
 
-    public func toDTO() -> TickerDTO {
+public extension Ticker {
+    func toDTO() -> TickerDTO {
         TickerDTO(id: id, title: title, subTitle: subTitle, price: price, priceChange: priceChange, currency: currency)
     }
 
-    public convenience init(from dto: TickerDTO) {
+    convenience init(from dto: TickerDTO) {
         self.init(id: dto.id, title: dto.title, subTitle: dto.subTitle, price: dto.price, priceChange: dto.priceChange, currency: dto.currency)
     }
 }

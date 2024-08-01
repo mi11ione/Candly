@@ -1,5 +1,5 @@
-import SwiftData
 import Foundation
+import SwiftData
 
 @Model
 public final class Pattern {
@@ -18,14 +18,8 @@ public final class Pattern {
     }
 }
 
-extension Pattern {
-    public func toDTO() -> PatternDTO {
-        PatternDTO(
-            id: id,
-            name: name,
-            info: info,
-            filter: filter,
-            candles: candles.map { $0.toDTO() }
-        )
+public extension Pattern {
+    func toDTO() -> PatternDTO {
+        PatternDTO(id: id, name: name, info: info, filter: filter, candles: candles.map { $0.toDTO() })
     }
 }

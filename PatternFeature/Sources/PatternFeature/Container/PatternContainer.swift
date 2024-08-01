@@ -1,7 +1,6 @@
-import Combine
+import Foundation
 import RepositoryInterfaces
 import SharedModels
-import SwiftUI
 
 @MainActor
 class PatternContainer: ObservableObject {

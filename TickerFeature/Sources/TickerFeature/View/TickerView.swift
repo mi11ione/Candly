@@ -1,5 +1,4 @@
 import RepositoryInterfaces
-import SharedModels
 import SwiftUI
 
 struct TickerView: View {
