@@ -1,6 +1,7 @@
 import CoreRepository
 import SwiftData
 import SwiftUI
+import SharedModels
 
 @main
 struct CandlyApp: App {

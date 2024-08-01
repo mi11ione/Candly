@@ -15,4 +15,19 @@ public extension View {
     func inject(_ container: DIContainer) -> some View {
         environment(\.diContainer, container)
     }
+    
+    func resolveAsync<T: Sendable>() -> T {
+        @Environment(\.diContainer) var container
+        
+        var result: T?
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        Task {
+            result = await container.resolve()
+            semaphore.signal()
+        }
+        
+        semaphore.wait()
+        return result!
+    }
 }

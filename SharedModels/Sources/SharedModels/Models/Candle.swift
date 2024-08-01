@@ -1,6 +1,5 @@
-import Foundation
-import SharedModels
 import SwiftData
+import Foundation
 
 @Model
 public final class Candle {
@@ -21,7 +20,9 @@ public final class Candle {
         self.lowPrice = lowPrice
         self.ticker = ticker
     }
+}
 
+extension Candle {
     public func toDTO() -> CandleDTO {
         CandleDTO(id: id, date: date, openPrice: openPrice, closePrice: closePrice, highPrice: highPrice, lowPrice: lowPrice)
     }

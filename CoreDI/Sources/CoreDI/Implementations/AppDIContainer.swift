@@ -5,7 +5,7 @@ public final class AppDIContainer: DIContainer {
 
     public init() {}
 
-    public func register(_ dependency: some Sendable) {
+    public func register<T: Sendable>(_ dependency: T) {
         Task {
             await dependencyManager.register(dependency)
         }

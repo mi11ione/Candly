@@ -15,7 +15,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("Patterns", systemImage: "chart.bar.fill")
                 }
-
+            
             TickerFeature(repository: TickerRepository(
                 modelContext: ModelContextWrapper(modelContext),
                 tradingDataService: TradingDataService()
@@ -23,11 +23,6 @@ struct ContentView: View {
             .tabItem {
                 Label("Tickers", systemImage: "dollarsign.circle.fill")
             }
-
-            AboutView()
-                .tabItem {
-                    Label("About", systemImage: "info.circle.fill")
-                }
         }
     }
 }

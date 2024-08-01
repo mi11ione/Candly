@@ -1,5 +1,4 @@
 import Foundation
-import SharedModels
 import SwiftData
 
 @Model

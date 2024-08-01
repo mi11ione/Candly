@@ -1,6 +1,5 @@
-import Foundation
-import SharedModels
 import SwiftData
+import Foundation
 
 @Model
 public final class Pattern {
@@ -17,7 +16,9 @@ public final class Pattern {
         self.filter = filter
         self.candles = candles
     }
+}
 
+extension Pattern {
     public func toDTO() -> PatternDTO {
         PatternDTO(
             id: id,
