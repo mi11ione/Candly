@@ -17,9 +17,15 @@
       location = "group:PatternFeature">
    </FileRef>
    <FileRef
+      location = "group:TickerFeature">
+   </FileRef>
+   <FileRef
       location = "group:SharedModels">
    </FileRef>
    <FileRef
       location = "group:RepositoryInterfaces">
+   </FileRef>
+   <FileRef
+      location = "group:NetworkService">
    </FileRef>
 </Workspace>

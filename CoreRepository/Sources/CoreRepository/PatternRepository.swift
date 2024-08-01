@@ -46,7 +46,7 @@ public actor PatternRepository: PatternRepositoryProtocol {
         let patterns = patternDTOs.map { dto in
             let pattern = Pattern(name: dto.name, info: dto.info, filter: dto.filter, candles: [])
             let candles = dto.candles.map { candleDTO in
-                Candle(date: candleDTO.date, openPrice: candleDTO.openPrice, closePrice: candleDTO.closePrice, highPrice: candleDTO.highPrice, lowPrice: candleDTO.lowPrice)
+                Candle(date: candleDTO.date, openPrice: candleDTO.openPrice, closePrice: candleDTO.closePrice, highPrice: candleDTO.highPrice, lowPrice: candleDTO.lowPrice, ticker: "PATTERN_\(dto.name)")
             }
             pattern.candles = candles
             return pattern
