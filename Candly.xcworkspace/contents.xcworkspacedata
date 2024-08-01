@@ -11,9 +11,15 @@
       location = "group:CoreDI">
    </FileRef>
    <FileRef
+      location = "group:CoreRepository">
+   </FileRef>
+   <FileRef
       location = "group:PatternFeature">
    </FileRef>
    <FileRef
       location = "group:SharedModels">
+   </FileRef>
+   <FileRef
+      location = "group:RepositoryInterfaces">
    </FileRef>
 </Workspace>

@@ -1,3 +1,4 @@
+import CoreRepository
 import PatternFeature
 import SharedModels
 import SwiftData

@@ -1,3 +1,4 @@
+import CoreRepository
 import SwiftUI
 
 public struct PatternFeature: View {

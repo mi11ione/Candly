@@ -1,11 +1,13 @@
 import CoreUI
+import RepositoryInterfaces
+import SharedModels
 import SwiftUI
 
 struct PatternView: View {
     @StateObject private var container: PatternContainer
     private let filterKeys = ["Single", "Double", "Triple", "Complex"]
 
-    init(repository: PatternRepository) {
+    init(repository: PatternRepositoryProtocol) {
         _container = StateObject(wrappedValue: PatternContainer(repository: repository))
     }
 
@@ -25,10 +27,11 @@ struct PatternView: View {
 
     private var patternsGrid: some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 350))], spacing: 20) {
-            ForEach(container.filteredPatterns) { pattern in
+            ForEach(container.filteredPatterns, id: \.id) { pattern in
                 PatternCell(pattern: pattern,
                             isExpanded: pattern.id == container.state.expandedPatternId,
                             onTap: { container.dispatch(.toggleExpandPattern(pattern.id)) })
+                    .id(pattern.id)
             }
         }
         .padding()

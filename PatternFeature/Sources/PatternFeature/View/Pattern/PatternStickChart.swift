@@ -1,14 +1,21 @@
 import Charts
+import CoreUI
+import SharedModels
 import SwiftUI
 
 struct PatternStickChart: View {
     let pattern: PatternDTO
-    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         Chart {
-            ForEach(pattern.candles) { candle in
-                CandleStick(candle: candle)
+            ForEach(pattern.candles, id: \.id) { candle in
+                CandleStick(
+                    time: candle.date.formatted(date: .omitted, time: .shortened),
+                    openPrice: candle.openPrice,
+                    closePrice: candle.closePrice,
+                    highPrice: candle.highPrice,
+                    lowPrice: candle.lowPrice
+                )
             }
         }
         .padding()
@@ -30,29 +37,5 @@ struct PatternStickChart: View {
         guard let min = prices.min(), let max = prices.max() else { return 0 ... 100 }
         let padding = (max - min) * 0.15
         return (min - padding) ... (max + padding)
-    }
-}
-
-private struct CandleStick: ChartContent {
-    let candle: CandleDTO
-
-    var body: some ChartContent {
-        RectangleMark(
-            x: .value("Time", candle.date.formatted(date: .omitted, time: .shortened)),
-            yStart: .value("Low", candle.lowPrice),
-            yEnd: .value("High", candle.highPrice),
-            width: .fixed(2)
-        )
-        .foregroundStyle(Color(.systemGray))
-        .clipShape(RoundedRectangle(cornerRadius: 2))
-
-        RectangleMark(
-            x: .value("Time", candle.date.formatted(date: .omitted, time: .shortened)),
-            yStart: .value("Open", candle.openPrice),
-            yEnd: .value("Close", candle.closePrice),
-            width: .fixed(10)
-        )
-        .foregroundStyle(candle.openPrice < candle.closePrice ? .green : .red)
-        .clipShape(RoundedRectangle(cornerRadius: 3))
     }
 }

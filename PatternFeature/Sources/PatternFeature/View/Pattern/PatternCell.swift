@@ -1,3 +1,4 @@
+import SharedModels
 import SwiftUI
 
 struct PatternCell: View {
@@ -12,6 +13,7 @@ struct PatternCell: View {
                 .background(backgroundColor)
                 .cornerRadius(30)
                 .shadow(color: shadowColor, radius: 7)
+                .id(pattern.id)
 
             Text(pattern.name)
                 .font(.subheadline.bold())

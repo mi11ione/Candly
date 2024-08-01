@@ -16,6 +16,10 @@ public class ModelContextWrapper: @unchecked Sendable {
         context.insert(object)
     }
 
+    public func insertMultiple(_ objects: [some PersistentModel]) {
+        objects.forEach { context.insert($0) }
+    }
+
     public func save() throws {
         try context.save()
     }

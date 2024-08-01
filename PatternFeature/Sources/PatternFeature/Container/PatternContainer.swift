@@ -1,12 +1,14 @@
 import Combine
+import RepositoryInterfaces
+import SharedModels
 import SwiftUI
 
 @MainActor
 class PatternContainer: ObservableObject {
     @Published private(set) var state: PatternState
-    private let repository: PatternRepository
+    private let repository: PatternRepositoryProtocol
 
-    init(repository: PatternRepository) {
+    init(repository: PatternRepositoryProtocol) {
         self.repository = repository
         state = PatternState()
     }
@@ -14,14 +16,20 @@ class PatternContainer: ObservableObject {
     func dispatch(_ intent: PatternIntent) {
         switch intent {
         case .loadPatterns:
-            Task {
-                let patterns = await repository.fetchPatterns()
-                state.patterns = patterns
-            }
+            loadPatterns()
         case let .selectFilter(filter):
             state.selectedFilter = state.selectedFilter == filter ? "" : filter
         case let .toggleExpandPattern(patternId):
             state.expandedPatternId = state.expandedPatternId == patternId ? nil : patternId
+        }
+    }
+
+    private func loadPatterns() {
+        Task {
+            let patterns = await repository.fetchPatterns()
+            await MainActor.run { [weak self] in
+                self?.state.patterns = patterns
+            }
         }
     }
 
