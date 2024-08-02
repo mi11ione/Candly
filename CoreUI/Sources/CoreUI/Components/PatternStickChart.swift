@@ -1,12 +1,15 @@
 import Charts
-import CoreUI
 import SharedModels
 import SwiftUI
 
-struct PatternStickChart: View {
+public struct PatternStickChart: View {
     let pattern: PatternDTO
 
-    var body: some View {
+    public init(pattern: PatternDTO) {
+        self.pattern = pattern
+    }
+
+    public var body: some View {
         Chart {
             ForEach(pattern.candles, id: \.id) { candle in
                 CandleStick(

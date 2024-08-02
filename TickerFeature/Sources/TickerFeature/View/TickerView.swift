@@ -1,3 +1,4 @@
+import CoreUI
 import RepositoryInterfaces
 import SwiftUI
 
@@ -14,12 +15,8 @@ struct TickerView: View {
                 if container.state.isLoading {
                     ProgressView()
                 } else if let error = container.state.error {
-                    VStack {
-                        Text(error)
-                            .foregroundColor(.red)
-                        Button("Try Again") {
-                            container.dispatch(.loadTickers)
-                        }
+                    ErrorView(error: error) {
+                        container.dispatch(.loadTickers)
                     }
                 } else {
                     tickerList

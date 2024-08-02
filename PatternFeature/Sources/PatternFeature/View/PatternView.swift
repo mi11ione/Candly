@@ -1,3 +1,4 @@
+import CoreUI
 import RepositoryInterfaces
 import SwiftUI
 
@@ -11,10 +12,8 @@ struct PatternView: View {
 
     var body: some View {
         NavigationStack {
-            VStack {
-                FilterView(selectedFilter: container.state.selectedFilter,
-                           filterKeys: filterKeys,
-                           onFilterTap: { container.dispatch(.filterSelected($0)) })
+            VStack(spacing: 0) {
+                filterView
 
                 if container.state.isLoading {
                     ProgressView()
@@ -25,6 +24,22 @@ struct PatternView: View {
             .navigationTitle("Patterns")
         }
         .onAppear { container.dispatch(.loadPatterns) }
+    }
+
+    private var filterView: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach(filterKeys, id: \.self) { key in
+                    FilterButton(
+                        filter: key,
+                        isSelected: container.state.selectedFilter == key,
+                        action: { container.dispatch(.filterSelected(key)) }
+                    )
+                }
+                Spacer()
+            }
+            .padding()
+        }
     }
 
     private var patternsGrid: some View {

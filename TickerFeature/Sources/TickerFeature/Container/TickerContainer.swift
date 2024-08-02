@@ -6,7 +6,7 @@ import SwiftUI
 
 @MainActor
 class TickerContainer: ObservableObject {
-    @Published var state: TickerState
+    @Published private(set) var state: TickerState
 
     private let repository: TickerRepositoryProtocol
 
@@ -18,7 +18,7 @@ class TickerContainer: ObservableObject {
     func dispatch(_ intent: TickerIntent) {
         switch intent {
         case .loadTickers:
-            loadTickers()
+            handleLoadTickers()
         case let .updateSearchText(newText):
             state.searchText = newText
         case .dismissError:
@@ -26,18 +26,18 @@ class TickerContainer: ObservableObject {
         }
     }
 
-    private func loadTickers() {
+    private func handleLoadTickers() {
         state.isLoading = true
         Task {
             do {
                 let tickers = try await repository.fetchTickers()
-                self.state.tickers = tickers
-                self.state.error = nil
+                state.tickers = tickers
+                state.isLoading = false
+                state.error = nil
             } catch {
-                print("Error in TickerContainer: \(error)")
-                self.state.error = self.handleError(error)
+                state.error = handleError(error)
+                state.isLoading = false
             }
-            self.state.isLoading = false
         }
     }
 
@@ -53,7 +53,7 @@ class TickerContainer: ObservableObject {
             case .hostNotFound:
                 "Unable to connect to the server. Please check your internet connection and try again."
             case .requestFailed:
-                "fuck"
+                "Request failed. Please try again later."
             }
         } else {
             "An unexpected error occurred: \(error.localizedDescription)"

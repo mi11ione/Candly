@@ -9,10 +9,11 @@ struct ContentView: View {
 
     var body: some View {
         TabView {
-            PatternFeature(repository: PatternRepository(modelContext: ModelContextWrapper(modelContext)))
-                .tabItem {
-                    Label("Patterns", systemImage: "chart.bar.fill")
-                }
+            PatternFeature(repository: PatternRepository(modelContext: ModelContextWrapper(modelContext)
+            ))
+            .tabItem {
+                Label("Patterns", systemImage: "chart.bar.fill")
+            }
 
             TickerFeature(repository: TickerRepository(
                 modelContext: ModelContextWrapper(modelContext),

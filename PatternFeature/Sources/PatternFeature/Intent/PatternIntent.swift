@@ -2,6 +2,6 @@ import Foundation
 
 enum PatternIntent: Equatable {
     case loadPatterns
-    case selectFilter(String)
-    case toggleExpandPattern(UUID)
+    case filterSelected(String)
+    case patternExpanded(UUID)
 }

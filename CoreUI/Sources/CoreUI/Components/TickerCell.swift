@@ -1,12 +1,16 @@
 import SharedModels
 import SwiftUI
 
-struct TickerCell: View {
+public struct TickerCell: View {
     let ticker: TickerDTO
     @State private var isExpanded = false
     @Environment(\.colorScheme) private var colorScheme
 
-    var body: some View {
+    public init(ticker: TickerDTO) {
+        self.ticker = ticker
+    }
+
+    public var body: some View {
         VStack {
             tickerInformation
                 .padding()
