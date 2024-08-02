@@ -21,7 +21,7 @@ public struct FilterButton: View {
                 .padding(.horizontal, 12)
                 .background(isSelected ? .primary : backgroundColor)
                 .cornerRadius(16)
-                .shadow(color: shadowColor, radius: 5, y: 1)
+                .shadow(color: shadowColor, radius: 6)
         }
         .buttonStyle(PlainButtonStyle())
         .padding(.horizontal, 2)
@@ -32,10 +32,10 @@ public struct FilterButton: View {
     }
 
     private var backgroundColor: Color {
-        colorScheme == .dark ? .black : .white
+        colorScheme == .dark ? Color(.systemGray5) : .white
     }
 
     private var shadowColor: Color {
-        (colorScheme == .dark ? Color.white : .black).opacity(0.1)
+        colorScheme == .dark ? Color.white.opacity(0.3) : .black.opacity(0.15)
     }
 }

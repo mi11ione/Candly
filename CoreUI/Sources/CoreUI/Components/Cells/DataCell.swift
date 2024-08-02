@@ -1,31 +1,36 @@
-import SharedModels
 import SwiftUI
 
-public struct PatternCell: View {
-    let pattern: PatternDTO
-    @State private var isExpanded = false
+public struct DataCell<Content: View, Footer: View, ExpandedContent: View>: View {
+    @Binding var isExpanded: Bool
+    let content: () -> Content
+    let footer: () -> Footer
+    let expandedContent: () -> ExpandedContent
+
     @Environment(\.colorScheme) private var colorScheme
 
-    public init(pattern: PatternDTO) {
-        self.pattern = pattern
+    public init(
+        isExpanded: Binding<Bool>,
+        @ViewBuilder content: @escaping () -> Content,
+        @ViewBuilder footer: @escaping () -> Footer,
+        @ViewBuilder expandedContent: @escaping () -> ExpandedContent
+    ) {
+        _isExpanded = isExpanded
+        self.content = content
+        self.footer = footer
+        self.expandedContent = expandedContent
     }
 
     public var body: some View {
         VStack {
-            PatternStickChart(pattern: pattern)
+            content()
                 .background(backgroundColor)
                 .cornerRadius(30)
-                .shadow(color: shadowColor, radius: 7, x: 0, y: 0)
+                .shadow(color: shadowColor, radius: 7)
 
-            Text(pattern.name)
-                .font(.callout)
-                .bold()
-                .padding(.top, 4)
+            footer()
 
             if isExpanded {
-                Text(pattern.info)
-                    .font(.footnote)
-                    .padding()
+                expandedContent()
             }
         }
         .frame(width: 350)
@@ -42,6 +47,7 @@ public struct PatternCell: View {
                 isExpanded.toggle()
             }
         }
+        .padding(.vertical, 6)
     }
 
     private var overlayColor: Color {
