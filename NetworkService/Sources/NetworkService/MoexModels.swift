@@ -1,5 +1,3 @@
-import Foundation
-
 public struct MoexTickers: Decodable {
     public let securities: Securities
 

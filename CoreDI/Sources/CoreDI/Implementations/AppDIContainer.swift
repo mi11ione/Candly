@@ -38,9 +38,9 @@ public final class AppDIContainer: DIContainer, ObservableObject {
         guard let modelContainer else { return }
         let modelContext = ModelContextWrapper(modelContainer.mainContext)
         await register(modelContext)
-        await register(TradingDataService() as TradingDataServiceProtocol)
+        await register(NetworkService() as NetworkServiceProtocol)
         await register(PatternRepository(modelContext: modelContext) as PatternRepositoryProtocol)
-        let tradingDataService: TradingDataServiceProtocol = await resolve()
-        await register(TickerRepository(modelContext: modelContext, tradingDataService: tradingDataService) as TickerRepositoryProtocol)
+        let networkService: NetworkServiceProtocol = await resolve()
+        await register(TickerRepository(modelContext: modelContext, networkService: networkService) as TickerRepositoryProtocol)
     }
 }

@@ -1,4 +1,3 @@
-import Foundation
 import SharedModels
 
 public protocol PatternRepositoryProtocol: Sendable {

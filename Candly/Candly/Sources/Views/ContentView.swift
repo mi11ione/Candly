@@ -1,4 +1,3 @@
-import CoreDI
 import PatternFeature
 import SwiftUI
 import TickerFeature

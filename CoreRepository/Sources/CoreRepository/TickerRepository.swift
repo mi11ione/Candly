@@ -6,16 +6,16 @@ import SwiftData
 
 public actor TickerRepository: TickerRepositoryProtocol {
     private let modelContext: ModelContextWrapper
-    private let tradingDataService: TradingDataServiceProtocol
+    private let networkService: NetworkServiceProtocol
 
-    public init(modelContext: ModelContextWrapper, tradingDataService: TradingDataServiceProtocol) {
+    public init(modelContext: ModelContextWrapper, networkService: NetworkServiceProtocol) {
         self.modelContext = modelContext
-        self.tradingDataService = tradingDataService
+        self.networkService = networkService
     }
 
     public func fetchTickers() async throws -> [TickerDTO] {
         do {
-            let networkTickers = try await tradingDataService.getMoexTickers()
+            let networkTickers = try await networkService.getMoexTickers()
             try await saveTickers(networkTickers)
             return networkTickers
         } catch {
@@ -32,7 +32,7 @@ public actor TickerRepository: TickerRepositoryProtocol {
         }
 
         do {
-            let networkCandles = try await tradingDataService.getMoexCandles(ticker: ticker, timePeriod: timePeriod)
+            let networkCandles = try await networkService.getMoexCandles(ticker: ticker, timePeriod: timePeriod)
             try await saveCandles(networkCandles, for: ticker)
             return networkCandles
         } catch {
