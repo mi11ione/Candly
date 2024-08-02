@@ -19,7 +19,7 @@ public struct PatternCell: View {
                 Text(pattern.name)
                     .font(.callout)
                     .bold()
-                    .padding(.top, 5)
+                    .padding(.top, 3)
             },
             expandedContent: {
                 Text(pattern.info)

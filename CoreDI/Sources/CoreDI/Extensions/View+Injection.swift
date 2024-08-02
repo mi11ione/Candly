@@ -1,7 +1,17 @@
 import SwiftUI
 
+private final class UnimplementedDIContainer: DIContainer {
+    func register(_: some Sendable) async {
+        fatalError("DIContainer not implemented")
+    }
+
+    func resolve<T: Sendable>() async -> T {
+        fatalError("DIContainer not implemented")
+    }
+}
+
 private struct DIContainerEnvironmentKey: EnvironmentKey {
-    static let defaultValue: DIContainer = AppDIContainer()
+    static let defaultValue: DIContainer = UnimplementedDIContainer()
 }
 
 public extension EnvironmentValues {
@@ -14,20 +24,5 @@ public extension EnvironmentValues {
 public extension View {
     func inject(_ container: DIContainer) -> some View {
         environment(\.diContainer, container)
-    }
-
-    func resolveAsync<T: Sendable>() -> T {
-        @Environment(\.diContainer) var container
-
-        var result: T?
-        let semaphore = DispatchSemaphore(value: 0)
-
-        Task {
-            result = await container.resolve()
-            semaphore.signal()
-        }
-
-        semaphore.wait()
-        return result!
     }
 }

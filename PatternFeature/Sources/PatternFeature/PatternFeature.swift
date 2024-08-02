@@ -1,14 +1,9 @@
-import RepositoryInterfaces
 import SwiftUI
 
 public struct PatternFeature: View {
-    private let repository: PatternRepositoryProtocol
-
-    public init(repository: PatternRepositoryProtocol) {
-        self.repository = repository
-    }
+    public init() {}
 
     public var body: some View {
-        PatternView(repository: repository)
+        PatternView()
     }
 }

@@ -1,34 +1,46 @@
+import Combine
+import CoreRepository
 import Foundation
+import NetworkService
+import RepositoryInterfaces
+import SharedModels
+import SwiftData
 
-public final class AppDIContainer: DIContainer {
+@MainActor
+public final class AppDIContainer: DIContainer, ObservableObject {
     private let dependencyManager = DependencyManager()
+    @Published public private(set) var modelContainer: ModelContainer?
 
-    public init() {}
-
-    public func register(_ dependency: some Sendable) {
+    public init() {
         Task {
-            await dependencyManager.register(dependency)
+            await setup()
         }
+    }
+
+    private func setup() async {
+        do {
+            modelContainer = try ModelContainer(for: Pattern.self, Candle.self, Ticker.self)
+            await registerDependencies()
+        } catch {
+            fatalError("Failed to create ModelContainer: \(error)")
+        }
+    }
+
+    public func register(_ dependency: some Sendable) async {
+        await dependencyManager.register(dependency)
     }
 
     public func resolve<T: Sendable>() async -> T {
         await dependencyManager.resolve()
     }
-}
 
-private actor DependencyManager {
-    private var dependencies: [String: Any] = [:]
-
-    func register<T: Sendable>(_ dependency: T) {
-        let key = String(describing: T.self)
-        dependencies[key] = dependency
-    }
-
-    func resolve<T: Sendable>() -> T {
-        let key = String(describing: T.self)
-        guard let dependency = dependencies[key] as? T else {
-            fatalError("Dependency \(T.self) not registered")
-        }
-        return dependency
+    private func registerDependencies() async {
+        guard let modelContainer else { return }
+        let modelContext = ModelContextWrapper(modelContainer.mainContext)
+        await register(modelContext)
+        await register(TradingDataService() as TradingDataServiceProtocol)
+        await register(PatternRepository(modelContext: modelContext) as PatternRepositoryProtocol)
+        let tradingDataService: TradingDataServiceProtocol = await resolve()
+        await register(TickerRepository(modelContext: modelContext, tradingDataService: tradingDataService) as TickerRepositoryProtocol)
     }
 }

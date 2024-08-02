@@ -1,21 +1,21 @@
+import CoreDI
 import CoreUI
 import RepositoryInterfaces
 import SwiftUI
 
 struct PatternView: View {
-    @StateObject private var container: PatternContainer
-    private let filterKeys = ["Single", "Double", "Triple", "Complex"]
+    @Environment(\.diContainer) private var container: DIContainer
+    @StateObject private var patternContainer: PatternContainer
 
-    init(repository: PatternRepositoryProtocol) {
-        _container = StateObject(wrappedValue: PatternContainer(repository: repository))
+    init() {
+        _patternContainer = StateObject(wrappedValue: PatternContainer())
     }
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 filterView
-
-                if container.state.isLoading {
+                if patternContainer.state.isLoading {
                     ProgressView()
                 } else {
                     patternsGrid
@@ -23,32 +23,45 @@ struct PatternView: View {
             }
             .navigationTitle("Patterns")
         }
-        .onAppear { container.dispatch(.loadPatterns) }
+        .task {
+            await setupContainer()
+        }
     }
 
     private var filterView: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(filterKeys, id: \.self) { key in
+                ForEach(patternContainer.state.filterKeys, id: \.self) { key in
                     FilterButton(
                         filter: key,
-                        isSelected: container.state.selectedFilter == key,
-                        action: { container.dispatch(.filterSelected(key)) }
+                        isSelected: patternContainer.state.selectedFilter == key,
+                        action: {
+                            Task {
+                                await patternContainer.dispatch(.filterSelected(key))
+                            }
+                        }
                     )
                 }
                 Spacer()
             }
             .padding()
         }
+        .padding(.top, -15)
     }
 
     private var patternsGrid: some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 350))], spacing: 20) {
-            ForEach(container.filteredPatterns, id: \.id) { pattern in
+            ForEach(patternContainer.filteredPatterns, id: \.id) { pattern in
                 PatternCell(pattern: pattern)
                     .id(pattern.id)
             }
         }
         .padding()
+    }
+
+    private func setupContainer() async {
+        let repository: PatternRepositoryProtocol = await container.resolve()
+        patternContainer.setRepository(repository)
+        await patternContainer.dispatch(.loadPatterns)
     }
 }

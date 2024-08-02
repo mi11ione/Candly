@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol DIContainer: Sendable {
-    func register<T: Sendable>(_ dependency: T)
+public protocol DIContainer: AnyObject, Sendable {
+    func register<T: Sendable>(_ dependency: T) async
     func resolve<T: Sendable>() async -> T
 }

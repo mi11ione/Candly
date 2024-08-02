@@ -1,23 +1,20 @@
-import SharedModels
+import CoreDI
 import SwiftData
 import SwiftUI
 
 @main
 struct CandlyApp: App {
-    let container: ModelContainer
-
-    init() {
-        do {
-            container = try ModelContainer(for: Pattern.self, Candle.self)
-        } catch {
-            fatalError("Failed to create ModelContainer: \(error)")
-        }
-    }
+    @StateObject private var container = AppDIContainer()
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if let modelContainer = container.modelContainer {
+                ContentView()
+                    .inject(container as DIContainer)
+                    .modelContainer(modelContainer)
+            } else {
+                EmptyView()
+            }
         }
-        .modelContainer(container)
     }
 }

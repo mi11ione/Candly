@@ -47,7 +47,7 @@ public struct DataCell<Content: View, Footer: View, ExpandedContent: View>: View
                 isExpanded.toggle()
             }
         }
-        .padding(.vertical, 6)
+        .padding(.bottom, 10)
     }
 
     private var overlayColor: Color {

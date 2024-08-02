@@ -31,7 +31,7 @@ public struct TickerCell: View {
                     .padding(.vertical, 8)
             }
         )
-        .padding(8)
+        .padding(.top, 5)
     }
 
     private var tickerDetails: some View {

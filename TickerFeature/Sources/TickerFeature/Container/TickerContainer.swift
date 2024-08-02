@@ -8,17 +8,21 @@ import SwiftUI
 class TickerContainer: ObservableObject {
     @Published private(set) var state: TickerState
 
-    private let repository: TickerRepositoryProtocol
+    private var repository: TickerRepositoryProtocol?
+    private(set) var hasLoadedData = false
 
-    init(repository: TickerRepositoryProtocol) {
-        self.repository = repository
+    init() {
         state = TickerState()
     }
 
-    func dispatch(_ intent: TickerIntent) {
+    func setRepository(_ repository: TickerRepositoryProtocol) {
+        self.repository = repository
+    }
+
+    func dispatch(_ intent: TickerIntent) async {
         switch intent {
         case .loadTickers:
-            handleLoadTickers()
+            await handleLoadTickers()
         case let .updateSearchText(newText):
             state.searchText = newText
         case .dismissError:
@@ -26,37 +30,19 @@ class TickerContainer: ObservableObject {
         }
     }
 
-    private func handleLoadTickers() {
-        state.isLoading = true
-        Task {
-            do {
-                let tickers = try await repository.fetchTickers()
-                state.tickers = tickers
-                state.isLoading = false
-                state.error = nil
-            } catch {
-                state.error = handleError(error)
-                state.isLoading = false
-            }
-        }
-    }
+    private func handleLoadTickers() async {
+        guard let repository, !hasLoadedData else { return }
 
-    private func handleError(_ error: Error) -> String {
-        if let networkError = error as? NetworkError {
-            switch networkError {
-            case .invalidURL:
-                "Invalid URL. Please check the API endpoint."
-            case .invalidResponse:
-                "Invalid response from the server. Please try again later."
-            case .decodingError:
-                "Error decoding the data. Please try again later."
-            case .hostNotFound:
-                "Unable to connect to the server. Please check your internet connection and try again."
-            case .requestFailed:
-                "Request failed. Please try again later."
-            }
-        } else {
-            "An unexpected error occurred: \(error.localizedDescription)"
+        state.isLoading = true
+        do {
+            let tickers = try await repository.fetchTickers()
+            state.tickers = tickers
+            state.isLoading = false
+            state.error = nil
+            hasLoadedData = true
+        } catch {
+            state.error = error.localizedDescription
+            state.isLoading = false
         }
     }
 }

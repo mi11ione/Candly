@@ -5,29 +5,31 @@ import SharedModels
 @MainActor
 class PatternContainer: ObservableObject {
     @Published private(set) var state: PatternState
-    private let repository: PatternRepositoryProtocol
+    private var repository: PatternRepositoryProtocol?
 
-    init(repository: PatternRepositoryProtocol) {
-        self.repository = repository
+    init() {
         state = PatternState()
     }
 
-    func dispatch(_ intent: PatternIntent) {
+    func setRepository(_ repository: PatternRepositoryProtocol) {
+        self.repository = repository
+    }
+
+    func dispatch(_ intent: PatternIntent) async {
         switch intent {
         case .loadPatterns:
-            handleLoadPatterns()
+            await handleLoadPatterns()
         case let .filterSelected(filter):
             state.selectedFilter = state.selectedFilter == filter ? "" : filter
         }
     }
 
-    private func handleLoadPatterns() {
+    private func handleLoadPatterns() async {
+        guard let repository else { return }
         state.isLoading = true
-        Task {
-            let patterns = await repository.fetchPatterns()
-            state.patterns = patterns
-            state.isLoading = false
-        }
+        let patterns = await repository.fetchPatterns()
+        state.patterns = patterns
+        state.isLoading = false
     }
 
     var filteredPatterns: [PatternDTO] {
