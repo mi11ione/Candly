@@ -2,7 +2,7 @@ import Charts
 import SharedModels
 import SwiftUI
 
-public struct PatternStickChart: View {
+public struct PatternChart: View {
     let pattern: PatternDTO
 
     public init(pattern: PatternDTO) {

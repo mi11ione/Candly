@@ -13,7 +13,7 @@ public struct PatternCell: View {
         DataCell(
             isExpanded: $isExpanded,
             content: {
-                PatternStickChart(pattern: pattern)
+                PatternChart(pattern: pattern)
             },
             footer: {
                 Text(pattern.name)
