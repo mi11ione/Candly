@@ -11,12 +11,16 @@ struct PatternView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
+            VStack {
                 FilterView(selectedFilter: container.state.selectedFilter,
                            filterKeys: filterKeys,
-                           onFilterTap: { container.dispatch(.selectFilter($0)) })
+                           onFilterTap: { container.dispatch(.filterSelected($0)) })
 
-                patternsGrid
+                if container.state.isLoading {
+                    ProgressView()
+                } else {
+                    patternsGrid
+                }
             }
             .navigationTitle("Patterns")
         }
@@ -24,14 +28,16 @@ struct PatternView: View {
     }
 
     private var patternsGrid: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 350))], spacing: 20) {
-            ForEach(container.filteredPatterns, id: \.id) { pattern in
-                PatternCell(pattern: pattern,
-                            isExpanded: pattern.id == container.state.expandedPatternId,
-                            onTap: { container.dispatch(.toggleExpandPattern(pattern.id)) })
-                    .id(pattern.id)
+        ScrollView {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 350))], spacing: 20) {
+                ForEach(container.filteredPatterns, id: \.id) { pattern in
+                    PatternCell(pattern: pattern,
+                                isExpanded: pattern.id == container.state.expandedPatternId,
+                                onTap: { container.dispatch(.patternExpanded(pattern.id)) })
+                        .id(pattern.id)
+                }
             }
+            .padding()
         }
-        .padding()
     }
 }

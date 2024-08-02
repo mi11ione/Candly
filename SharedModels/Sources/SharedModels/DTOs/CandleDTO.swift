@@ -1,6 +1,6 @@
 import Foundation
 
-public struct CandleDTO: Identifiable, Sendable {
+public struct CandleDTO: Identifiable, Sendable, Equatable {
     public let id: UUID
     public let date: Date
     public let openPrice: Double
@@ -8,7 +8,7 @@ public struct CandleDTO: Identifiable, Sendable {
     public let highPrice: Double
     public let lowPrice: Double
 
-    public init(id: UUID, date: Date, openPrice: Double, closePrice: Double, highPrice: Double, lowPrice: Double) {
+    public init(id: UUID = UUID(), date: Date, openPrice: Double, closePrice: Double, highPrice: Double, lowPrice: Double) {
         self.id = id
         self.date = date
         self.openPrice = openPrice

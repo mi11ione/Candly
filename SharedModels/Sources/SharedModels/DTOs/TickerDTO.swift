@@ -1,6 +1,6 @@
 import Foundation
 
-public struct TickerDTO: Identifiable, Sendable {
+public struct TickerDTO: Identifiable, Sendable, Equatable {
     public let id: UUID
     public let title: String
     public let subTitle: String

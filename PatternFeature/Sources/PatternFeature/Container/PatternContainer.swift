@@ -12,23 +12,25 @@ class PatternContainer: ObservableObject {
         state = PatternState()
     }
 
-    func dispatch(_ intent: PatternIntent) {
-        switch intent {
+    func dispatch(_ action: PatternAction) {
+        switch action {
         case .loadPatterns:
             loadPatterns()
-        case let .selectFilter(filter):
+        case let .patternsLoaded(patterns):
+            state.patterns = patterns
+            state.isLoading = false
+        case let .filterSelected(filter):
             state.selectedFilter = state.selectedFilter == filter ? "" : filter
-        case let .toggleExpandPattern(patternId):
+        case let .patternExpanded(patternId):
             state.expandedPatternId = state.expandedPatternId == patternId ? nil : patternId
         }
     }
 
     private func loadPatterns() {
+        state.isLoading = true
         Task {
             let patterns = await repository.fetchPatterns()
-            await MainActor.run { [weak self] in
-                self?.state.patterns = patterns
-            }
+            dispatch(.patternsLoaded(patterns))
         }
     }
 

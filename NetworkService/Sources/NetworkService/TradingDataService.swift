@@ -6,16 +6,13 @@ public protocol TradingDataServiceProtocol: Sendable {
     func getMoexCandles(ticker: String, timePeriod: ChartTimePeriod) async throws -> [CandleDTO]
 }
 
-public final class TradingDataService: TradingDataServiceProtocol {
+public actor TradingDataService: TradingDataServiceProtocol {
     private let session: URLSession
     private let decoder: JSONDecoder
 
-    public init() {
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 30
-        configuration.timeoutIntervalForResource = 30
-        session = URLSession(configuration: configuration)
-        decoder = JSONDecoder()
+    public init(session: URLSession = .shared, decoder: JSONDecoder = JSONDecoder()) {
+        self.session = session
+        self.decoder = decoder
     }
 
     public func getMoexTickers() async throws -> [TickerDTO] {
@@ -23,27 +20,8 @@ public final class TradingDataService: TradingDataServiceProtocol {
             throw NetworkError.invalidURL
         }
 
-        do {
-            let (data, response) = try await session.data(from: url)
-            guard let httpResponse = response as? HTTPURLResponse, 200 ... 299 ~= httpResponse.statusCode else {
-                throw NetworkError.invalidResponse
-            }
-
-            let moexTickers = try decoder.decode(MoexTickers.self, from: data)
-            print("Decoded MoexTickers: \(moexTickers)")
-
-            let parsedTickers = parseMoexTickers(moexTickers: moexTickers)
-            print("Parsed \(parsedTickers.count) tickers")
-
-            for ticker in parsedTickers {
-                print("Ticker: \(ticker.title), Price: \(ticker.price), Change: \(ticker.priceChange)")
-            }
-
-            return parsedTickers
-        } catch {
-            print("Network error: \(error)")
-            throw error
-        }
+        let moexTickers: MoexTickers = try await performRequest(URLRequest(url: url))
+        return parseMoexTickers(moexTickers)
     }
 
     public func getMoexCandles(ticker: String, timePeriod: ChartTimePeriod) async throws -> [CandleDTO] {
@@ -51,16 +29,28 @@ public final class TradingDataService: TradingDataServiceProtocol {
             throw NetworkError.invalidURL
         }
 
-        let (data, response) = try await session.data(from: url)
-        guard let httpResponse = response as? HTTPURLResponse, 200 ... 299 ~= httpResponse.statusCode else {
-            throw NetworkError.invalidResponse
-        }
-
-        let moexCandles = try decoder.decode(MoexCandles.self, from: data)
-        return parseMoexCandles(moexCandles: moexCandles)
+        let moexCandles: MoexCandles = try await performRequest(URLRequest(url: url))
+        return parseMoexCandles(moexCandles)
     }
 
-    private func parseMoexTickers(moexTickers: MoexTickers) -> [TickerDTO] {
+    private func performRequest<T: Decodable>(_ request: URLRequest) async throws -> T {
+        do {
+            let (data, response) = try await session.data(for: request)
+            guard let httpResponse = response as? HTTPURLResponse, 200 ... 299 ~= httpResponse.statusCode else {
+                throw NetworkError.invalidResponse
+            }
+            return try decoder.decode(T.self, from: data)
+        } catch _ as DecodingError {
+            throw NetworkError.decodingError
+        } catch let error as URLError {
+            if error.code == .cannotFindHost {
+                throw NetworkError.hostNotFound
+            }
+            throw NetworkError.requestFailed
+        }
+    }
+
+    private func parseMoexTickers(_ moexTickers: MoexTickers) -> [TickerDTO] {
         let parsedTickers = moexTickers.securities.data.compactMap { tickerData -> TickerDTO? in
             guard tickerData.count >= 26 else {
                 print("Ticker data has insufficient elements: \(tickerData)")
@@ -90,7 +80,7 @@ public final class TradingDataService: TradingDataServiceProtocol {
         return parsedTickers
     }
 
-    private func parseMoexCandles(moexCandles: MoexCandles) -> [CandleDTO] {
+    private func parseMoexCandles(_ moexCandles: MoexCandles) -> [CandleDTO] {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
 
