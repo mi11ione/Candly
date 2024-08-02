@@ -12,7 +12,7 @@ struct PatternView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
+            ScrollView {
                 filterView
 
                 if container.state.isLoading {
@@ -43,16 +43,12 @@ struct PatternView: View {
     }
 
     private var patternsGrid: some View {
-        ScrollView {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 350))], spacing: 20) {
-                ForEach(container.filteredPatterns, id: \.id) { pattern in
-                    PatternCell(pattern: pattern,
-                                isExpanded: pattern.id == container.state.expandedPatternId,
-                                onTap: { container.dispatch(.patternExpanded(pattern.id)) })
-                        .id(pattern.id)
-                }
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 350))], spacing: 20) {
+            ForEach(container.filteredPatterns, id: \.id) { pattern in
+                PatternCell(pattern: pattern)
+                    .id(pattern.id)
             }
-            .padding()
         }
+        .padding()
     }
 }

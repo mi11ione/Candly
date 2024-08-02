@@ -14,7 +14,7 @@ public struct TickerCell: View {
         VStack {
             tickerInformation
                 .padding()
-                .frame(width: 350, height: 150, alignment: .center)
+                .frame(width: 350, height: 160)
                 .background(backgroundColor)
                 .cornerRadius(30)
                 .shadow(color: shadowColor, radius: 7, x: 0, y: 0)
@@ -91,7 +91,7 @@ public struct TickerCell: View {
     }
 
     private var shadowColor: Color {
-        isExpanded ? (colorScheme == .dark ? Color.white.opacity(0.6) : Color.black.opacity(0.4)) : (colorScheme == .dark ? Color.white.opacity(0.2) : Color.black.opacity(0.15))
+        isExpanded ? (colorScheme == .dark ? Color.white.opacity(0.6) : Color.black.opacity(0.4)) : (colorScheme == .dark ? Color.white.opacity(0.4) : Color.black.opacity(0.2))
     }
 
     private var backgroundColor: Color {

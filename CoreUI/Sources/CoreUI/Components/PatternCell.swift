@@ -3,54 +3,56 @@ import SwiftUI
 
 public struct PatternCell: View {
     let pattern: PatternDTO
-    let isExpanded: Bool
-    let onTap: () -> Void
+    @State private var isExpanded = false
     @Environment(\.colorScheme) private var colorScheme
 
-    public init(pattern: PatternDTO, isExpanded: Bool, onTap: @escaping () -> Void) {
+    public init(pattern: PatternDTO) {
         self.pattern = pattern
-        self.isExpanded = isExpanded
-        self.onTap = onTap
     }
 
     public var body: some View {
-        VStack(spacing: 0) {
+        VStack {
             PatternStickChart(pattern: pattern)
                 .background(backgroundColor)
                 .cornerRadius(30)
-                .shadow(color: shadowColor, radius: 7)
-                .id(pattern.id)
+                .shadow(color: shadowColor, radius: 7, x: 0, y: 0)
 
             Text(pattern.name)
-                .font(.subheadline.bold())
-                .lineLimit(1)
-                .padding(.top, 10)
+                .font(.callout)
+                .bold()
+                .padding(.top, 4)
 
             if isExpanded {
                 Text(pattern.info)
-                    .font(.subheadline)
+                    .font(.footnote)
                     .padding()
-                    .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
         .frame(width: 350)
         .background(
             RoundedRectangle(cornerRadius: 30)
-                .fill(overlayColor)
+                .fill(Color.clear)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 30)
+                        .fill(overlayColor)
+                )
         )
-        .animation(.easeInOut(duration: 0.5), value: isExpanded)
-        .onTapGesture(perform: onTap)
+        .onTapGesture {
+            withAnimation(.spring()) {
+                isExpanded.toggle()
+            }
+        }
     }
 
     private var overlayColor: Color {
-        isExpanded ? (colorScheme == .dark ? .white.opacity(0.15) : .black.opacity(0.1)) : .clear
+        isExpanded ? (colorScheme == .dark ? Color.white.opacity(0.15) : Color.black.opacity(0.1)) : Color.clear
     }
 
     private var shadowColor: Color {
-        (colorScheme == .dark ? Color.white : .black).opacity(isExpanded ? 0.4 : 0.15)
+        isExpanded ? (colorScheme == .dark ? Color.white.opacity(0.6) : Color.black.opacity(0.4)) : (colorScheme == .dark ? Color.white.opacity(0.4) : Color.black.opacity(0.2))
     }
 
     private var backgroundColor: Color {
-        colorScheme == .dark ? .black : .white
+        colorScheme == .dark ? Color(.systemGray5) : .white
     }
 }

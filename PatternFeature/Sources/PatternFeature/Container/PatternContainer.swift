@@ -18,8 +18,6 @@ class PatternContainer: ObservableObject {
             handleLoadPatterns()
         case let .filterSelected(filter):
             state.selectedFilter = state.selectedFilter == filter ? "" : filter
-        case let .patternExpanded(patternId):
-            state.expandedPatternId = state.expandedPatternId == patternId ? nil : patternId
         }
     }
 
