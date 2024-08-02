@@ -16,12 +16,10 @@ public actor TickerRepository: TickerRepositoryProtocol {
     public func fetchTickers() async throws -> [TickerDTO] {
         do {
             let networkTickers = try await tradingDataService.getMoexTickers()
-            print("Successfully fetched \(networkTickers.count) tickers from network")
-            await saveTickers(networkTickers)
+            try await saveTickers(networkTickers)
             return networkTickers
         } catch {
-            print("Error fetching tickers: \(error)")
-            throw error
+            throw RepositoryError.fetchFailed
         }
     }
 
@@ -33,28 +31,24 @@ public actor TickerRepository: TickerRepositoryProtocol {
             return localCandles
         }
 
-        let networkCandles = try await tradingDataService.getMoexCandles(ticker: ticker, timePeriod: timePeriod)
-        await saveCandles(networkCandles, for: ticker)
-        return networkCandles
+        do {
+            let networkCandles = try await tradingDataService.getMoexCandles(ticker: ticker, timePeriod: timePeriod)
+            try await saveCandles(networkCandles, for: ticker)
+            return networkCandles
+        } catch {
+            throw RepositoryError.fetchFailed
+        }
     }
 
-    private func saveTickers(_ tickers: [TickerDTO]) async {
+    private func saveTickers(_ tickers: [TickerDTO]) async throws {
         let tickerModels = tickers.map { Ticker(from: $0) }
         await modelContext.insertMultiple(tickerModels)
-        do {
-            try await modelContext.save()
-        } catch {
-            print("Failed to save tickers: \(error)")
-        }
+        try await modelContext.save()
     }
 
-    private func saveCandles(_ candles: [CandleDTO], for ticker: String) async {
+    private func saveCandles(_ candles: [CandleDTO], for ticker: String) async throws {
         let candleModels = candles.map { Candle(from: $0, ticker: ticker) }
         await modelContext.insertMultiple(candleModels)
-        do {
-            try await modelContext.save()
-        } catch {
-            print("Failed to save candles: \(error)")
-        }
+        try await modelContext.save()
     }
 }

@@ -43,12 +43,11 @@ public actor PatternRepository: PatternRepositoryProtocol {
             createPattern(name: "Rising Wedge", info: "Bearish reversal pattern with converging trendlines, both sloping upward, indicating a potential downward breakout.", filter: "Complex", dates: ["2016-04-25T10:00:00+0000", "2016-04-25T11:00:00+0000", "2016-04-25T12:00:00+0000", "2016-04-25T13:00:00+0000", "2016-04-25T14:00:00+0000"], opens: [100, 102, 104, 105, 106], closes: [102, 104, 105, 106, 104], highs: [103, 105, 106, 107, 107], lows: [99, 101, 103, 104, 103]),
         ]
 
-        let patterns = patternDTOs.map { dto in
+        let patterns = patternDTOs.map { dto -> Pattern in
             let pattern = Pattern(name: dto.name, info: dto.info, filter: dto.filter, candles: [])
-            let candles = dto.candles.map { candleDTO in
+            pattern.candles = dto.candles.map { candleDTO in
                 Candle(date: candleDTO.date, openPrice: candleDTO.openPrice, closePrice: candleDTO.closePrice, highPrice: candleDTO.highPrice, lowPrice: candleDTO.lowPrice, ticker: "PATTERN_\(dto.name)")
             }
-            pattern.candles = candles
             return pattern
         }
 
