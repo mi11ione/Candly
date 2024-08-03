@@ -15,6 +15,15 @@ let package = Package(
         .package(path: "../CoreRepository"),
     ],
     targets: [
-        .target(name: "PatternFeature", dependencies: ["CoreUI", "CoreDI", "SharedModels", "RepositoryInterfaces", "CoreRepository"]),
+        .target(
+            name: "PatternFeature",
+            dependencies: [
+                "CoreUI",
+                "CoreDI",
+                "SharedModels",
+                "RepositoryInterfaces",
+                "CoreRepository",
+            ]
+        ),
     ]
 )

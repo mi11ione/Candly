@@ -14,15 +14,20 @@ let package = Package(
         .package(path: "../RepositoryInterfaces"),
         .package(path: "../NetworkService"),
         .package(path: "../CoreRepository"),
+        .package(path: "../ErrorHandling"),
     ],
     targets: [
-        .target(name: "TickerFeature", dependencies: [
-            "CoreUI",
-            "CoreDI",
-            "SharedModels",
-            "RepositoryInterfaces",
-            "NetworkService",
-            "CoreRepository",
-        ]),
+        .target(
+            name: "TickerFeature",
+            dependencies: [
+                "CoreUI",
+                "CoreDI",
+                "SharedModels",
+                "RepositoryInterfaces",
+                "NetworkService",
+                "CoreRepository",
+                "ErrorHandling",
+            ]
+        ),
     ]
 )

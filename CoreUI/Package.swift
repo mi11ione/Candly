@@ -17,7 +17,9 @@ let package = Package(
     targets: [
         .target(
             name: "CoreUI",
-            dependencies: ["SharedModels"]
+            dependencies: [
+                "SharedModels",
+            ]
         ),
     ]
 )

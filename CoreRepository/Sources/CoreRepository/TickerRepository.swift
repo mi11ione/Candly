@@ -1,3 +1,4 @@
+import ErrorHandling
 import Foundation
 import NetworkService
 import RepositoryInterfaces
@@ -19,7 +20,7 @@ public actor TickerRepository: TickerRepositoryProtocol {
             try await saveTickers(networkTickers)
             return networkTickers
         } catch {
-            throw RepositoryError.fetchFailed
+            throw DatabaseError.fetchFailed
         }
     }
 
@@ -36,7 +37,7 @@ public actor TickerRepository: TickerRepositoryProtocol {
             try await saveCandles(networkCandles, for: ticker)
             return networkCandles
         } catch {
-            throw RepositoryError.fetchFailed
+            throw DatabaseError.fetchFailed
         }
     }
 

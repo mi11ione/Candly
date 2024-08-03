@@ -9,8 +9,15 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../SharedModels"),
+        .package(path: "../ErrorHandling"),
     ],
     targets: [
-        .target(name: "NetworkService", dependencies: ["SharedModels"]),
+        .target(
+            name: "NetworkService",
+            dependencies: [
+                "SharedModels",
+                "ErrorHandling",
+            ]
+        ),
     ]
 )

@@ -1,3 +1,4 @@
+import ErrorHandling
 import Foundation
 import SharedModels
 
@@ -40,13 +41,17 @@ public actor NetworkService: NetworkServiceProtocol {
                 throw NetworkError.invalidResponse
             }
             return try decoder.decode(T.self, from: data)
-        } catch _ as DecodingError {
+        } catch is DecodingError {
             throw NetworkError.decodingError
         } catch let error as URLError {
-            if error.code == .cannotFindHost {
+            switch error.code {
+            case .cannotFindHost:
                 throw NetworkError.hostNotFound
+            case .notConnectedToInternet:
+                throw NetworkError.noInternetConnection
+            default:
+                throw NetworkError.requestFailed
             }
-            throw NetworkError.requestFailed
         }
     }
 

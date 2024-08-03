@@ -1,4 +1,5 @@
 import CoreUI
+import ErrorHandling
 import SwiftUI
 
 struct TickerView: View {

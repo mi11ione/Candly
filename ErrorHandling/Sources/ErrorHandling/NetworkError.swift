@@ -4,4 +4,5 @@ public enum NetworkError: Error {
     case invalidResponse
     case decodingError
     case hostNotFound
+    case noInternetConnection
 }

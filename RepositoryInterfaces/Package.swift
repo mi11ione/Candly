@@ -11,6 +11,11 @@ let package = Package(
         .package(path: "../SharedModels"),
     ],
     targets: [
-        .target(name: "RepositoryInterfaces", dependencies: ["SharedModels"]),
+        .target(
+            name: "RepositoryInterfaces",
+            dependencies: [
+                "SharedModels",
+            ]
+        ),
     ]
 )

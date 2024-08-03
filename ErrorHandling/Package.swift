@@ -3,15 +3,17 @@
 import PackageDescription
 
 let package = Package(
-    name: "SharedModels",
+    name: "ErrorHandling",
     platforms: [.iOS(.v17), .macOS(.v14), .visionOS(.v1)],
     products: [
-        .library(name: "SharedModels", targets: ["SharedModels"]),
+        .library(
+            name: "ErrorHandling",
+            targets: ["ErrorHandling"]
+        ),
     ],
-    dependencies: [],
     targets: [
         .target(
-            name: "SharedModels"
+            name: "ErrorHandling"
         ),
     ]
 )

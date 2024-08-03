@@ -11,11 +11,17 @@ let package = Package(
         .package(path: "../SharedModels"),
         .package(path: "../RepositoryInterfaces"),
         .package(path: "../NetworkService"),
+        .package(path: "../ErrorHandling"),
     ],
     targets: [
         .target(
             name: "CoreRepository",
-            dependencies: ["SharedModels", "RepositoryInterfaces", "NetworkService"]
+            dependencies: [
+                "SharedModels",
+                "RepositoryInterfaces",
+                "NetworkService",
+                "ErrorHandling",
+            ]
         ),
     ]
 )

@@ -20,7 +20,12 @@ let package = Package(
     targets: [
         .target(
             name: "CoreDI",
-            dependencies: ["NetworkService", "CoreRepository", "SharedModels", "RepositoryInterfaces"]
+            dependencies: [
+                "NetworkService",
+                "CoreRepository",
+                "SharedModels",
+                "RepositoryInterfaces",
+            ]
         ),
     ]
 )

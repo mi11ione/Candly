@@ -28,4 +28,7 @@
    <FileRef
       location = "group:NetworkService">
    </FileRef>
+   <FileRef
+      location = "group:ErrorHandling">
+   </FileRef>
 </Workspace>
