@@ -8,13 +8,9 @@ struct CandlyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if let modelContainer = container.modelContainer {
-                ContentView()
-                    .inject(container as DIContainer)
-                    .modelContainer(modelContainer)
-            } else {
-                EmptyView()
-            }
+            ContentView()
+                .inject(container as DIContainer)
+                .modelContainer(container.modelContainer)
         }
     }
 }

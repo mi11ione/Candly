@@ -1,12 +1,12 @@
-actor DependencyManager {
+public final class DependencyManager {
     private var dependencies: [String: Any] = [:]
 
-    func register<T: Sendable>(_ dependency: T) {
+    public func register<T>(_ dependency: T) {
         let key = String(describing: T.self)
         dependencies[key] = dependency
     }
 
-    func resolve<T: Sendable>() -> T {
+    public func resolve<T>() -> T {
         let key = String(describing: T.self)
         guard let dependency = dependencies[key] as? T else {
             fatalError("Dependency \(T.self) not registered")

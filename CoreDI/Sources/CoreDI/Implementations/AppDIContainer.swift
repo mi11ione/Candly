@@ -1,4 +1,3 @@
-import Combine
 import CoreRepository
 import Foundation
 import NetworkService
@@ -9,38 +8,32 @@ import SwiftData
 @MainActor
 public final class AppDIContainer: DIContainer, ObservableObject {
     private let dependencyManager = DependencyManager()
-    @Published public private(set) var modelContainer: ModelContainer?
+    public let modelContainer: ModelContainer
 
     public init() {
-        Task {
-            await setup()
-        }
+        modelContainer = try! ModelContainer(for: Pattern.self, Candle.self, Ticker.self)
+        registerDependencies()
     }
 
-    private func setup() async {
-        do {
-            modelContainer = try ModelContainer(for: Pattern.self, Candle.self, Ticker.self)
-            await registerDependencies()
-        } catch {
-            fatalError("Failed to create ModelContainer: \(error)")
-        }
+    public func register(_ dependency: some Sendable) {
+        dependencyManager.register(dependency)
     }
 
-    public func register(_ dependency: some Sendable) async {
-        await dependencyManager.register(dependency)
+    public func resolve<T: Sendable>() -> T {
+        dependencyManager.resolve()
     }
 
-    public func resolve<T: Sendable>() async -> T {
-        await dependencyManager.resolve()
-    }
-
-    private func registerDependencies() async {
-        guard let modelContainer else { return }
+    private func registerDependencies() {
         let modelContext = ModelContextWrapper(modelContainer.mainContext)
-        await register(modelContext)
-        await register(NetworkService() as NetworkServiceProtocol)
-        await register(PatternRepository(modelContext: modelContext) as PatternRepositoryProtocol)
-        let networkService: NetworkServiceProtocol = await resolve()
-        await register(TickerRepository(modelContext: modelContext, networkService: networkService) as TickerRepositoryProtocol)
+        register(modelContext)
+
+        let networkService = NetworkService()
+        register(networkService as NetworkServiceProtocol)
+
+        let patternRepository = PatternRepository(modelContext: modelContext)
+        register(patternRepository as PatternRepositoryProtocol)
+
+        let tickerRepository = TickerRepository(modelContext: modelContext, networkService: networkService)
+        register(tickerRepository as TickerRepositoryProtocol)
     }
 }
