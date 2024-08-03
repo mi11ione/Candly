@@ -1,7 +1,7 @@
 import SwiftUI
 
 private final class UnimplementedDIContainer: DIContainer {
-    func register(_: some Sendable) async {
+    func register(_: some Sendable) {
         fatalError("DIContainer not implemented")
     }
 

@@ -1,7 +1,7 @@
 import SwiftData
 
 @MainActor
-public class ModelContextWrapper: @unchecked Sendable {
+public class ModelContextWrapper: ModelContextWrapperProtocol {
     private let context: ModelContext
 
     public init(_ context: ModelContext) {
