@@ -43,10 +43,19 @@ struct TickerView: View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 350))], spacing: 20) {
                 ForEach(tickerContainer.state.tickers) { ticker in
-                    TickerCell(ticker: ticker)
+                    TickerCell(
+                        ticker: ticker,
+                        isExpanded: tickerContainer.state.expandedTickerId == ticker.id,
+                        onTap: {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                                tickerContainer.toggleExpansion(for: ticker.id)
+                            }
+                        }
+                    )
                 }
             }
             .padding()
+            .animation(.spring(response: 0.3, dampingFraction: 0.8), value: tickerContainer.state.expandedTickerId)
         }
     }
 

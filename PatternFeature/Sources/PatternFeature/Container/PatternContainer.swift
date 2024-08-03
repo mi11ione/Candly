@@ -21,7 +21,13 @@ class PatternContainer: ObservableObject {
             await handleLoadPatterns()
         case let .filterSelected(filter):
             state.selectedFilter = state.selectedFilter == filter ? "" : filter
+        case let .togglePatternExpansion(id):
+            toggleExpansion(for: id)
         }
+    }
+
+    func toggleExpansion(for id: UUID) {
+        state.expandedPatternId = state.expandedPatternId == id ? nil : id
     }
 
     private func handleLoadPatterns() async {

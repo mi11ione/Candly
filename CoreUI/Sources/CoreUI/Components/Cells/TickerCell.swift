@@ -3,15 +3,18 @@ import SwiftUI
 
 public struct TickerCell: View {
     let ticker: TickerDTO
-    @State private var isExpanded = false
+    let isExpanded: Bool
+    let onTap: () -> Void
 
-    public init(ticker: TickerDTO) {
+    public init(ticker: TickerDTO, isExpanded: Bool, onTap: @escaping () -> Void) {
         self.ticker = ticker
+        self.isExpanded = isExpanded
+        self.onTap = onTap
     }
 
     public var body: some View {
         DataCell(
-            isExpanded: $isExpanded,
+            isExpanded: .constant(isExpanded),
             content: {
                 HStack {
                     tickerDetails
@@ -32,6 +35,7 @@ public struct TickerCell: View {
             }
         )
         .padding(.top, 5)
+        .onTapGesture(perform: onTap)
     }
 
     private var tickerDetails: some View {

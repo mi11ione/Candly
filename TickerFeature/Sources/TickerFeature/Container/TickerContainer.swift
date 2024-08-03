@@ -24,7 +24,13 @@ class TickerContainer: ObservableObject {
             state.searchText = newText
         case .dismissError:
             state.error = nil
+        case let .toggleTickerExpansion(id):
+            toggleExpansion(for: id)
         }
+    }
+
+    func toggleExpansion(for id: UUID) {
+        state.expandedTickerId = state.expandedTickerId == id ? nil : id
     }
 
     private func handleLoadTickers() async {

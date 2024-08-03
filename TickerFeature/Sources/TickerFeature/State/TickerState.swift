@@ -6,4 +6,5 @@ struct TickerState {
     var searchText: String = ""
     var isLoading: Bool = false
     var error: String?
+    var expandedTickerId: UUID?
 }

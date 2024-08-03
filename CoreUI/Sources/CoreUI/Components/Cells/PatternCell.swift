@@ -3,15 +3,18 @@ import SwiftUI
 
 public struct PatternCell: View {
     let pattern: PatternDTO
-    @State private var isExpanded = false
+    let isExpanded: Bool
+    let onTap: () -> Void
 
-    public init(pattern: PatternDTO) {
+    public init(pattern: PatternDTO, isExpanded: Bool, onTap: @escaping () -> Void) {
         self.pattern = pattern
+        self.isExpanded = isExpanded
+        self.onTap = onTap
     }
 
     public var body: some View {
         DataCell(
-            isExpanded: $isExpanded,
+            isExpanded: .constant(isExpanded),
             content: {
                 PatternChart(pattern: pattern)
             },
@@ -28,5 +31,6 @@ public struct PatternCell: View {
                     .frame(width: 320)
             }
         )
+        .onTapGesture(perform: onTap)
     }
 }

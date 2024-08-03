@@ -42,12 +42,7 @@ public struct DataCell<Content: View, Footer: View, ExpandedContent: View>: View
                         .fill(overlayColor)
                 )
         )
-        .onTapGesture {
-            withAnimation(.spring()) {
-                isExpanded.toggle()
-            }
-        }
-        .padding(.bottom, 10)
+        .animation(.spring(), value: isExpanded)
     }
 
     private var overlayColor: Color {

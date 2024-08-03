@@ -52,11 +52,20 @@ struct PatternView: View {
     private var patternsGrid: some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 350))], spacing: 20) {
             ForEach(patternContainer.filteredPatterns, id: \.id) { pattern in
-                PatternCell(pattern: pattern)
-                    .id(pattern.id)
+                PatternCell(
+                    pattern: pattern,
+                    isExpanded: patternContainer.state.expandedPatternId == pattern.id,
+                    onTap: {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+                            patternContainer.toggleExpansion(for: pattern.id)
+                        }
+                    }
+                )
+                .id(pattern.id)
             }
         }
         .padding()
+        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: patternContainer.state.expandedPatternId)
     }
 
     private func setupContainer() async {
