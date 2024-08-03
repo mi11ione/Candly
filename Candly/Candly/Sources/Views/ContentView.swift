@@ -7,7 +7,7 @@ struct ContentView: View {
         TabView {
             PatternFeature()
                 .tabItem {
-                    Label("Patterns", systemImage: "chart.bar.fill")
+                    Label("Patterns", systemImage: "alternatingcurrent")
                 }
 
             TickerFeature()

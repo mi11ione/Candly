@@ -6,8 +6,6 @@ public struct DataCell<Content: View, Footer: View, ExpandedContent: View>: View
     let footer: () -> Footer
     let expandedContent: () -> ExpandedContent
 
-    @Environment(\.colorScheme) private var colorScheme
-
     public init(
         isExpanded: Binding<Bool>,
         @ViewBuilder content: @escaping () -> Content,
@@ -23,9 +21,9 @@ public struct DataCell<Content: View, Footer: View, ExpandedContent: View>: View
     public var body: some View {
         VStack {
             content()
-                .background(backgroundColor)
+                .background(Color("BackgroundColor"))
                 .cornerRadius(30)
-                .shadow(color: shadowColor, radius: 6)
+                .shadow(color: Color(isExpanded ? "ShadowExpandedColor" : "ShadowColor"), radius: 6)
 
             footer()
 
@@ -39,21 +37,9 @@ public struct DataCell<Content: View, Footer: View, ExpandedContent: View>: View
                 .fill(Color.clear)
                 .overlay(
                     RoundedRectangle(cornerRadius: 30)
-                        .fill(overlayColor)
+                        .fill(isExpanded ? Color("CellOverlayColor") : .clear)
                 )
         )
         .animation(.spring(), value: isExpanded)
-    }
-
-    private var overlayColor: Color {
-        isExpanded ? (colorScheme == .dark ? Color.white.opacity(0.15) : Color.black.opacity(0.1)) : Color.clear
-    }
-
-    private var shadowColor: Color {
-        isExpanded ? (colorScheme == .dark ? Color.white.opacity(0.6) : Color.black.opacity(0.4)) : (colorScheme == .dark ? Color.white.opacity(0.2) : Color.black.opacity(0.2))
-    }
-
-    private var backgroundColor: Color {
-        colorScheme == .dark ? Color(.systemGray5) : .white
     }
 }

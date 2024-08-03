@@ -23,7 +23,7 @@ public struct CandleStick: ChartContent {
             yEnd: .value("High", highPrice),
             width: .fixed(2)
         )
-        .foregroundStyle(Color(.systemGray))
+        .foregroundStyle(Color("CandleStickColor"))
         .clipShape(RoundedRectangle(cornerRadius: 2))
 
         RectangleMark(
