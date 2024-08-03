@@ -36,6 +36,6 @@ public struct FilterButton: View {
     }
 
     private var shadowColor: Color {
-        colorScheme == .dark ? Color.white.opacity(0.3) : .black.opacity(0.15)
+        (colorScheme == .dark ? Color.white : .black).opacity(0.2)
     }
 }

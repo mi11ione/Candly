@@ -12,8 +12,6 @@ let package = Package(
         .package(path: "../CoreDI"),
         .package(path: "../SharedModels"),
         .package(path: "../RepositoryInterfaces"),
-        .package(path: "../NetworkService"),
-        .package(path: "../CoreRepository"),
         .package(path: "../ErrorHandling"),
     ],
     targets: [
@@ -24,8 +22,6 @@ let package = Package(
                 "CoreDI",
                 "SharedModels",
                 "RepositoryInterfaces",
-                "NetworkService",
-                "CoreRepository",
                 "ErrorHandling",
             ]
         ),

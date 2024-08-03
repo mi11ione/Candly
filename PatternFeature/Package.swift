@@ -12,7 +12,6 @@ let package = Package(
         .package(path: "../CoreDI"),
         .package(path: "../SharedModels"),
         .package(path: "../RepositoryInterfaces"),
-        .package(path: "../CoreRepository"),
     ],
     targets: [
         .target(
@@ -22,7 +21,6 @@ let package = Package(
                 "CoreDI",
                 "SharedModels",
                 "RepositoryInterfaces",
-                "CoreRepository",
             ]
         ),
     ]

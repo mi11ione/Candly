@@ -25,7 +25,7 @@ public struct DataCell<Content: View, Footer: View, ExpandedContent: View>: View
             content()
                 .background(backgroundColor)
                 .cornerRadius(30)
-                .shadow(color: shadowColor, radius: 7)
+                .shadow(color: shadowColor, radius: 6)
 
             footer()
 
@@ -50,7 +50,7 @@ public struct DataCell<Content: View, Footer: View, ExpandedContent: View>: View
     }
 
     private var shadowColor: Color {
-        isExpanded ? (colorScheme == .dark ? Color.white.opacity(0.6) : Color.black.opacity(0.4)) : (colorScheme == .dark ? Color.white.opacity(0.4) : Color.black.opacity(0.2))
+        isExpanded ? (colorScheme == .dark ? Color.white.opacity(0.6) : Color.black.opacity(0.4)) : (colorScheme == .dark ? Color.white.opacity(0.2) : Color.black.opacity(0.2))
     }
 
     private var backgroundColor: Color {
