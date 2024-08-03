@@ -5,7 +5,7 @@ private final class UnimplementedDIContainer: DIContainer {
         fatalError("DIContainer not implemented")
     }
 
-    func resolve<T: Sendable>() async -> T {
+    func resolve<T: Sendable>() -> T {
         fatalError("DIContainer not implemented")
     }
 }

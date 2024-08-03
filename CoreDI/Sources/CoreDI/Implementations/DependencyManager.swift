@@ -1,4 +1,4 @@
-public actor DependencyManager {
+public class DependencyManager {
     private var dependencies: [String: Any] = [:]
 
     public func register<T>(_ dependency: T) {

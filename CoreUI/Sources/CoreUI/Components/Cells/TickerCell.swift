@@ -24,9 +24,7 @@ public struct TickerCell: View {
                 .padding()
                 .frame(width: 350, height: 160)
             },
-            footer: {
-                EmptyView()
-            },
+            footer: { EmptyView() },
             expandedContent: {
                 Text("Detected patterns")
                     .font(.subheadline)

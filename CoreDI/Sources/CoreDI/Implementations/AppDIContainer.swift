@@ -16,13 +16,11 @@ public final class AppDIContainer: DIContainer, ObservableObject {
     }
 
     public func register(_ dependency: some Sendable) {
-        Task {
-            await dependencyManager.register(dependency)
-        }
+        dependencyManager.register(dependency)
     }
 
-    public func resolve<T: Sendable>() async -> T {
-        await dependencyManager.resolve()
+    public func resolve<T: Sendable>() -> T {
+        dependencyManager.resolve()
     }
 
     private func registerDependencies() {

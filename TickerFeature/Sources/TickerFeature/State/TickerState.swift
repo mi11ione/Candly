@@ -1,7 +1,7 @@
 import Foundation
 import SharedModels
 
-struct TickerState {
+struct TickerState: Equatable {
     var tickers: [TickerDTO] = []
     var searchText: String = ""
     var isLoading: Bool = false

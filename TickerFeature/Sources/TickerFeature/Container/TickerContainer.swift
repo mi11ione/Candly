@@ -1,51 +1,43 @@
 import RepositoryInterfaces
+import SharedModels
 import SwiftUI
 
 @MainActor
-class TickerContainer: ObservableObject {
+final class TickerContainer: ObservableObject {
     @Published private(set) var state: TickerState
+    private let repository: TickerRepositoryProtocol
 
-    private var repository: TickerRepositoryProtocol?
-    private(set) var hasLoadedData = false
-
-    init() {
+    init(repository: TickerRepositoryProtocol) {
+        self.repository = repository
         state = TickerState()
     }
 
-    func setRepository(_ repository: TickerRepositoryProtocol) {
-        self.repository = repository
-    }
-
-    func dispatch(_ intent: TickerIntent) async {
+    func dispatch(_ intent: TickerIntent) {
         switch intent {
         case .loadTickers:
-            await handleLoadTickers()
+            Task { await loadTickers() }
         case let .updateSearchText(newText):
             state.searchText = newText
-        case .dismissError:
-            state.error = nil
         case let .toggleTickerExpansion(id):
-            toggleExpansion(for: id)
+            state.expandedTickerId = state.expandedTickerId == id ? nil : id
         }
     }
 
-    func toggleExpansion(for id: UUID) {
-        state.expandedTickerId = state.expandedTickerId == id ? nil : id
-    }
-
-    private func handleLoadTickers() async {
-        guard let repository, !hasLoadedData else { return }
+    private func loadTickers() async {
+        if !state.tickers.isEmpty { return }
 
         state.isLoading = true
         do {
-            let tickers = try await repository.fetchTickers()
-            state.tickers = tickers
-            state.isLoading = false
+            state.tickers = try await repository.fetchTickers()
             state.error = nil
-            hasLoadedData = true
         } catch {
             state.error = error.localizedDescription
-            state.isLoading = false
         }
+        state.isLoading = false
+    }
+
+    var filteredTickers: [TickerDTO] {
+        guard !state.searchText.isEmpty else { return state.tickers }
+        return state.tickers.filter { $0.title.lowercased().contains(state.searchText.lowercased()) }
     }
 }

@@ -3,38 +3,29 @@ import RepositoryInterfaces
 import SharedModels
 
 @MainActor
-class PatternContainer: ObservableObject {
+final class PatternContainer: ObservableObject {
     @Published private(set) var state: PatternState
-    private var repository: PatternRepositoryProtocol?
+    private let repository: PatternRepositoryProtocol
 
-    init() {
+    init(repository: PatternRepositoryProtocol) {
+        self.repository = repository
         state = PatternState()
     }
 
-    func setRepository(_ repository: PatternRepositoryProtocol) {
-        self.repository = repository
-    }
-
-    func dispatch(_ intent: PatternIntent) async {
+    func dispatch(_ intent: PatternIntent) {
         switch intent {
         case .loadPatterns:
-            await handleLoadPatterns()
+            Task { await loadPatterns() }
         case let .filterSelected(filter):
             state.selectedFilter = state.selectedFilter == filter ? "" : filter
         case let .togglePatternExpansion(id):
-            toggleExpansion(for: id)
+            state.expandedPatternId = state.expandedPatternId == id ? nil : id
         }
     }
 
-    func toggleExpansion(for id: UUID) {
-        state.expandedPatternId = state.expandedPatternId == id ? nil : id
-    }
-
-    private func handleLoadPatterns() async {
-        guard let repository else { return }
+    private func loadPatterns() async {
         state.isLoading = true
-        let patterns = await repository.fetchPatterns()
-        state.patterns = patterns
+        state.patterns = await repository.fetchPatterns()
         state.isLoading = false
     }
 

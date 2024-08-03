@@ -15,9 +15,7 @@ public struct PatternCell: View {
     public var body: some View {
         DataCell(
             isExpanded: .constant(isExpanded),
-            content: {
-                PatternChart(pattern: pattern)
-            },
+            content: { PatternChart(pattern: pattern) },
             footer: {
                 Text(pattern.name)
                     .font(.callout)
@@ -32,5 +30,6 @@ public struct PatternCell: View {
             }
         )
         .onTapGesture(perform: onTap)
+        .id(pattern.id)
     }
 }

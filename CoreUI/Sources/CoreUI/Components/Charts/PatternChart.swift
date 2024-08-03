@@ -33,6 +33,7 @@ public struct PatternChart: View {
             AxisMarks(position: .trailing, values: .automatic(desiredCount: 5))
         }
         .chartYScale(domain: calculateYAxisDomain())
+        .id(pattern.id)
     }
 
     private func calculateYAxisDomain() -> ClosedRange<Double> {

@@ -1,8 +1,7 @@
 import Foundation
 
-enum TickerIntent {
+enum TickerIntent: Equatable {
     case loadTickers
     case updateSearchText(String)
-    case dismissError
     case toggleTickerExpansion(UUID)
 }

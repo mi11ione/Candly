@@ -1,22 +1,21 @@
-import CoreDI
 import CoreUI
-import RepositoryInterfaces
 import SwiftUI
 
 struct TickerView: View {
-    @Environment(\.diContainer) private var container: DIContainer
-    @StateObject private var tickerContainer = TickerContainer()
+    @StateObject private var container: TickerContainer
+
+    init(container: @autoclosure @escaping () -> TickerContainer) {
+        _container = StateObject(wrappedValue: container())
+    }
 
     var body: some View {
         NavigationStack {
-            Group {
-                if tickerContainer.state.isLoading {
+            ZStack {
+                if container.state.isLoading {
                     ProgressView()
-                } else if let error = tickerContainer.state.error {
+                } else if let error = container.state.error {
                     ErrorView(error: error) {
-                        Task {
-                            await tickerContainer.dispatch(.loadTickers)
-                        }
+                        container.dispatch(.loadTickers)
                     }
                 } else {
                     tickerList
@@ -24,44 +23,26 @@ struct TickerView: View {
             }
             .navigationTitle("Tickers")
             .searchable(text: Binding(
-                get: { tickerContainer.state.searchText },
-                set: { newValue in
-                    Task {
-                        await tickerContainer.dispatch(.updateSearchText(newValue))
-                    }
-                }
+                get: { container.state.searchText },
+                set: { container.dispatch(.updateSearchText($0)) }
             ), prompt: "Search tickers")
         }
-        .task {
-            if !tickerContainer.hasLoadedData {
-                await setupContainer()
-            }
-        }
+        .onAppear { container.dispatch(.loadTickers) }
     }
 
     private var tickerList: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 350))], spacing: 20) {
-                ForEach(tickerContainer.state.tickers) { ticker in
+                ForEach(container.filteredTickers) { ticker in
                     TickerCell(
                         ticker: ticker,
-                        isExpanded: tickerContainer.state.expandedTickerId == ticker.id,
-                        onTap: {
-                            withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                                tickerContainer.toggleExpansion(for: ticker.id)
-                            }
-                        }
+                        isExpanded: container.state.expandedTickerId == ticker.id,
+                        onTap: { container.dispatch(.toggleTickerExpansion(ticker.id)) }
                     )
                 }
             }
             .padding()
-            .animation(.spring(response: 0.3, dampingFraction: 0.8), value: tickerContainer.state.expandedTickerId)
+            .animation(.spring(response: 0.3, dampingFraction: 0.8), value: container.state.expandedTickerId)
         }
-    }
-
-    private func setupContainer() async {
-        let repository: TickerRepositoryProtocol = await container.resolve()
-        tickerContainer.setRepository(repository)
-        await tickerContainer.dispatch(.loadTickers)
     }
 }
