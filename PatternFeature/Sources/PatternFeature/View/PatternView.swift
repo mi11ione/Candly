@@ -41,7 +41,6 @@ struct PatternView: View {
             }
             .padding()
         }
-        .padding(.top, -15)
     }
 
     private var patternsGrid: some View {
@@ -56,6 +55,6 @@ struct PatternView: View {
             }
         }
         .padding()
-        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: container.state.expandedPatternId)
+        .animation(.spring, value: container.state.expandedPatternId)
     }
 }

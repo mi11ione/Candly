@@ -43,7 +43,7 @@ struct TickerView: View {
                 }
             }
             .padding()
-            .animation(.spring(response: 0.3, dampingFraction: 0.8), value: container.state.expandedTickerId)
+            .animation(.spring, value: container.state.expandedTickerId)
         }
     }
 }
