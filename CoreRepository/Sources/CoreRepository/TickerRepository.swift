@@ -16,7 +16,7 @@ public actor TickerRepository: TickerRepositoryProtocol {
         self.errorHandler = errorHandler
     }
 
-    public func fetchTickers() async throws -> [TickerDTO] {
+    public func fetchTickers() async throws -> [Ticker] {
         do {
             let networkTickers = try await networkService.getMoexTickers()
             try await saveTickers(networkTickers)
@@ -26,10 +26,10 @@ public actor TickerRepository: TickerRepositoryProtocol {
         }
     }
 
-    public func fetchCandles(for ticker: String, timePeriod: ChartTimePeriod) async throws -> [CandleDTO] {
+    public func fetchCandles(for ticker: String, timePeriod: ChartTimePeriod) async throws -> [Candle] {
         do {
             let descriptor = FetchDescriptor<Candle>(predicate: #Predicate { $0.ticker == ticker })
-            let localCandles = try await modelContext.fetch(descriptor) { $0.toDTO() }
+            let localCandles = try await modelContext.fetch(descriptor) { $0 }
 
             if !localCandles.isEmpty {
                 return localCandles
@@ -43,20 +43,18 @@ public actor TickerRepository: TickerRepositoryProtocol {
         }
     }
 
-    private func saveTickers(_ tickers: [TickerDTO]) async throws {
+    private func saveTickers(_ tickers: [Ticker]) async throws {
         do {
-            let tickerModels = tickers.map { Ticker(from: $0) }
-            await modelContext.insertMultiple(tickerModels)
+            await modelContext.insertMultiple(tickers)
             try await modelContext.save()
         } catch {
             throw errorHandler.handle(DatabaseError.saveFailed)
         }
     }
 
-    private func saveCandles(_ candles: [CandleDTO], for ticker: String) async throws {
+    private func saveCandles(_ candles: [Candle], for ticker: String) async throws {
         do {
-            let candleModels = candles.map { Candle(from: $0, ticker: ticker) }
-            await modelContext.insertMultiple(candleModels)
+            await modelContext.insertMultiple(candles)
             try await modelContext.save()
         } catch {
             throw errorHandler.handle(DatabaseError.saveFailed)

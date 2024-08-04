@@ -3,9 +3,9 @@ import SharedModels
 import SwiftUI
 
 public struct PatternChart: View {
-    let pattern: PatternDTO
+    let pattern: Pattern
 
-    public init(pattern: PatternDTO) {
+    public init(pattern: Pattern) {
         self.pattern = pattern
     }
 

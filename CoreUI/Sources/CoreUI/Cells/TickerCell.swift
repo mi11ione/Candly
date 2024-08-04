@@ -2,10 +2,10 @@ import SharedModels
 import SwiftUI
 
 public struct TickerCell: View {
-    let ticker: TickerDTO
+    let ticker: Ticker
     let isExpanded: Bool
 
-    public init(ticker: TickerDTO, isExpanded: Bool) {
+    public init(ticker: Ticker, isExpanded: Bool) {
         self.ticker = ticker
         self.isExpanded = isExpanded
     }

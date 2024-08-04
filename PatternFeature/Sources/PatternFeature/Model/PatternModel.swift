@@ -4,7 +4,7 @@ import RepositoryInterfaces
 import SharedModels
 
 @Observable
-public final class PatternModel: BaseModel<PatternDTO>, @unchecked Sendable {
+public final class PatternModel: BaseModel<Pattern>, @unchecked Sendable {
     private let repository: PatternRepositoryProtocol
     public let filterKeys = ["Single", "Double", "Triple", "Complex"]
     public private(set) var selectedFilter: String = ""
@@ -23,7 +23,7 @@ public final class PatternModel: BaseModel<PatternDTO>, @unchecked Sendable {
         selectedFilter = selectedFilter == filter ? "" : filter
     }
 
-    override public var filteredItems: [PatternDTO] {
+    override public var filteredItems: [Pattern] {
         guard !selectedFilter.isEmpty else { return items }
         return items.filter { $0.filter.lowercased() == selectedFilter.lowercased() }
             .sorted { $0.id.uuidString < $1.id.uuidString }

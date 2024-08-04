@@ -4,7 +4,7 @@ import RepositoryInterfaces
 import SharedModels
 
 @Observable
-public final class TickerModel: BaseModel<TickerDTO>, @unchecked Sendable {
+public final class TickerModel: BaseModel<Ticker>, @unchecked Sendable {
     private let repository: TickerRepositoryProtocol
 
     public init(repository: TickerRepositoryProtocol) {
@@ -17,7 +17,7 @@ public final class TickerModel: BaseModel<TickerDTO>, @unchecked Sendable {
         updateItems(fetchedTickers)
     }
 
-    override public var filteredItems: [TickerDTO] {
+    override public var filteredItems: [Ticker] {
         guard !searchText.isEmpty else { return items }
         return items.filter { $0.title.lowercased().contains(searchText.lowercased()) }
     }

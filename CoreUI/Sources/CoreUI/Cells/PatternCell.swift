@@ -2,10 +2,10 @@ import SharedModels
 import SwiftUI
 
 public struct PatternCell: View {
-    let pattern: PatternDTO
+    let pattern: Pattern
     let isExpanded: Bool
 
-    public init(pattern: PatternDTO, isExpanded: Bool) {
+    public init(pattern: Pattern, isExpanded: Bool) {
         self.pattern = pattern
         self.isExpanded = isExpanded
     }

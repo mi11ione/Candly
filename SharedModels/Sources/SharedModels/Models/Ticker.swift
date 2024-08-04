@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
-public final class Ticker {
+public final class Ticker: Identifiable, @unchecked Sendable {
     @Attribute(.unique) public var id: UUID
     public var title: String
     public var subTitle: String
@@ -17,15 +17,5 @@ public final class Ticker {
         self.price = price
         self.priceChange = priceChange
         self.currency = currency
-    }
-}
-
-public extension Ticker {
-    func toDTO() -> TickerDTO {
-        TickerDTO(id: id, title: title, subTitle: subTitle, price: price, priceChange: priceChange, currency: currency)
-    }
-
-    convenience init(from dto: TickerDTO) {
-        self.init(id: dto.id, title: dto.title, subTitle: dto.subTitle, price: dto.price, priceChange: dto.priceChange, currency: dto.currency)
     }
 }

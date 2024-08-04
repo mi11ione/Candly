@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
-public final class Candle {
+public final class Candle: Identifiable, @unchecked Sendable {
     @Attribute(.unique) public var id: UUID
     public var date: Date
     public var openPrice: Double
@@ -20,18 +20,14 @@ public final class Candle {
         self.lowPrice = lowPrice
         self.ticker = ticker
     }
+
+    public var formattedTime: String {
+        date.formatted(date: .omitted, time: .shortened)
+    }
 }
 
 public extension Candle {
-    func toDTO() -> CandleDTO {
-        CandleDTO(id: id, date: date, openPrice: openPrice, closePrice: closePrice, highPrice: highPrice, lowPrice: lowPrice)
-    }
-
     static func from(dateString: String) -> Date {
         ISO8601DateFormatter().date(from: dateString) ?? Date()
-    }
-
-    convenience init(from dto: CandleDTO, ticker: String) {
-        self.init(id: dto.id, date: dto.date, openPrice: dto.openPrice, closePrice: dto.closePrice, highPrice: dto.highPrice, lowPrice: dto.lowPrice, ticker: ticker)
     }
 }

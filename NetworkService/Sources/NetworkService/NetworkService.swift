@@ -2,11 +2,6 @@ import ErrorHandling
 import Foundation
 import SharedModels
 
-public protocol NetworkServiceProtocol: Sendable {
-    func getMoexTickers() async throws -> [TickerDTO]
-    func getMoexCandles(ticker: String, timePeriod: ChartTimePeriod) async throws -> [CandleDTO]
-}
-
 public actor NetworkService: NetworkServiceProtocol {
     private let session: URLSession
     private let decoder: JSONDecoder
@@ -18,7 +13,7 @@ public actor NetworkService: NetworkServiceProtocol {
         self.errorHandler = errorHandler
     }
 
-    public func getMoexTickers() async throws -> [TickerDTO] {
+    public func getMoexTickers() async throws -> [Ticker] {
         guard let url = MoexAPI.Endpoint.allTickers.url() else {
             throw errorHandler.handle(NetworkError.invalidURL)
         }
@@ -27,13 +22,13 @@ public actor NetworkService: NetworkServiceProtocol {
         return try parseMoexTickers(moexTickers)
     }
 
-    public func getMoexCandles(ticker: String, timePeriod: ChartTimePeriod) async throws -> [CandleDTO] {
+    public func getMoexCandles(ticker: String, timePeriod: ChartTimePeriod) async throws -> [Candle] {
         guard let url = MoexAPI.Endpoint.candles(ticker).url(queryItems: [timePeriod.queryItem]) else {
             throw errorHandler.handle(NetworkError.invalidURL)
         }
 
         let moexCandles: MoexCandles = try await performRequest(URLRequest(url: url))
-        return try parseMoexCandles(moexCandles)
+        return try parseMoexCandles(moexCandles, ticker: ticker)
     }
 
     private func performRequest<T: Decodable>(_ request: URLRequest) async throws -> T {
@@ -57,8 +52,8 @@ public actor NetworkService: NetworkServiceProtocol {
         }
     }
 
-    private func parseMoexTickers(_ moexTickers: MoexTickers) throws -> [TickerDTO] {
-        let parsedTickers = moexTickers.securities.data.compactMap { tickerData -> TickerDTO? in
+    private func parseMoexTickers(_ moexTickers: MoexTickers) throws -> [Ticker] {
+        let parsedTickers = moexTickers.securities.data.compactMap { tickerData -> Ticker? in
             guard tickerData.count >= 26 else {
                 print("Ticker data has insufficient elements: \(tickerData)")
                 return nil
@@ -73,7 +68,7 @@ public actor NetworkService: NetworkServiceProtocol {
                 return nil
             }
 
-            return TickerDTO(
+            return Ticker(
                 id: UUID(),
                 title: title,
                 subTitle: subTitle,
@@ -91,11 +86,11 @@ public actor NetworkService: NetworkServiceProtocol {
         return parsedTickers
     }
 
-    private func parseMoexCandles(_ moexCandles: MoexCandles) throws -> [CandleDTO] {
+    private func parseMoexCandles(_ moexCandles: MoexCandles, ticker: String) throws -> [Candle] {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
 
-        let parsedCandles = moexCandles.candles.data.compactMap { candleData -> CandleDTO? in
+        let parsedCandles = moexCandles.candles.data.compactMap { candleData -> Candle? in
             guard
                 case let .string(dateString) = candleData[6],
                 let date = dateFormatter.date(from: dateString),
@@ -105,13 +100,14 @@ public actor NetworkService: NetworkServiceProtocol {
                 case let .double(lowPrice) = candleData[3]
             else { return nil }
 
-            return CandleDTO(
+            return Candle(
                 id: UUID(),
                 date: date,
                 openPrice: openPrice,
                 closePrice: closePrice,
                 highPrice: highPrice,
-                lowPrice: lowPrice
+                lowPrice: lowPrice,
+                ticker: ticker
             )
         }
 

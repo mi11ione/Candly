@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
-public final class Pattern {
+public final class Pattern: Identifiable, @unchecked Sendable {
     @Attribute(.unique) public var id: UUID
     public var name: String
     public var info: String
@@ -15,11 +15,5 @@ public final class Pattern {
         self.info = info
         self.filter = filter
         self.candles = candles
-    }
-}
-
-public extension Pattern {
-    func toDTO() -> PatternDTO {
-        PatternDTO(id: id, name: name, info: info, filter: filter, candles: candles.map { $0.toDTO() })
     }
 }
