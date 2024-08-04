@@ -11,9 +11,9 @@ public struct PatternChart: View {
 
     public var body: some View {
         Chart {
-            ForEach(pattern.candles, id: \.id) { candle in
+            ForEach(pattern.candles.sorted(by: { $0.date < $1.date }), id: \.id) { candle in
                 CandleStick(
-                    time: candle.date.formatted(date: .omitted, time: .shortened),
+                    time: candle.formattedTime,
                     openPrice: candle.openPrice,
                     closePrice: candle.closePrice,
                     highPrice: candle.highPrice,
