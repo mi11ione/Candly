@@ -13,7 +13,15 @@ public struct ErrorView: View {
         VStack {
             Text(error)
                 .foregroundColor(.red)
-            Button("Try Again", action: retryAction)
+            Button(action: retryAction) {
+                Text("Try Again")
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+                    .frame(minWidth: 120, minHeight: 44)
+                    .background(Color.red)
+                    .cornerRadius(10)
+            }
+            .buttonStyle(PlainButtonStyle())
         }
     }
 }
