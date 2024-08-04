@@ -16,14 +16,14 @@ public struct PatternView: View {
                     selectedFilter: model.selectedFilter,
                     onFilterSelected: { model.selectFilter($0) }
                 )
-                PatternGridView(
-                    patterns: model.filteredPatterns,
-                    expandedPatternId: model.expandedPatternId,
-                    onPatternTapped: { model.togglePatternExpansion($0) }
+                PatternGrid(
+                    patterns: model.filteredItems,
+                    expandedPatternId: model.expandedItemId,
+                    onPatternTapped: { model.toggleItemExpansion($0) }
                 )
             }
             .navigationTitle("Patterns")
         }
-        .onAppear { model.loadPatterns() }
+        .onAppear { model.load() }
     }
 }

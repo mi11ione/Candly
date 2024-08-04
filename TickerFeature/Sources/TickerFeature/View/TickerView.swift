@@ -16,19 +16,19 @@ public struct TickerView: View {
                     ProgressView()
                 } else if let error = model.error {
                     ErrorView(error: error) {
-                        model.loadTickers()
+                        model.load()
                     }
                 } else {
-                    TickerGridView(
-                        tickers: model.filteredTickers,
-                        expandedTickerId: model.expandedTickerId,
-                        onTickerTapped: { model.toggleTickerExpansion($0) }
+                    TickerGrid(
+                        tickers: model.filteredItems,
+                        expandedTickerId: model.expandedItemId,
+                        onTickerTapped: { model.toggleItemExpansion($0) }
                     )
                 }
             }
             .navigationTitle("Tickers")
             .searchable(text: $model.searchText, prompt: "Search tickers")
         }
-        .onAppear { model.loadTickers() }
+        .onAppear { model.load() }
     }
 }

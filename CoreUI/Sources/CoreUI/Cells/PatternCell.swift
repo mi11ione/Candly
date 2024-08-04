@@ -4,12 +4,10 @@ import SwiftUI
 public struct PatternCell: View {
     let pattern: PatternDTO
     let isExpanded: Bool
-    let onTap: () -> Void
 
-    public init(pattern: PatternDTO, isExpanded: Bool, onTap: @escaping () -> Void) {
+    public init(pattern: PatternDTO, isExpanded: Bool) {
         self.pattern = pattern
         self.isExpanded = isExpanded
-        self.onTap = onTap
     }
 
     public var body: some View {
@@ -29,7 +27,6 @@ public struct PatternCell: View {
                     .frame(width: 320)
             }
         )
-        .onTapGesture(perform: onTap)
         .id(pattern.id)
     }
 }

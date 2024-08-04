@@ -11,6 +11,9 @@
       location = "group:CoreDI">
    </FileRef>
    <FileRef
+      location = "group:CoreArchitecture">
+   </FileRef>
+   <FileRef
       location = "group:CoreRepository">
    </FileRef>
    <FileRef

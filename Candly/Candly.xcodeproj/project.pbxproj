@@ -12,6 +12,7 @@
 		3321802D2C5BB20700B444C4 /* NetworkService in Frameworks */ = {isa = PBXBuildFile; productRef = 3321802C2C5BB20700B444C4 /* NetworkService */; };
 		33C27DC42C5B6EF700093463 /* RepositoryInterfaces in Frameworks */ = {isa = PBXBuildFile; productRef = 33C27DC32C5B6EF700093463 /* RepositoryInterfaces */; };
 		33C27DC72C5B6F6000093463 /* CoreRepository in Frameworks */ = {isa = PBXBuildFile; productRef = 33C27DC62C5B6F6000093463 /* CoreRepository */; };
+		33DB01B62C5FA1B7006463DF /* CoreArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 33DB01B52C5FA1B7006463DF /* CoreArchitecture */; };
 		33DD4A3B2C5A44F2002CA246 /* PatternFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 33DD4A3A2C5A44F2002CA246 /* PatternFeature */; };
 		33EC51702C5AACE700DB7ECF /* CoreUI in Frameworks */ = {isa = PBXBuildFile; productRef = 33EC516F2C5AACE700DB7ECF /* CoreUI */; };
 		33EC51732C5AAF4800DB7ECF /* CoreDI in Frameworks */ = {isa = PBXBuildFile; productRef = 33EC51722C5AAF4800DB7ECF /* CoreDI */; };
@@ -45,6 +46,7 @@
 				3321802D2C5BB20700B444C4 /* NetworkService in Frameworks */,
 				33C27DC72C5B6F6000093463 /* CoreRepository in Frameworks */,
 				33EC51732C5AAF4800DB7ECF /* CoreDI in Frameworks */,
+				33DB01B62C5FA1B7006463DF /* CoreArchitecture in Frameworks */,
 				33DD4A3B2C5A44F2002CA246 /* PatternFeature in Frameworks */,
 				33EC51702C5AACE700DB7ECF /* CoreUI in Frameworks */,
 				330021992C5B9DDC00F1A7B1 /* TickerFeature in Frameworks */,
@@ -101,6 +103,7 @@
 				330021982C5B9DDC00F1A7B1 /* TickerFeature */,
 				3321802C2C5BB20700B444C4 /* NetworkService */,
 				33168D032C5E5B22008CB072 /* ErrorHandling */,
+				33DB01B52C5FA1B7006463DF /* CoreArchitecture */,
 			);
 			productName = Candly;
 			productReference = 33DD4A232C5A447B002CA246 /* Candly.app */;
@@ -140,6 +143,7 @@
 				330021972C5B9DDC00F1A7B1 /* XCLocalSwiftPackageReference "../TickerFeature" */,
 				3321802B2C5BB20700B444C4 /* XCLocalSwiftPackageReference "../NetworkService" */,
 				33168D022C5E5B22008CB072 /* XCLocalSwiftPackageReference "../ErrorHandling" */,
+				33DB01B42C5FA1B7006463DF /* XCLocalSwiftPackageReference "../CoreArchitecture" */,
 			);
 			productRefGroup = 33DD4A242C5A447B002CA246 /* Products */;
 			projectDirPath = "";
@@ -412,6 +416,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../CoreRepository;
 		};
+		33DB01B42C5FA1B7006463DF /* XCLocalSwiftPackageReference "../CoreArchitecture" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../CoreArchitecture;
+		};
 		33DD4A392C5A44F2002CA246 /* XCLocalSwiftPackageReference "../PatternFeature" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../PatternFeature;
@@ -450,6 +458,10 @@
 		33C27DC62C5B6F6000093463 /* CoreRepository */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CoreRepository;
+		};
+		33DB01B52C5FA1B7006463DF /* CoreArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CoreArchitecture;
 		};
 		33DD4A3A2C5A44F2002CA246 /* PatternFeature */ = {
 			isa = XCSwiftPackageProductDependency;
