@@ -1,3 +1,4 @@
+import ErrorHandling
 import Foundation
 import RepositoryInterfaces
 import SharedModels
@@ -6,9 +7,11 @@ import SharedModels
 final class PatternContainer: ObservableObject {
     @Published private(set) var state: PatternState
     private let repository: PatternRepositoryProtocol
+    private let errorHandler: ErrorHandling
 
-    init(repository: PatternRepositoryProtocol) {
+    init(repository: PatternRepositoryProtocol, errorHandler: ErrorHandling = DefaultErrorHandler()) {
         self.repository = repository
+        self.errorHandler = errorHandler
         state = PatternState()
     }
 
@@ -25,7 +28,13 @@ final class PatternContainer: ObservableObject {
 
     private func loadPatterns() async {
         state.isLoading = true
-        state.patterns = await repository.fetchPatterns()
+        do {
+            state.patterns = try await repository.fetchPatterns()
+            state.error = nil
+        } catch {
+            let appError = errorHandler.handle(error)
+            state.error = appError.localizedDescription
+        }
         state.isLoading = false
     }
 

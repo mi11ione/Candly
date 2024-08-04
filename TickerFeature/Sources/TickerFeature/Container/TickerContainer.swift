@@ -1,3 +1,4 @@
+import ErrorHandling
 import RepositoryInterfaces
 import SharedModels
 import SwiftUI
@@ -6,9 +7,11 @@ import SwiftUI
 final class TickerContainer: ObservableObject {
     @Published private(set) var state: TickerState
     private let repository: TickerRepositoryProtocol
+    private let errorHandler: ErrorHandling
 
-    init(repository: TickerRepositoryProtocol) {
+    init(repository: TickerRepositoryProtocol, errorHandler: ErrorHandling = DefaultErrorHandler()) {
         self.repository = repository
+        self.errorHandler = errorHandler
         state = TickerState()
     }
 
@@ -31,7 +34,8 @@ final class TickerContainer: ObservableObject {
             state.tickers = try await repository.fetchTickers()
             state.error = nil
         } catch {
-            state.error = error.localizedDescription
+            let appError = errorHandler.handle(error)
+            state.error = appError.localizedDescription
         }
         state.isLoading = false
     }

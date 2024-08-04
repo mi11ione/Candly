@@ -16,6 +16,7 @@ let package = Package(
         .package(path: "../CoreRepository"),
         .package(path: "../SharedModels"),
         .package(path: "../RepositoryInterfaces"),
+        .package(path: "../ErrorHandling"),
     ],
     targets: [
         .target(
@@ -25,6 +26,7 @@ let package = Package(
                 "CoreRepository",
                 "SharedModels",
                 "RepositoryInterfaces",
+                "ErrorHandling",
             ]
         ),
     ]

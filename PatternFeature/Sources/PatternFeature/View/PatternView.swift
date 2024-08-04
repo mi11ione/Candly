@@ -1,4 +1,5 @@
 import CoreUI
+import ErrorHandling
 import SwiftUI
 
 struct PatternView: View {
@@ -13,6 +14,10 @@ struct PatternView: View {
             ZStack {
                 if container.state.isLoading {
                     ProgressView()
+                } else if let error = container.state.error {
+                    ErrorView(error: error) {
+                        container.dispatch(.loadPatterns)
+                    }
                 } else {
                     ScrollView {
                         VStack {

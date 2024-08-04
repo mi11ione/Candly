@@ -10,52 +10,54 @@ public protocol NetworkServiceProtocol: Sendable {
 public actor NetworkService: NetworkServiceProtocol {
     private let session: URLSession
     private let decoder: JSONDecoder
+    private let errorHandler: ErrorHandling
 
-    public init(session: URLSession = .shared, decoder: JSONDecoder = JSONDecoder()) {
+    public init(session: URLSession = .shared, decoder: JSONDecoder = JSONDecoder(), errorHandler: ErrorHandling = DefaultErrorHandler()) {
         self.session = session
         self.decoder = decoder
+        self.errorHandler = errorHandler
     }
 
     public func getMoexTickers() async throws -> [TickerDTO] {
         guard let url = MoexAPI.Endpoint.allTickers.url() else {
-            throw NetworkError.invalidURL
+            throw errorHandler.handle(NetworkError.invalidURL)
         }
 
         let moexTickers: MoexTickers = try await performRequest(URLRequest(url: url))
-        return parseMoexTickers(moexTickers)
+        return try parseMoexTickers(moexTickers)
     }
 
     public func getMoexCandles(ticker: String, timePeriod: ChartTimePeriod) async throws -> [CandleDTO] {
         guard let url = MoexAPI.Endpoint.candles(ticker).url(queryItems: [timePeriod.queryItem]) else {
-            throw NetworkError.invalidURL
+            throw errorHandler.handle(NetworkError.invalidURL)
         }
 
         let moexCandles: MoexCandles = try await performRequest(URLRequest(url: url))
-        return parseMoexCandles(moexCandles)
+        return try parseMoexCandles(moexCandles)
     }
 
     private func performRequest<T: Decodable>(_ request: URLRequest) async throws -> T {
         do {
             let (data, response) = try await session.data(for: request)
             guard let httpResponse = response as? HTTPURLResponse, 200 ... 299 ~= httpResponse.statusCode else {
-                throw NetworkError.invalidResponse
+                throw errorHandler.handle(NetworkError.invalidResponse)
             }
             return try decoder.decode(T.self, from: data)
         } catch is DecodingError {
-            throw NetworkError.decodingError
+            throw errorHandler.handle(NetworkError.decodingError)
         } catch let error as URLError {
             switch error.code {
             case .cannotFindHost:
-                throw NetworkError.hostNotFound
+                throw errorHandler.handle(NetworkError.hostNotFound)
             case .notConnectedToInternet:
-                throw NetworkError.noInternetConnection
+                throw errorHandler.handle(NetworkError.noInternetConnection)
             default:
-                throw NetworkError.requestFailed
+                throw errorHandler.handle(NetworkError.requestFailed)
             }
         }
     }
 
-    private func parseMoexTickers(_ moexTickers: MoexTickers) -> [TickerDTO] {
+    private func parseMoexTickers(_ moexTickers: MoexTickers) throws -> [TickerDTO] {
         let parsedTickers = moexTickers.securities.data.compactMap { tickerData -> TickerDTO? in
             guard tickerData.count >= 26 else {
                 print("Ticker data has insufficient elements: \(tickerData)")
@@ -81,15 +83,19 @@ public actor NetworkService: NetworkServiceProtocol {
             )
         }
 
+        guard !parsedTickers.isEmpty else {
+            throw errorHandler.handle(NetworkError.decodingError)
+        }
+
         print("Parsed \(parsedTickers.count) tickers")
         return parsedTickers
     }
 
-    private func parseMoexCandles(_ moexCandles: MoexCandles) -> [CandleDTO] {
+    private func parseMoexCandles(_ moexCandles: MoexCandles) throws -> [CandleDTO] {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
 
-        return moexCandles.candles.data.compactMap { candleData in
+        let parsedCandles = moexCandles.candles.data.compactMap { candleData -> CandleDTO? in
             guard
                 case let .string(dateString) = candleData[6],
                 let date = dateFormatter.date(from: dateString),
@@ -108,5 +114,11 @@ public actor NetworkService: NetworkServiceProtocol {
                 lowPrice: lowPrice
             )
         }
+
+        guard !parsedCandles.isEmpty else {
+            throw errorHandler.handle(NetworkError.decodingError)
+        }
+
+        return parsedCandles
     }
 }

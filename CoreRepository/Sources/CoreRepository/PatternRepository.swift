@@ -3,25 +3,32 @@ import RepositoryInterfaces
 import SharedModels
 import SwiftData
 
+import ErrorHandling
+import Foundation
+import RepositoryInterfaces
+import SharedModels
+import SwiftData
+
 public actor PatternRepository: PatternRepositoryProtocol {
     private let modelContext: ModelContextWrapper
+    private let errorHandler: ErrorHandling
 
-    public init(modelContext: ModelContextWrapper) {
+    public init(modelContext: ModelContextWrapper, errorHandler: ErrorHandling = DefaultErrorHandler()) {
         self.modelContext = modelContext
+        self.errorHandler = errorHandler
     }
 
-    public func fetchPatterns() async -> [PatternDTO] {
-        let descriptor = FetchDescriptor<Pattern>(sortBy: [SortDescriptor(\.name)])
+    public func fetchPatterns() async throws -> [PatternDTO] {
         do {
+            let descriptor = FetchDescriptor<Pattern>(sortBy: [SortDescriptor(\.name)])
             let patterns = try await modelContext.fetch(descriptor) { $0.toDTO() }
-            return patterns.isEmpty ? await createInitialPatterns() : patterns
+            return patterns.isEmpty ? try await createInitialPatterns() : patterns
         } catch {
-            print("Failed to fetch patterns: \(error)")
-            return []
+            throw errorHandler.handle(error)
         }
     }
 
-    private func createInitialPatterns() async -> [PatternDTO] {
+    private func createInitialPatterns() async throws -> [PatternDTO] {
         let patternDTOs = [
             createPattern(name: "Three White Soldiers", info: "Bullish reversal pattern consisting of three consecutive long white candles.", filter: "Triple", dates: ["2016-04-14T10:00:00+0000", "2016-04-14T11:00:00+0000", "2016-04-14T12:00:00+0000"], opens: [108, 109, 121], closes: [120, 122, 130], highs: [122, 125, 130], lows: [107.5, 109, 121]),
             createPattern(name: "Inverted Hammer", info: "Bullish reversal pattern with a small body and a long upper shadow.", filter: "Single", dates: ["2016-04-21T10:00:00+0000"], opens: [100], closes: [102], highs: [107], lows: [99]),
@@ -49,15 +56,13 @@ public actor PatternRepository: PatternRepositoryProtocol {
             })
         }
 
-        await modelContext.insertMultiple(patterns)
-
         do {
+            await modelContext.insertMultiple(patterns)
             try await modelContext.save()
+            return patternDTOs
         } catch {
-            print("Failed to save initial patterns: \(error)")
+            throw errorHandler.handle(DatabaseError.saveFailed)
         }
-
-        return patternDTOs
     }
 
     private func createPattern(name: String, info: String, filter: String, dates: [String], opens: [Double], closes: [Double], highs: [Double], lows: [Double]) -> PatternDTO {

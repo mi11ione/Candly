@@ -1,4 +1,5 @@
 import CoreRepository
+import ErrorHandling
 import Foundation
 import NetworkService
 import RepositoryInterfaces
@@ -27,13 +28,16 @@ public final class AppDIContainer: DIContainer, ObservableObject {
         let modelContext = ModelContextWrapper(modelContainer.mainContext)
         register(modelContext)
 
-        let networkService = NetworkService()
+        let errorHandler = DefaultErrorHandler()
+        register(errorHandler as ErrorHandling)
+
+        let networkService = NetworkService(errorHandler: errorHandler)
         register(networkService as NetworkServiceProtocol)
 
-        let patternRepository = PatternRepository(modelContext: modelContext)
+        let patternRepository = PatternRepository(modelContext: modelContext, errorHandler: errorHandler)
         register(patternRepository as PatternRepositoryProtocol)
 
-        let tickerRepository = TickerRepository(modelContext: modelContext, networkService: networkService)
+        let tickerRepository = TickerRepository(modelContext: modelContext, networkService: networkService, errorHandler: errorHandler)
         register(tickerRepository as TickerRepositoryProtocol)
     }
 }

@@ -1,4 +1,4 @@
-public protocol ErrorHandling {
+public protocol ErrorHandling: Sendable {
     func handle(_ error: Error) -> AppError
 }
 
