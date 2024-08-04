@@ -7,8 +7,8 @@ import RepositoryInterfaces
 import SharedModels
 import SwiftData
 
-@MainActor
-public final class AppDIContainer: DIContainer, ObservableObject {
+@Observable
+public final class AppDIContainer: DIContainer {
     private let dependencyManager = DependencyManager()
     public let modelContainer: ModelContainer
 

@@ -4,7 +4,7 @@ import SwiftUI
 
 @main
 struct CandlyApp: App {
-    @StateObject private var container = AppDIContainer()
+    @State private var container = AppDIContainer()
 
     var body: some Scene {
         WindowGroup {
