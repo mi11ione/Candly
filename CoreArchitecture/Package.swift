@@ -11,11 +11,9 @@ let package = Package(
             targets: ["CoreArchitecture"]
         ),
     ],
-    dependencies: [],
     targets: [
         .target(
-            name: "CoreArchitecture",
-            dependencies: []
+            name: "CoreArchitecture"
         ),
     ]
 )
