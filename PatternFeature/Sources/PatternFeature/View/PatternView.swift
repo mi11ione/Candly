@@ -11,42 +11,19 @@ public struct PatternView: View {
     public var body: some View {
         NavigationStack {
             ScrollView {
-                filterView
-                patternsGrid
+                FilterView(
+                    filterKeys: model.state.filterKeys,
+                    selectedFilter: model.state.selectedFilter,
+                    onFilterSelected: { model.process(.filterSelected($0)) }
+                )
+                PatternGridView(
+                    patterns: model.filteredPatterns,
+                    expandedPatternId: model.state.expandedPatternId,
+                    onPatternTapped: { model.process(.togglePatternExpansion($0)) }
+                )
             }
             .navigationTitle("Patterns")
         }
         .onAppear { model.process(.loadPatterns) }
-    }
-
-    private var filterView: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
-                ForEach(model.state.filterKeys, id: \.self) { key in
-                    FilterButton(
-                        filter: key,
-                        isSelected: model.state.selectedFilter == key,
-                        action: { model.process(.filterSelected(key)) }
-                    )
-                }
-                Spacer()
-            }
-            .padding()
-        }
-    }
-
-    private var patternsGrid: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 350))], spacing: 20) {
-            ForEach(model.filteredPatterns) { pattern in
-                PatternCell(
-                    pattern: pattern,
-                    isExpanded: model.state.expandedPatternId == pattern.id,
-                    onTap: { model.process(.togglePatternExpansion(pattern.id)) }
-                )
-                .id(pattern.id)
-            }
-        }
-        .padding()
-        .animation(.spring, value: model.state.expandedPatternId)
     }
 }

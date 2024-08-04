@@ -19,7 +19,11 @@ public struct TickerView: View {
                         model.process(.loadTickers)
                     }
                 } else {
-                    tickerList
+                    TickerGridView(
+                        tickers: model.filteredTickers,
+                        expandedTickerId: model.state.expandedTickerId,
+                        onTickerTapped: { model.process(.toggleTickerExpansion($0)) }
+                    )
                 }
             }
             .navigationTitle("Tickers")
@@ -29,21 +33,5 @@ public struct TickerView: View {
             ), prompt: "Search tickers")
         }
         .onAppear { model.process(.loadTickers) }
-    }
-
-    private var tickerList: some View {
-        ScrollView {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 350))], spacing: 20) {
-                ForEach(model.filteredTickers) { ticker in
-                    TickerCell(
-                        ticker: ticker,
-                        isExpanded: model.state.expandedTickerId == ticker.id,
-                        onTap: { model.process(.toggleTickerExpansion(ticker.id)) }
-                    )
-                }
-            }
-            .padding()
-            .animation(.spring, value: model.state.expandedTickerId)
-        }
     }
 }
