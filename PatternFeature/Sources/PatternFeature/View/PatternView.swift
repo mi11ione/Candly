@@ -1,45 +1,32 @@
 import CoreUI
-import ErrorHandling
 import SwiftUI
 
-struct PatternView: View {
-    @StateObject private var container: PatternContainer
+public struct PatternView: View {
+    @StateObject var model: PatternModel
 
-    init(container: @autoclosure @escaping () -> PatternContainer) {
-        _container = StateObject(wrappedValue: container())
+    public init(model: PatternModel) {
+        _model = StateObject(wrappedValue: model)
     }
 
-    var body: some View {
+    public var body: some View {
         NavigationStack {
-            ZStack {
-                if container.state.isLoading {
-                    ProgressView()
-                } else if let error = container.state.error {
-                    ErrorView(error: error) {
-                        container.dispatch(.loadPatterns)
-                    }
-                } else {
-                    ScrollView {
-                        VStack {
-                            filterView
-                            patternsGrid
-                        }
-                    }
-                }
+            ScrollView {
+                filterView
+                patternsGrid
             }
             .navigationTitle("Patterns")
         }
-        .onAppear { container.dispatch(.loadPatterns) }
+        .onAppear { model.process(.loadPatterns) }
     }
 
     private var filterView: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(container.state.filterKeys, id: \.self) { key in
+                ForEach(model.state.filterKeys, id: \.self) { key in
                     FilterButton(
                         filter: key,
-                        isSelected: container.state.selectedFilter == key,
-                        action: { container.dispatch(.filterSelected(key)) }
+                        isSelected: model.state.selectedFilter == key,
+                        action: { model.process(.filterSelected(key)) }
                     )
                 }
                 Spacer()
@@ -50,16 +37,16 @@ struct PatternView: View {
 
     private var patternsGrid: some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 350))], spacing: 20) {
-            ForEach(container.filteredPatterns) { pattern in
+            ForEach(model.filteredPatterns) { pattern in
                 PatternCell(
                     pattern: pattern,
-                    isExpanded: container.state.expandedPatternId == pattern.id,
-                    onTap: { container.dispatch(.togglePatternExpansion(pattern.id)) }
+                    isExpanded: model.state.expandedPatternId == pattern.id,
+                    onTap: { model.process(.togglePatternExpansion(pattern.id)) }
                 )
                 .id(pattern.id)
             }
         }
         .padding()
-        .animation(.spring, value: container.state.expandedPatternId)
+        .animation(.spring, value: model.state.expandedPatternId)
     }
 }

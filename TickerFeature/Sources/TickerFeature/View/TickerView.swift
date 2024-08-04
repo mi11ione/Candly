@@ -2,21 +2,21 @@ import CoreUI
 import ErrorHandling
 import SwiftUI
 
-struct TickerView: View {
-    @StateObject private var container: TickerContainer
+public struct TickerView: View {
+    @StateObject var model: TickerModel
 
-    init(container: @autoclosure @escaping () -> TickerContainer) {
-        _container = StateObject(wrappedValue: container())
+    public init(model: TickerModel) {
+        _model = StateObject(wrappedValue: model)
     }
 
-    var body: some View {
+    public var body: some View {
         NavigationStack {
             ZStack {
-                if container.state.isLoading {
+                if model.state.isLoading {
                     ProgressView()
-                } else if let error = container.state.error {
+                } else if let error = model.state.error {
                     ErrorView(error: error) {
-                        container.dispatch(.loadTickers)
+                        model.process(.loadTickers)
                     }
                 } else {
                     tickerList
@@ -24,26 +24,26 @@ struct TickerView: View {
             }
             .navigationTitle("Tickers")
             .searchable(text: Binding(
-                get: { container.state.searchText },
-                set: { container.dispatch(.updateSearchText($0)) }
+                get: { model.state.searchText },
+                set: { model.process(.updateSearchText($0)) }
             ), prompt: "Search tickers")
         }
-        .onAppear { container.dispatch(.loadTickers) }
+        .onAppear { model.process(.loadTickers) }
     }
 
     private var tickerList: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 350))], spacing: 20) {
-                ForEach(container.filteredTickers) { ticker in
+                ForEach(model.filteredTickers) { ticker in
                     TickerCell(
                         ticker: ticker,
-                        isExpanded: container.state.expandedTickerId == ticker.id,
-                        onTap: { container.dispatch(.toggleTickerExpansion(ticker.id)) }
+                        isExpanded: model.state.expandedTickerId == ticker.id,
+                        onTap: { model.process(.toggleTickerExpansion(ticker.id)) }
                     )
                 }
             }
             .padding()
-            .animation(.spring, value: container.state.expandedTickerId)
+            .animation(.spring, value: model.state.expandedTickerId)
         }
     }
 }

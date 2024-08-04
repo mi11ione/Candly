@@ -7,6 +7,6 @@ public struct PatternFeature: View {
     public init() {}
 
     public var body: some View {
-        PatternView(container: PatternContainer(repository: diContainer.resolve()))
+        PatternView(model: PatternModel(repository: diContainer.resolve()))
     }
 }

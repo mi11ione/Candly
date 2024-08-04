@@ -11,23 +11,9 @@ let package = Package(
             targets: ["CoreDI"]
         ),
     ],
-    dependencies: [
-        .package(path: "../NetworkService"),
-        .package(path: "../CoreRepository"),
-        .package(path: "../SharedModels"),
-        .package(path: "../RepositoryInterfaces"),
-        .package(path: "../ErrorHandling"),
-    ],
     targets: [
         .target(
-            name: "CoreDI",
-            dependencies: [
-                "NetworkService",
-                "CoreRepository",
-                "SharedModels",
-                "RepositoryInterfaces",
-                "ErrorHandling",
-            ]
+            name: "CoreDI"
         ),
     ]
 )

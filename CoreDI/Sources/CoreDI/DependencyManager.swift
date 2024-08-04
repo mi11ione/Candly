@@ -1,6 +1,8 @@
 public class DependencyManager {
     private var dependencies: [String: Any] = [:]
 
+    public init() {}
+
     public func register<T>(_ dependency: T) {
         let key = String(describing: T.self)
         dependencies[key] = dependency

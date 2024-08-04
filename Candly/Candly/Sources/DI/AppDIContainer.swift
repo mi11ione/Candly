@@ -1,3 +1,4 @@
+import CoreDI
 import CoreRepository
 import ErrorHandling
 import Foundation

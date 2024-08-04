@@ -1,24 +1,21 @@
-import ErrorHandling
 import Foundation
 import RepositoryInterfaces
 import SharedModels
 
 @MainActor
-final class PatternContainer: ObservableObject {
+public final class PatternModel: ObservableObject {
     @Published private(set) var state: PatternState
     private let repository: PatternRepositoryProtocol
-    private let errorHandler: ErrorHandling
 
-    init(repository: PatternRepositoryProtocol, errorHandler: ErrorHandling = DefaultErrorHandler()) {
+    public init(repository: PatternRepositoryProtocol) {
         self.repository = repository
-        self.errorHandler = errorHandler
         state = PatternState()
     }
 
-    func dispatch(_ intent: PatternIntent) {
+    public func process(_ intent: PatternIntent) {
         switch intent {
         case .loadPatterns:
-            Task { await loadPatterns() }
+            loadPatterns()
         case let .filterSelected(filter):
             state.selectedFilter = state.selectedFilter == filter ? "" : filter
         case let .togglePatternExpansion(id):
@@ -26,16 +23,17 @@ final class PatternContainer: ObservableObject {
         }
     }
 
-    private func loadPatterns() async {
+    private func loadPatterns() {
         state.isLoading = true
-        do {
-            state.patterns = try await repository.fetchPatterns()
-            state.error = nil
-        } catch {
-            let appError = errorHandler.handle(error)
-            state.error = appError.localizedDescription
+        Task {
+            do {
+                state.patterns = try await repository.fetchPatterns()
+                state.error = nil
+            } catch {
+                state.error = error.localizedDescription
+            }
+            state.isLoading = false
         }
-        state.isLoading = false
     }
 
     var filteredPatterns: [PatternDTO] {
@@ -43,4 +41,13 @@ final class PatternContainer: ObservableObject {
         return state.patterns.filter { $0.filter.lowercased() == state.selectedFilter.lowercased() }
             .sorted { $0.id.uuidString < $1.id.uuidString }
     }
+}
+
+public struct PatternState: Equatable {
+    var patterns: [PatternDTO] = []
+    var selectedFilter: String = ""
+    var isLoading: Bool = false
+    var error: String?
+    var expandedPatternId: UUID?
+    let filterKeys = ["Single", "Double", "Triple", "Complex"]
 }

@@ -7,6 +7,6 @@ public struct TickerFeature: View {
     public init() {}
 
     public var body: some View {
-        TickerView(container: TickerContainer(repository: diContainer.resolve()))
+        TickerView(model: TickerModel(repository: diContainer.resolve()))
     }
 }
