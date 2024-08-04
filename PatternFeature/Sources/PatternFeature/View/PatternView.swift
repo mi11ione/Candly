@@ -12,18 +12,18 @@ public struct PatternView: View {
         NavigationStack {
             ScrollView {
                 FilterView(
-                    filterKeys: model.state.filterKeys,
-                    selectedFilter: model.state.selectedFilter,
-                    onFilterSelected: { model.process(.filterSelected($0)) }
+                    filterKeys: model.filterKeys,
+                    selectedFilter: model.selectedFilter,
+                    onFilterSelected: { model.selectFilter($0) }
                 )
                 PatternGridView(
                     patterns: model.filteredPatterns,
-                    expandedPatternId: model.state.expandedPatternId,
-                    onPatternTapped: { model.process(.togglePatternExpansion($0)) }
+                    expandedPatternId: model.expandedPatternId,
+                    onPatternTapped: { model.togglePatternExpansion($0) }
                 )
             }
             .navigationTitle("Patterns")
         }
-        .onAppear { model.process(.loadPatterns) }
+        .onAppear { model.loadPatterns() }
     }
 }

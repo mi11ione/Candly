@@ -5,50 +5,43 @@ import SwiftUI
 
 @MainActor
 public final class TickerModel: ObservableObject {
-    @Published private(set) var state: TickerState
+    @Published private(set) var tickers: [TickerDTO] = []
+    @Published var searchText: String = ""
+    @Published private(set) var isLoading: Bool = false
+    @Published private(set) var error: String?
+    @Published var expandedTickerId: UUID?
+
     private let repository: TickerRepositoryProtocol
 
     public init(repository: TickerRepositoryProtocol) {
         self.repository = repository
-        state = TickerState()
     }
 
-    public func process(_ intent: TickerIntent) {
-        switch intent {
-        case .loadTickers:
-            loadTickers()
-        case let .updateSearchText(newText):
-            state.searchText = newText
-        case let .toggleTickerExpansion(id):
-            state.expandedTickerId = state.expandedTickerId == id ? nil : id
-        }
-    }
+    public func loadTickers() {
+        guard tickers.isEmpty else { return }
 
-    private func loadTickers() {
-        if !state.tickers.isEmpty { return }
-
-        state.isLoading = true
+        isLoading = true
         Task {
             do {
-                state.tickers = try await repository.fetchTickers()
-                state.error = nil
+                tickers = try await repository.fetchTickers()
+                error = nil
             } catch {
-                state.error = error.localizedDescription
+                self.error = error.localizedDescription
             }
-            state.isLoading = false
+            isLoading = false
         }
+    }
+
+    public func updateSearchText(_ newText: String) {
+        searchText = newText
+    }
+
+    public func toggleTickerExpansion(_ id: UUID) {
+        expandedTickerId = expandedTickerId == id ? nil : id
     }
 
     var filteredTickers: [TickerDTO] {
-        guard !state.searchText.isEmpty else { return state.tickers }
-        return state.tickers.filter { $0.title.lowercased().contains(state.searchText.lowercased()) }
+        guard !searchText.isEmpty else { return tickers }
+        return tickers.filter { $0.title.lowercased().contains(searchText.lowercased()) }
     }
-}
-
-public struct TickerState: Equatable {
-    var tickers: [TickerDTO] = []
-    var searchText: String = ""
-    var isLoading: Bool = false
-    var error: String?
-    var expandedTickerId: UUID?
 }

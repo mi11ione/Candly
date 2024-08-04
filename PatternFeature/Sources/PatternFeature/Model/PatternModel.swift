@@ -4,50 +4,43 @@ import SharedModels
 
 @MainActor
 public final class PatternModel: ObservableObject {
-    @Published private(set) var state: PatternState
+    @Published private(set) var patterns: [PatternDTO] = []
+    @Published var selectedFilter: String = ""
+    @Published private(set) var isLoading: Bool = false
+    @Published private(set) var error: String?
+    @Published var expandedPatternId: UUID?
+
     private let repository: PatternRepositoryProtocol
+    public let filterKeys = ["Single", "Double", "Triple", "Complex"]
 
     public init(repository: PatternRepositoryProtocol) {
         self.repository = repository
-        state = PatternState()
     }
 
-    public func process(_ intent: PatternIntent) {
-        switch intent {
-        case .loadPatterns:
-            loadPatterns()
-        case let .filterSelected(filter):
-            state.selectedFilter = state.selectedFilter == filter ? "" : filter
-        case let .togglePatternExpansion(id):
-            state.expandedPatternId = state.expandedPatternId == id ? nil : id
-        }
-    }
-
-    private func loadPatterns() {
-        state.isLoading = true
+    public func loadPatterns() {
+        isLoading = true
         Task {
             do {
-                state.patterns = try await repository.fetchPatterns()
-                state.error = nil
+                patterns = try await repository.fetchPatterns()
+                error = nil
             } catch {
-                state.error = error.localizedDescription
+                self.error = error.localizedDescription
             }
-            state.isLoading = false
+            isLoading = false
         }
+    }
+
+    public func selectFilter(_ filter: String) {
+        selectedFilter = selectedFilter == filter ? "" : filter
+    }
+
+    public func togglePatternExpansion(_ id: UUID) {
+        expandedPatternId = expandedPatternId == id ? nil : id
     }
 
     var filteredPatterns: [PatternDTO] {
-        guard !state.selectedFilter.isEmpty else { return state.patterns }
-        return state.patterns.filter { $0.filter.lowercased() == state.selectedFilter.lowercased() }
+        guard !selectedFilter.isEmpty else { return patterns }
+        return patterns.filter { $0.filter.lowercased() == selectedFilter.lowercased() }
             .sorted { $0.id.uuidString < $1.id.uuidString }
     }
-}
-
-public struct PatternState: Equatable {
-    var patterns: [PatternDTO] = []
-    var selectedFilter: String = ""
-    var isLoading: Bool = false
-    var error: String?
-    var expandedPatternId: UUID?
-    let filterKeys = ["Single", "Double", "Triple", "Complex"]
 }

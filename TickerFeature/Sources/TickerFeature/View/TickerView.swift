@@ -12,26 +12,23 @@ public struct TickerView: View {
     public var body: some View {
         NavigationStack {
             ZStack {
-                if model.state.isLoading {
+                if model.isLoading {
                     ProgressView()
-                } else if let error = model.state.error {
+                } else if let error = model.error {
                     ErrorView(error: error) {
-                        model.process(.loadTickers)
+                        model.loadTickers()
                     }
                 } else {
                     TickerGridView(
                         tickers: model.filteredTickers,
-                        expandedTickerId: model.state.expandedTickerId,
-                        onTickerTapped: { model.process(.toggleTickerExpansion($0)) }
+                        expandedTickerId: model.expandedTickerId,
+                        onTickerTapped: { model.toggleTickerExpansion($0) }
                     )
                 }
             }
             .navigationTitle("Tickers")
-            .searchable(text: Binding(
-                get: { model.state.searchText },
-                set: { model.process(.updateSearchText($0)) }
-            ), prompt: "Search tickers")
+            .searchable(text: $model.searchText, prompt: "Search tickers")
         }
-        .onAppear { model.process(.loadTickers) }
+        .onAppear { model.loadTickers() }
     }
 }
