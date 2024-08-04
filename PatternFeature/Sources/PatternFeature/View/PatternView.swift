@@ -2,10 +2,10 @@ import CoreUI
 import SwiftUI
 
 public struct PatternView: View {
-    @StateObject var model: PatternModel
+    @State private var model: PatternModel
 
     public init(model: PatternModel) {
-        _model = StateObject(wrappedValue: model)
+        _model = State(initialValue: model)
     }
 
     public var body: some View {

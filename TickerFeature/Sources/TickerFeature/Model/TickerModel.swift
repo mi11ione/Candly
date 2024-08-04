@@ -1,9 +1,10 @@
 import CoreArchitecture
+import Foundation
 import RepositoryInterfaces
 import SharedModels
 
-@MainActor
-public final class TickerModel: BaseModel<TickerDTO> {
+@Observable
+public final class TickerModel: BaseModel<TickerDTO>, @unchecked Sendable {
     private let repository: TickerRepositoryProtocol
 
     public init(repository: TickerRepositoryProtocol) {
@@ -12,7 +13,8 @@ public final class TickerModel: BaseModel<TickerDTO> {
     }
 
     override public func loadItems() async throws {
-        items = try await repository.fetchTickers()
+        let fetchedTickers = try await repository.fetchTickers()
+        updateItems(fetchedTickers)
     }
 
     override public var filteredItems: [TickerDTO] {

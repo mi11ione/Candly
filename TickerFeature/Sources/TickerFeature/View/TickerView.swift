@@ -3,10 +3,10 @@ import ErrorHandling
 import SwiftUI
 
 public struct TickerView: View {
-    @StateObject var model: TickerModel
+    @State private var model: TickerModel
 
     public init(model: TickerModel) {
-        _model = StateObject(wrappedValue: model)
+        _model = State(initialValue: model)
     }
 
     public var body: some View {
@@ -27,7 +27,10 @@ public struct TickerView: View {
                 }
             }
             .navigationTitle("Tickers")
-            .searchable(text: $model.searchText, prompt: "Search tickers")
+            .searchable(text: .init(
+                get: { model.searchText },
+                set: { model.updateSearchText($0) }
+            ), prompt: "Search tickers")
         }
         .onAppear { model.load() }
     }

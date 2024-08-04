@@ -3,11 +3,11 @@ import Foundation
 import RepositoryInterfaces
 import SharedModels
 
-@MainActor
-public final class PatternModel: BaseModel<PatternDTO> {
+@Observable
+public final class PatternModel: BaseModel<PatternDTO>, @unchecked Sendable {
     private let repository: PatternRepositoryProtocol
     public let filterKeys = ["Single", "Double", "Triple", "Complex"]
-    @Published public var selectedFilter: String = ""
+    public private(set) var selectedFilter: String = ""
 
     public init(repository: PatternRepositoryProtocol) {
         self.repository = repository
@@ -15,7 +15,8 @@ public final class PatternModel: BaseModel<PatternDTO> {
     }
 
     override public func loadItems() async throws {
-        items = try await repository.fetchPatterns()
+        let fetchedPatterns = try await repository.fetchPatterns()
+        updateItems(fetchedPatterns)
     }
 
     public func selectFilter(_ filter: String) {

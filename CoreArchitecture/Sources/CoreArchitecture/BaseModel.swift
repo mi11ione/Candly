@@ -1,12 +1,12 @@
 import Foundation
 
-@MainActor
-open class BaseModel<T: Identifiable>: ObservableObject {
-    @Published public var items: [T] = []
-    @Published public var searchText: String = ""
-    @Published public private(set) var isLoading: Bool = false
-    @Published public private(set) var error: String?
-    @Published public var expandedItemId: T.ID?
+@Observable
+open class BaseModel<T: Identifiable>: @unchecked Sendable {
+    public private(set) var items: [T] = []
+    public private(set) var searchText: String = ""
+    public private(set) var isLoading: Bool = false
+    public private(set) var error: String?
+    public private(set) var expandedItemId: T.ID?
 
     public init() {}
 
@@ -17,8 +17,8 @@ open class BaseModel<T: Identifiable>: ObservableObject {
     public func load() {
         guard items.isEmpty else { return }
 
-        isLoading = true
-        Task {
+        Task { @MainActor in
+            isLoading = true
             do {
                 try await loadItems()
                 error = nil
@@ -39,5 +39,9 @@ open class BaseModel<T: Identifiable>: ObservableObject {
 
     open var filteredItems: [T] {
         items
+    }
+
+    public func updateItems(_ newItems: [T]) {
+        items = newItems
     }
 }
