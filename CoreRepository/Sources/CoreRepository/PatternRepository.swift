@@ -5,10 +5,10 @@ import SharedModels
 import SwiftData
 
 public actor PatternRepository: PatternRepositoryProtocol {
-    private let modelContext: ModelContextWrapper
+    private let modelContext: ModelContextWrapperProtocol
     private let errorHandler: ErrorHandling
 
-    public init(modelContext: ModelContextWrapper, errorHandler: ErrorHandling = DefaultErrorHandler()) {
+    public init(modelContext: ModelContextWrapperProtocol, errorHandler: ErrorHandling) {
         self.modelContext = modelContext
         self.errorHandler = errorHandler
     }

@@ -6,11 +6,11 @@ import SharedModels
 import SwiftData
 
 public actor TickerRepository: TickerRepositoryProtocol {
-    private let modelContext: ModelContextWrapper
+    private let modelContext: ModelContextWrapperProtocol
     private let networkService: NetworkServiceProtocol
     private let errorHandler: ErrorHandling
 
-    public init(modelContext: ModelContextWrapper, networkService: NetworkServiceProtocol, errorHandler: ErrorHandling = DefaultErrorHandler()) {
+    public init(modelContext: ModelContextWrapperProtocol, networkService: NetworkServiceProtocol, errorHandler: ErrorHandling) {
         self.modelContext = modelContext
         self.networkService = networkService
         self.errorHandler = errorHandler
@@ -52,7 +52,7 @@ public actor TickerRepository: TickerRepositoryProtocol {
         }
     }
 
-    private func saveCandles(_ candles: [Candle], for ticker: String) async throws {
+    private func saveCandles(_ candles: [Candle], for _: String) async throws {
         do {
             await modelContext.insertMultiple(candles)
             try await modelContext.save()

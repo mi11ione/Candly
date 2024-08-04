@@ -2,11 +2,11 @@ import CoreDI
 import SwiftUI
 
 public struct PatternFeature: View {
-    @Environment(\.diContainer) private var diContainer
+    @Environment(\.dependencyFactory) private var dependencyFactory
 
     public init() {}
 
     public var body: some View {
-        PatternView(model: PatternModel(repository: diContainer.resolve()))
+        PatternView(model: PatternModel(repository: dependencyFactory.makePatternRepository()))
     }
 }
