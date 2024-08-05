@@ -14,8 +14,8 @@ public struct TickerView: BaseView {
             ZStack {
                 if model.isLoading {
                     ProgressView()
-                } else if let error = model.error {
-                    ErrorView(error: error) {
+                } else if model.error != nil {
+                    ErrorView(error: AppError.unknown) {
                         handleIntent(.loadTickers)
                     }
                 } else {

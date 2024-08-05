@@ -6,6 +6,9 @@ public actor NetworkService: NetworkServiceProtocol {
     private let session: URLSession
     private let decoder: JSONDecoder
     private let errorHandler: ErrorHandling
+    private var lastRequestTime: Date?
+    private let minimumRequestInterval: TimeInterval = 1.0
+    private let maxRetries = 3
 
     public init(session: URLSession = .shared, decoder: JSONDecoder = JSONDecoder(), errorHandler: ErrorHandling = DefaultErrorHandler()) {
         self.session = session
@@ -18,8 +21,8 @@ public actor NetworkService: NetworkServiceProtocol {
             throw errorHandler.handle(NetworkError.invalidURL)
         }
 
-        let moexTickers: MoexTickers = try await performRequest(URLRequest(url: url))
-        return try parseMoexTickers(moexTickers)
+        let data = try await performRequest(URLRequest(url: url))
+        return try parseMoexTickers(from: data)
     }
 
     public func getMoexCandles(ticker: String, timePeriod: ChartTimePeriod) async throws -> [Candle] {
@@ -27,32 +30,57 @@ public actor NetworkService: NetworkServiceProtocol {
             throw errorHandler.handle(NetworkError.invalidURL)
         }
 
-        let moexCandles: MoexCandles = try await performRequest(URLRequest(url: url))
-        return try parseMoexCandles(moexCandles, ticker: ticker)
+        let data = try await performRequest(URLRequest(url: url))
+        return try parseMoexCandles(from: data, ticker: ticker)
     }
 
-    private func performRequest<T: Decodable>(_ request: URLRequest) async throws -> T {
-        do {
-            let (data, response) = try await session.data(for: request)
-            guard let httpResponse = response as? HTTPURLResponse, 200 ... 299 ~= httpResponse.statusCode else {
-                throw errorHandler.handle(NetworkError.invalidResponse)
+    private func performRequest(_ request: URLRequest) async throws -> Data {
+        for attempt in 1 ... maxRetries {
+            do {
+                return try await rateLimitedRequest(request, attempt: attempt)
+            } catch {
+                if attempt == maxRetries {
+                    throw error
+                }
+                try await Task.sleep(for: .seconds(Double(attempt) * 2))
             }
-            return try decoder.decode(T.self, from: data)
-        } catch is DecodingError {
-            throw errorHandler.handle(NetworkError.decodingError)
-        } catch let error as URLError {
-            switch error.code {
-            case .cannotFindHost:
-                throw errorHandler.handle(NetworkError.hostNotFound)
-            case .notConnectedToInternet:
-                throw errorHandler.handle(NetworkError.noInternetConnection)
-            default:
-                throw errorHandler.handle(NetworkError.requestFailed)
+        }
+        throw NetworkError.requestFailed
+    }
+
+    private func rateLimitedRequest(_ request: URLRequest, attempt _: Int) async throws -> Data {
+        if let lastRequestTime {
+            let timeSinceLastRequest = Date().timeIntervalSince(lastRequestTime)
+            if timeSinceLastRequest < minimumRequestInterval {
+                try await Task.sleep(for: .seconds(minimumRequestInterval - timeSinceLastRequest))
             }
+        }
+
+        lastRequestTime = Date()
+
+        let (data, response) = try await session.data(for: request)
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.invalidResponse
+        }
+
+        switch httpResponse.statusCode {
+        case 200 ... 299:
+            return data
+        case 401:
+            throw NetworkError.unauthorized
+        case 404:
+            throw NetworkError.notFound
+        case 429:
+            throw NetworkError.rateLimitExceeded
+        case 500 ... 599:
+            throw NetworkError.serverError(httpResponse.statusCode)
+        default:
+            throw NetworkError.invalidResponse
         }
     }
 
-    private func parseMoexTickers(_ moexTickers: MoexTickers) throws -> [Ticker] {
+    private func parseMoexTickers(from data: Data) throws -> [Ticker] {
+        let moexTickers = try decoder.decode(MoexTickers.self, from: data)
         let parsedTickers = moexTickers.securities.data.compactMap { tickerData -> Ticker? in
             guard tickerData.count >= 26 else {
                 print("Ticker data has insufficient elements: \(tickerData)")
@@ -86,7 +114,8 @@ public actor NetworkService: NetworkServiceProtocol {
         return parsedTickers
     }
 
-    private func parseMoexCandles(_ moexCandles: MoexCandles, ticker: String) throws -> [Candle] {
+    private func parseMoexCandles(from data: Data, ticker: String) throws -> [Candle] {
+        let moexCandles = try decoder.decode(MoexCandles.self, from: data)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
 

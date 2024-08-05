@@ -11,7 +11,7 @@ public actor PatternRepository: PatternRepositoryProtocol {
     public init(modelContext: ModelContextWrapperProtocol, errorHandler: ErrorHandling, cacheExpirationInterval: TimeInterval = 300) {
         self.modelContext = modelContext
         self.errorHandler = errorHandler
-        self.cache = CacheService(expirationInterval: cacheExpirationInterval)
+        cache = CacheService(expirationInterval: cacheExpirationInterval)
     }
 
     public func fetchPatterns() async throws -> [Pattern] {
