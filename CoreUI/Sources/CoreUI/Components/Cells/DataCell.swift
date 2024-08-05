@@ -21,9 +21,7 @@ public struct DataCell<Content: View, Footer: View, ExpandedContent: View>: View
     public var body: some View {
         VStack {
             content()
-                .background(Color("BackgroundColor"))
-                .cornerRadius(30)
-                .shadow(color: Color(isExpanded ? "ShadowExpandedColor" : "ShadowColor"), radius: 6)
+                .cellBackground(isExpanded: isExpanded)
 
             footer()
 
@@ -32,14 +30,7 @@ public struct DataCell<Content: View, Footer: View, ExpandedContent: View>: View
             }
         }
         .frame(width: 350)
-        .background(
-            RoundedRectangle(cornerRadius: 30)
-                .fill(Color.clear)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 30)
-                        .fill(isExpanded ? Color("CellOverlayColor") : .clear)
-                )
-        )
+        .cellOverlay(isExpanded: isExpanded)
         .animation(.spring(), value: isExpanded)
     }
 }
