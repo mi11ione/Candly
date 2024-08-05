@@ -1,12 +1,12 @@
+import CoreArchitecture
 import CoreUI
+import SharedModels
 import SwiftUI
 
-public struct PatternView: View {
-    @State private var model: PatternModel
-
-    public init(model: PatternModel) {
-        _model = State(initialValue: model)
-    }
+public struct PatternView: BaseView {
+    public typealias T = Pattern
+    public typealias I = PatternIntent
+    @State public var model: PatternModel
 
     public var body: some View {
         NavigationStack {
@@ -14,16 +14,16 @@ public struct PatternView: View {
                 FilterView(
                     filterKeys: model.filterKeys,
                     selectedFilter: model.selectedFilter,
-                    onFilterSelected: { model.selectFilter($0) }
+                    onFilterSelected: { handleIntent(.filterSelected($0)) }
                 )
                 PatternGrid(
                     patterns: model.filteredItems,
                     expandedPatternId: model.expandedItemId,
-                    onPatternTapped: { model.toggleItemExpansion($0) }
+                    onPatternTapped: { handleIntent(.togglePatternExpansion($0)) }
                 )
             }
             .navigationTitle("Patterns")
         }
-        .onAppear { model.load() }
+        .onAppear { handleIntent(.loadPatterns) }
     }
 }

@@ -26,9 +26,6 @@
       location = "group:SharedModels">
    </FileRef>
    <FileRef
-      location = "group:RepositoryInterfaces">
-   </FileRef>
-   <FileRef
       location = "group:NetworkService">
    </FileRef>
    <FileRef

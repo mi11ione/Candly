@@ -1,7 +1,7 @@
 import Foundation
 
 @Observable
-open class BaseModel<T: Identifiable>: @unchecked Sendable {
+open class BaseModel<T: Identifiable, I>: @unchecked Sendable {
     public private(set) var items: [T] = []
     public private(set) var searchText: String = ""
     public private(set) var isLoading: Bool = false
@@ -12,6 +12,10 @@ open class BaseModel<T: Identifiable>: @unchecked Sendable {
 
     open func loadItems() async throws {
         fatalError("loadItems() has not been implemented")
+    }
+
+    open func handle(_: I) {
+        fatalError("handle(_:) has not been implemented")
     }
 
     public func load() {

@@ -1,13 +1,13 @@
+import CoreArchitecture
 import CoreUI
 import ErrorHandling
+import SharedModels
 import SwiftUI
 
-public struct TickerView: View {
-    @State private var model: TickerModel
-
-    public init(model: TickerModel) {
-        _model = State(initialValue: model)
-    }
+public struct TickerView: BaseView {
+    public typealias T = Ticker
+    public typealias I = TickerIntent
+    @State public var model: TickerModel
 
     public var body: some View {
         NavigationStack {
@@ -16,22 +16,22 @@ public struct TickerView: View {
                     ProgressView()
                 } else if let error = model.error {
                     ErrorView(error: error) {
-                        model.load()
+                        handleIntent(.loadTickers)
                     }
                 } else {
                     TickerGrid(
                         tickers: model.filteredItems,
                         expandedTickerId: model.expandedItemId,
-                        onTickerTapped: { model.toggleItemExpansion($0) }
+                        onTickerTapped: { handleIntent(.toggleTickerExpansion($0)) }
                     )
                 }
             }
             .navigationTitle("Tickers")
             .searchable(text: .init(
                 get: { model.searchText },
-                set: { model.updateSearchText($0) }
+                set: { handleIntent(.updateSearchText($0)) }
             ), prompt: "Search tickers")
         }
-        .onAppear { model.load() }
+        .onAppear { handleIntent(.loadTickers) }
     }
 }

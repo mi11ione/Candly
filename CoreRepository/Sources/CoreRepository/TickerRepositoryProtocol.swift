@@ -1,3 +1,4 @@
+import NetworkService
 import SharedModels
 
 public protocol TickerRepositoryProtocol: Sendable {

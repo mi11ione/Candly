@@ -10,7 +10,6 @@
 		330021992C5B9DDC00F1A7B1 /* TickerFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 330021982C5B9DDC00F1A7B1 /* TickerFeature */; };
 		33168D042C5E5B22008CB072 /* ErrorHandling in Frameworks */ = {isa = PBXBuildFile; productRef = 33168D032C5E5B22008CB072 /* ErrorHandling */; };
 		3321802D2C5BB20700B444C4 /* NetworkService in Frameworks */ = {isa = PBXBuildFile; productRef = 3321802C2C5BB20700B444C4 /* NetworkService */; };
-		33C27DC42C5B6EF700093463 /* RepositoryInterfaces in Frameworks */ = {isa = PBXBuildFile; productRef = 33C27DC32C5B6EF700093463 /* RepositoryInterfaces */; };
 		33C27DC72C5B6F6000093463 /* CoreRepository in Frameworks */ = {isa = PBXBuildFile; productRef = 33C27DC62C5B6F6000093463 /* CoreRepository */; };
 		33DB01B62C5FA1B7006463DF /* CoreArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 33DB01B52C5FA1B7006463DF /* CoreArchitecture */; };
 		33DD4A3B2C5A44F2002CA246 /* PatternFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 33DD4A3A2C5A44F2002CA246 /* PatternFeature */; };
@@ -42,7 +41,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				33C27DC42C5B6EF700093463 /* RepositoryInterfaces in Frameworks */,
 				3321802D2C5BB20700B444C4 /* NetworkService in Frameworks */,
 				33C27DC72C5B6F6000093463 /* CoreRepository in Frameworks */,
 				33EC51732C5AAF4800DB7ECF /* CoreDI in Frameworks */,
@@ -98,7 +96,6 @@
 				33EC516F2C5AACE700DB7ECF /* CoreUI */,
 				33EC51722C5AAF4800DB7ECF /* CoreDI */,
 				33EC51772C5AD06600DB7ECF /* SharedModels */,
-				33C27DC32C5B6EF700093463 /* RepositoryInterfaces */,
 				33C27DC62C5B6F6000093463 /* CoreRepository */,
 				330021982C5B9DDC00F1A7B1 /* TickerFeature */,
 				3321802C2C5BB20700B444C4 /* NetworkService */,
@@ -138,7 +135,6 @@
 				33EC516E2C5AACE700DB7ECF /* XCLocalSwiftPackageReference "../CoreUI" */,
 				33EC51712C5AAF4800DB7ECF /* XCLocalSwiftPackageReference "../CoreDI" */,
 				33EC51762C5AD06600DB7ECF /* XCLocalSwiftPackageReference "../SharedModels" */,
-				33C27DC22C5B6EF700093463 /* XCLocalSwiftPackageReference "../RepositoryInterfaces" */,
 				33C27DC52C5B6F6000093463 /* XCLocalSwiftPackageReference "../CoreRepository" */,
 				330021972C5B9DDC00F1A7B1 /* XCLocalSwiftPackageReference "../TickerFeature" */,
 				3321802B2C5BB20700B444C4 /* XCLocalSwiftPackageReference "../NetworkService" */,
@@ -408,10 +404,6 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../NetworkService;
 		};
-		33C27DC22C5B6EF700093463 /* XCLocalSwiftPackageReference "../RepositoryInterfaces" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../RepositoryInterfaces;
-		};
 		33C27DC52C5B6F6000093463 /* XCLocalSwiftPackageReference "../CoreRepository" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../CoreRepository;
@@ -450,10 +442,6 @@
 		3321802C2C5BB20700B444C4 /* NetworkService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = NetworkService;
-		};
-		33C27DC32C5B6EF700093463 /* RepositoryInterfaces */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = RepositoryInterfaces;
 		};
 		33C27DC62C5B6F6000093463 /* CoreRepository */ = {
 			isa = XCSwiftPackageProductDependency;

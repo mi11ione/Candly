@@ -1,10 +1,10 @@
 import CoreArchitecture
+import CoreRepository
 import Foundation
-import RepositoryInterfaces
 import SharedModels
 
 @Observable
-public final class TickerModel: BaseModel<Ticker>, @unchecked Sendable {
+public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Sendable {
     private let repository: TickerRepositoryProtocol
 
     public init(repository: TickerRepositoryProtocol) {
@@ -20,5 +20,16 @@ public final class TickerModel: BaseModel<Ticker>, @unchecked Sendable {
     override public var filteredItems: [Ticker] {
         guard !searchText.isEmpty else { return items }
         return items.filter { $0.title.lowercased().contains(searchText.lowercased()) }
+    }
+
+    override public func handle(_ intent: TickerIntent) {
+        switch intent {
+        case .loadTickers:
+            load()
+        case let .updateSearchText(text):
+            updateSearchText(text)
+        case let .toggleTickerExpansion(id):
+            toggleItemExpansion(id)
+        }
     }
 }

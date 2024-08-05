@@ -9,7 +9,6 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../SharedModels"),
-        .package(path: "../RepositoryInterfaces"),
         .package(path: "../NetworkService"),
         .package(path: "../ErrorHandling"),
     ],
@@ -18,7 +17,6 @@ let package = Package(
             name: "CoreRepository",
             dependencies: [
                 "SharedModels",
-                "RepositoryInterfaces",
                 "NetworkService",
                 "ErrorHandling",
             ]

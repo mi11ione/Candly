@@ -11,7 +11,7 @@ let package = Package(
         .package(path: "../CoreUI"),
         .package(path: "../CoreDI"),
         .package(path: "../SharedModels"),
-        .package(path: "../RepositoryInterfaces"),
+        .package(path: "../CoreRepository"),
         .package(path: "../ErrorHandling"),
         .package(path: "../CoreArchitecture"),
     ],
@@ -22,7 +22,7 @@ let package = Package(
                 "CoreUI",
                 "CoreDI",
                 "SharedModels",
-                "RepositoryInterfaces",
+                "CoreRepository",
                 "ErrorHandling",
                 "CoreArchitecture",
             ]
