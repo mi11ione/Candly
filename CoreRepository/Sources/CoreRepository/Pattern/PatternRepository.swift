@@ -6,25 +6,17 @@ import SwiftData
 public actor PatternRepository: PatternRepositoryProtocol {
     private let modelContext: ModelContextWrapperProtocol
     private let errorHandler: ErrorHandling
-    private let cache: CacheService<String, [Pattern]>
 
-    public init(modelContext: ModelContextWrapperProtocol, errorHandler: ErrorHandling, cacheExpirationInterval: TimeInterval = 300) {
+    public init(modelContext: ModelContextWrapperProtocol, errorHandler: ErrorHandling) {
         self.modelContext = modelContext
         self.errorHandler = errorHandler
-        cache = CacheService(expirationInterval: cacheExpirationInterval)
     }
 
     public func fetchPatterns() async throws -> [Pattern] {
-        if let cachedPatterns = await cache.getValue(forKey: "allPatterns") {
-            return cachedPatterns
-        }
-
         do {
             let descriptor = FetchDescriptor<Pattern>(sortBy: [SortDescriptor(\.name)])
             let patterns = try await modelContext.fetch(descriptor) { $0 }
-            let result = patterns.isEmpty ? try await createInitialPatterns() : patterns
-            await cache.setValue(result, forKey: "allPatterns")
-            return result
+            return patterns.isEmpty ? try await createInitialPatterns() : patterns
         } catch {
             throw errorHandler.handle(error)
         }
