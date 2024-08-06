@@ -1,8 +1,9 @@
 import CoreRepository
 import ErrorHandling
-import NetworkService
-import SwiftData
 import Foundation
+import NetworkService
+import SharedModels
+import SwiftData
 
 @Observable
 public class AppDependency: Dependency {
@@ -15,7 +16,7 @@ public class AppDependency: Dependency {
     private let cacheExpirationInterval: TimeInterval
 
     public init(cacheExpirationInterval: TimeInterval = 120) {
-        modelContainer = try! ModelContainer()
+        modelContainer = try! ModelContainer(for: Pattern.self, Ticker.self, Candle.self)
         modelContext = ModelContextWrapper(modelContainer.mainContext)
         errorHandler = DefaultErrorHandler()
         networkService = NetworkService(errorHandler: errorHandler)

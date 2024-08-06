@@ -24,7 +24,7 @@ public struct PatternChart: View {
             }
         )
         .padding()
-        .frame(width: 350, height: 160)
+        .frame(height: 160)
         .chartYScale(domain: calculateYAxisDomain())
         .id(pattern.id)
     }

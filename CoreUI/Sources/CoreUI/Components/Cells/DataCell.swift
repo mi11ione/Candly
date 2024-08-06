@@ -29,7 +29,6 @@ public struct DataCell<Content: View, Footer: View, ExpandedContent: View>: View
                 expandedContent()
             }
         }
-        .frame(width: 350)
         .cellOverlay(isExpanded: isExpanded)
         .animation(.spring(), value: isExpanded)
     }

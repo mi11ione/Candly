@@ -2,7 +2,7 @@ import CoreDI
 import SwiftUI
 
 @main
-struct CandlyApp: App {
+@MainActor struct CandlyApp: App {
     @State private var dependencyFactory = AppDependency()
 
     var body: some Scene {

@@ -20,7 +20,7 @@ public struct GridView<T: Identifiable, Content: View>: View {
 
     public var body: some View {
         ScrollView {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 350))], spacing: 20) {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 300), spacing: 25)], spacing: 20) {
                 ForEach(items) { item in
                     content(item, expandedItemId == item.id)
                         .onTapGesture { onItemTapped(item.id) }

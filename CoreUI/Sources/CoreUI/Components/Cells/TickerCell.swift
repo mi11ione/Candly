@@ -20,7 +20,7 @@ public struct TickerCell: View {
                     // chart placeholder
                 }
                 .padding()
-                .frame(width: 350, height: 160)
+                .frame(height: 160)
             },
             footer: { EmptyView() },
             expandedContent: {

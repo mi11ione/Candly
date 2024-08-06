@@ -24,7 +24,6 @@ public struct PatternCell: View {
                 Text(pattern.info)
                     .font(.subheadline)
                     .padding(10)
-                    .frame(width: 320)
             }
         )
         .id(pattern.id)
