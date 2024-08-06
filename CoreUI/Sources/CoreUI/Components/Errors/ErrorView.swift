@@ -1,3 +1,4 @@
+import ErrorHandling
 import SwiftUI
 
 public struct ErrorView: View {

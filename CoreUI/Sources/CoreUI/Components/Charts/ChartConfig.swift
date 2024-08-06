@@ -1,8 +1,8 @@
 import Charts
 import SwiftUI
 
-enum ChartConfig {
-    static func applyCommonConfig(_ chart: Chart<some ChartContent>) -> some View {
+public enum ChartConfig {
+    public static func applyCommonConfig(_ chart: Chart<some ChartContent>) -> some View {
         chart
             .chartXAxis {
                 AxisMarks(position: .bottom, values: .automatic(desiredCount: 6)) {

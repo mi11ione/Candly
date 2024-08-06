@@ -1,5 +1,4 @@
 import CoreArchitecture
-import CoreUI
 import SharedModels
 import SwiftUI
 

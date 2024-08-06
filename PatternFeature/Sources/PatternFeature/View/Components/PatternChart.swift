@@ -1,4 +1,5 @@
 import Charts
+import CoreUI
 import SharedModels
 import SwiftUI
 
