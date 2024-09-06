@@ -3,9 +3,9 @@ import SharedModels
 import SwiftUI
 
 public struct PatternGrid: View {
-    let patterns: [Pattern]
-    let expandedPatternId: UUID?
-    let onPatternTapped: (UUID) -> Void
+    private let patterns: [Pattern]
+    private let expandedPatternId: UUID?
+    private let onPatternTapped: (UUID) -> Void
 
     public init(patterns: [Pattern], expandedPatternId: UUID?, onPatternTapped: @escaping (UUID) -> Void) {
         self.patterns = patterns

@@ -1,9 +1,9 @@
 import SwiftUI
 
 public struct FilterView: View {
-    let filterKeys: [String]
-    let selectedFilter: String
-    let onFilterSelected: (String) -> Void
+    private let filterKeys: [String]
+    private let selectedFilter: String
+    private let onFilterSelected: (String) -> Void
 
     public init(filterKeys: [String], selectedFilter: String, onFilterSelected: @escaping (String) -> Void) {
         self.filterKeys = filterKeys

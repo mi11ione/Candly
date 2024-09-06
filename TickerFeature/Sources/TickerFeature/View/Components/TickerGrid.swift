@@ -3,9 +3,9 @@ import SharedModels
 import SwiftUI
 
 public struct TickerGrid: View {
-    let tickers: [Ticker]
-    let expandedTickerId: UUID?
-    let onTickerTapped: (UUID) -> Void
+    private let tickers: [Ticker]
+    private let expandedTickerId: UUID?
+    private let onTickerTapped: (UUID) -> Void
 
     public init(tickers: [Ticker], expandedTickerId: UUID?, onTickerTapped: @escaping (UUID) -> Void) {
         self.tickers = tickers

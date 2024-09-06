@@ -1,9 +1,9 @@
 import SwiftUI
 
 public struct FilterButton: View {
-    public let filter: String
-    public let isSelected: Bool
-    public let action: () -> Void
+    private let filter: String
+    private let isSelected: Bool
+    private let action: () -> Void
 
     public init(filter: String, isSelected: Bool, action: @escaping () -> Void) {
         self.filter = filter

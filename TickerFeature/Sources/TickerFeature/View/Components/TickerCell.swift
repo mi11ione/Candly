@@ -3,8 +3,8 @@ import SharedModels
 import SwiftUI
 
 public struct TickerCell: View {
-    let ticker: Ticker
-    let isExpanded: Bool
+    private let ticker: Ticker
+    private let isExpanded: Bool
 
     public init(ticker: Ticker, isExpanded: Bool) {
         self.ticker = ticker

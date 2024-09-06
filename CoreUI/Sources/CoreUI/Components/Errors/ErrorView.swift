@@ -1,8 +1,8 @@
 import SwiftUI
 
 public struct ErrorView: View {
-    public let message: String
-    public let retryAction: () -> Void
+    private let message: String
+    private let retryAction: () -> Void
 
     public init(message: String, retryAction: @escaping () -> Void) {
         self.message = message

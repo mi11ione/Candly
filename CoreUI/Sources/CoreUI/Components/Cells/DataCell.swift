@@ -1,10 +1,10 @@
 import SwiftUI
 
 public struct DataCell<Content: View, Footer: View, ExpandedContent: View>: View {
-    @Binding var isExpanded: Bool
-    let content: () -> Content
-    let footer: () -> Footer
-    let expandedContent: () -> ExpandedContent
+    @Binding private var isExpanded: Bool
+    private let content: () -> Content
+    private let footer: () -> Footer
+    private let expandedContent: () -> ExpandedContent
 
     public init(
         isExpanded: Binding<Bool>,

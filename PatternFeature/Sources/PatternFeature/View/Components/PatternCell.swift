@@ -3,8 +3,8 @@ import SharedModels
 import SwiftUI
 
 public struct PatternCell: View {
-    let pattern: Pattern
-    let isExpanded: Bool
+    private let pattern: Pattern
+    private let isExpanded: Bool
 
     public init(pattern: Pattern, isExpanded: Bool) {
         self.pattern = pattern

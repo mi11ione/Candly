@@ -1,10 +1,10 @@
 import SwiftUI
 
 public struct GridView<T: Identifiable, Content: View>: View {
-    let items: [T]
-    let expandedItemId: T.ID?
-    let onItemTapped: (T.ID) -> Void
-    let content: (T, Bool) -> Content
+    private let items: [T]
+    private let expandedItemId: T.ID?
+    private let onItemTapped: (T.ID) -> Void
+    private let content: (T, Bool) -> Content
 
     public init(
         items: [T],

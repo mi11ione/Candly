@@ -2,7 +2,7 @@ import SharedModels
 import SwiftUI
 
 public struct TickerDetails: View {
-    let ticker: Ticker
+    private let ticker: Ticker
 
     public init(ticker: Ticker) {
         self.ticker = ticker
