@@ -12,7 +12,7 @@ public enum MoexAPI {
         var path: String {
             switch self {
             case .allTickers:
-                "/iss/engines/stock/markets/shares/boards/TQBR/securities.json"
+                "\(candlePath).json"
             case let .candles(ticker):
                 "\(candlePath)/\(ticker)/candles.json"
             }

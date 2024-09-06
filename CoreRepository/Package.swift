@@ -11,7 +11,6 @@ let package = Package(
     dependencies: [
         .package(path: "../SharedModels"),
         .package(path: "../NetworkService"),
-        .package(path: "../ErrorHandling"),
     ],
     targets: [
         .target(
@@ -19,7 +18,6 @@ let package = Package(
             dependencies: [
                 "SharedModels",
                 "NetworkService",
-                "ErrorHandling",
             ]
         ),
     ]

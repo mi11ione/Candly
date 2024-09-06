@@ -8,7 +8,7 @@ public class ModelContextWrapper: ModelContextWrapperProtocol {
         self.context = context
     }
 
-    public func fetch<T: PersistentModel, DTO: Sendable>(_ descriptor: FetchDescriptor<T>, transform: (T) -> DTO) throws -> [DTO] {
+    public func fetch<T: PersistentModel, Model: Sendable>(_ descriptor: FetchDescriptor<T>, transform: (T) -> Model) throws -> [Model] {
         try context.fetch(descriptor).map(transform)
     }
 

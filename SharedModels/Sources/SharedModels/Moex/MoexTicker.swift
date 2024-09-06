@@ -1,13 +1,6 @@
-public struct MoexTickers: Decodable {
-    public let securities: Securities
+import Foundation
 
-    public struct Securities: Decodable {
-        public let columns: [String]
-        public let data: [[MoexTicker]]
-    }
-}
-
-public enum MoexTicker: Decodable {
+public enum MoexTicker: Codable, Sendable {
     case double(Double)
     case string(String)
     case null
@@ -24,13 +17,16 @@ public enum MoexTicker: Decodable {
             throw DecodingError.typeMismatch(MoexTicker.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for MoexTicker"))
         }
     }
-}
 
-public struct MoexCandles: Decodable {
-    public let candles: Candles
-
-    public struct Candles: Decodable {
-        public let columns: [String]
-        public let data: [[MoexTicker]]
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .double(x):
+            try container.encode(x)
+        case let .string(x):
+            try container.encode(x)
+        case .null:
+            try container.encodeNil()
+        }
     }
 }

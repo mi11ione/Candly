@@ -13,7 +13,6 @@ let package = Package(
         .package(path: "../CoreDI"),
         .package(path: "../SharedModels"),
         .package(path: "../CoreRepository"),
-        .package(path: "../ErrorHandling"),
         .package(path: "../CoreArchitecture"),
     ],
     targets: [
@@ -24,7 +23,6 @@ let package = Package(
                 "CoreDI",
                 "SharedModels",
                 "CoreRepository",
-                "ErrorHandling",
                 "CoreArchitecture",
             ]
         ),

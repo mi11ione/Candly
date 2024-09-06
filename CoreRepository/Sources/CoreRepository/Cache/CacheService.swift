@@ -4,7 +4,7 @@ public actor CacheService<Key: Hashable, Value> {
     private var cache: [Key: (value: Value, timestamp: Date)] = [:]
     private let expirationInterval: TimeInterval
 
-    public init(expirationInterval: TimeInterval = 300) {
+    public init(expirationInterval: TimeInterval = 120) {
         self.expirationInterval = expirationInterval
     }
 

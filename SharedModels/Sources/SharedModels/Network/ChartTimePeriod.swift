@@ -1,6 +1,6 @@
 import Foundation
 
-public enum ChartTimePeriod: String, CaseIterable, Identifiable, Sendable {
+public enum ChartTimePeriod: String, CaseIterable, Identifiable, Codable, Sendable {
     case hour, day, week, month
 
     public var id: String { rawValue }

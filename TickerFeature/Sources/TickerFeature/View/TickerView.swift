@@ -1,6 +1,5 @@
 import CoreArchitecture
 import CoreUI
-import ErrorHandling
 import SharedModels
 import SwiftUI
 
@@ -14,8 +13,8 @@ public struct TickerView: BaseView {
             ZStack {
                 if model.isLoading {
                     ProgressView()
-                } else if model.error != nil {
-                    ErrorView(error: AppError.unknown) {
+                } else if let error = model.error {
+                    ErrorView(message: error) {
                         handleIntent(.loadTickers)
                     }
                 } else {

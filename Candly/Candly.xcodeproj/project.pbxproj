@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		330021992C5B9DDC00F1A7B1 /* TickerFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 330021982C5B9DDC00F1A7B1 /* TickerFeature */; };
-		33168D042C5E5B22008CB072 /* ErrorHandling in Frameworks */ = {isa = PBXBuildFile; productRef = 33168D032C5E5B22008CB072 /* ErrorHandling */; };
 		3321802D2C5BB20700B444C4 /* NetworkService in Frameworks */ = {isa = PBXBuildFile; productRef = 3321802C2C5BB20700B444C4 /* NetworkService */; };
 		33C27DC72C5B6F6000093463 /* CoreRepository in Frameworks */ = {isa = PBXBuildFile; productRef = 33C27DC62C5B6F6000093463 /* CoreRepository */; };
 		33DB01B62C5FA1B7006463DF /* CoreArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 33DB01B52C5FA1B7006463DF /* CoreArchitecture */; };
@@ -49,7 +48,6 @@
 				33EC51702C5AACE700DB7ECF /* CoreUI in Frameworks */,
 				330021992C5B9DDC00F1A7B1 /* TickerFeature in Frameworks */,
 				33EC51782C5AD06600DB7ECF /* SharedModels in Frameworks */,
-				33168D042C5E5B22008CB072 /* ErrorHandling in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,7 +97,6 @@
 				33C27DC62C5B6F6000093463 /* CoreRepository */,
 				330021982C5B9DDC00F1A7B1 /* TickerFeature */,
 				3321802C2C5BB20700B444C4 /* NetworkService */,
-				33168D032C5E5B22008CB072 /* ErrorHandling */,
 				33DB01B52C5FA1B7006463DF /* CoreArchitecture */,
 			);
 			productName = Candly;
@@ -138,7 +135,6 @@
 				33C27DC52C5B6F6000093463 /* XCLocalSwiftPackageReference "../CoreRepository" */,
 				330021972C5B9DDC00F1A7B1 /* XCLocalSwiftPackageReference "../TickerFeature" */,
 				3321802B2C5BB20700B444C4 /* XCLocalSwiftPackageReference "../NetworkService" */,
-				33168D022C5E5B22008CB072 /* XCLocalSwiftPackageReference "../ErrorHandling" */,
 				33DB01B42C5FA1B7006463DF /* XCLocalSwiftPackageReference "../CoreArchitecture" */,
 			);
 			productRefGroup = 33DD4A242C5A447B002CA246 /* Products */;
@@ -396,10 +392,6 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../TickerFeature;
 		};
-		33168D022C5E5B22008CB072 /* XCLocalSwiftPackageReference "../ErrorHandling" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../ErrorHandling;
-		};
 		3321802B2C5BB20700B444C4 /* XCLocalSwiftPackageReference "../NetworkService" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../NetworkService;
@@ -434,10 +426,6 @@
 		330021982C5B9DDC00F1A7B1 /* TickerFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TickerFeature;
-		};
-		33168D032C5E5B22008CB072 /* ErrorHandling */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ErrorHandling;
 		};
 		3321802C2C5BB20700B444C4 /* NetworkService */ = {
 			isa = XCSwiftPackageProductDependency;

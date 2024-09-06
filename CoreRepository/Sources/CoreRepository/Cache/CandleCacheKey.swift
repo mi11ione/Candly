@@ -1,5 +1,5 @@
 import Foundation
-import NetworkService
+import SharedModels
 
 public struct CandleCacheKey: Hashable, Sendable {
     let ticker: String

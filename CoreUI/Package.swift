@@ -11,17 +11,9 @@ let package = Package(
             targets: ["CoreUI"]
         ),
     ],
-    dependencies: [
-        .package(path: "../SharedModels"),
-        .package(path: "../ErrorHandling"),
-    ],
     targets: [
         .target(
-            name: "CoreUI",
-            dependencies: [
-                "SharedModels",
-                "ErrorHandling",
-            ]
+            name: "CoreUI"
         ),
     ]
 )

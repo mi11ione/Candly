@@ -1,12 +1,11 @@
-import ErrorHandling
 import SwiftUI
 
 public struct ErrorView: View {
-    public let error: AppError
+    public let message: String
     public let retryAction: () -> Void
 
-    public init(error: AppError, retryAction: @escaping () -> Void) {
-        self.error = error
+    public init(message: String, retryAction: @escaping () -> Void) {
+        self.message = message
         self.retryAction = retryAction
     }
 
@@ -16,7 +15,7 @@ public struct ErrorView: View {
                 .font(.title)
                 .foregroundColor(.red)
 
-            Text(error.localizedDescription)
+            Text(message)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
 

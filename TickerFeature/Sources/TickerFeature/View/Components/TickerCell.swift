@@ -14,15 +14,7 @@ public struct TickerCell: View {
     public var body: some View {
         DataCell(
             isExpanded: .constant(isExpanded),
-            content: {
-                HStack {
-                    TickerDetails(ticker: ticker)
-                    Spacer()
-                    // chart placeholder
-                }
-                .padding()
-                .frame(height: 160)
-            },
+            content: { TickerDetails(ticker: ticker) },
             footer: { EmptyView() },
             expandedContent: {
                 Text("Detected patterns")

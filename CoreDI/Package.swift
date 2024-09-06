@@ -14,12 +14,11 @@ let package = Package(
     dependencies: [
         .package(path: "../NetworkService"),
         .package(path: "../CoreRepository"),
-        .package(path: "../ErrorHandling"),
     ],
     targets: [
         .target(
             name: "CoreDI",
-            dependencies: ["NetworkService", "CoreRepository", "ErrorHandling"]
+            dependencies: ["NetworkService", "CoreRepository"]
         ),
     ]
 )

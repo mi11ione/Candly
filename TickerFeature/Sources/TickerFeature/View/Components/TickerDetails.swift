@@ -9,19 +9,26 @@ public struct TickerDetails: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading) {
-            Text(ticker.subTitle)
-                .font(.title3)
-                .bold()
-            Text("$\(ticker.title)")
+        HStack {
+            VStack(alignment: .leading) {
+                Text(ticker.subTitle)
+                    .font(.title3)
+                    .bold()
+                Text("$\(ticker.title)")
+                Spacer()
+                Text(String(format: "%.2f", ticker.price))
+                    .font(.title3)
+                    .bold()
+                Text(priceChangeText)
+                    .foregroundColor(priceChangeColor)
+            }
+
             Spacer()
-            Text(String(format: "%.2f", ticker.price))
-                .font(.title3)
-                .bold()
-            Text(priceChangeText)
-                .foregroundColor(priceChangeColor)
+
+            // chart
         }
-        .padding(.leading, 4)
+        .padding()
+        .frame(height: 160)
     }
 
     private var priceChangeText: String {

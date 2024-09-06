@@ -1,25 +1,18 @@
-import ErrorHandling
 import Foundation
 import SharedModels
 import SwiftData
 
 public actor PatternRepository: PatternRepositoryProtocol {
     private let modelContext: ModelContextWrapperProtocol
-    private let errorHandler: ErrorHandling
 
-    public init(modelContext: ModelContextWrapperProtocol, errorHandler: ErrorHandling) {
+    public init(modelContext: ModelContextWrapperProtocol) {
         self.modelContext = modelContext
-        self.errorHandler = errorHandler
     }
 
     public func fetchPatterns() async throws -> [Pattern] {
-        do {
-            let descriptor = FetchDescriptor<Pattern>(sortBy: [SortDescriptor(\.name)])
-            let patterns = try await modelContext.fetch(descriptor) { $0 }
-            return patterns.isEmpty ? try await createInitialPatterns() : patterns
-        } catch {
-            throw errorHandler.handle(error)
-        }
+        let descriptor = FetchDescriptor<Pattern>(sortBy: [SortDescriptor(\.name)])
+        let patterns = try await modelContext.fetch(descriptor) { $0 }
+        return patterns.isEmpty ? try await createInitialPatterns() : patterns
     }
 
     private func createInitialPatterns() async throws -> [Pattern] {
@@ -43,14 +36,9 @@ public actor PatternRepository: PatternRepositoryProtocol {
             createPattern(name: "Cup and Handle", info: "Bullish continuation pattern resembling a cup with a handle, indicating a potential upward breakout.", filter: "Complex", dates: ["2016-04-24T10:00:00+0000", "2016-04-24T11:00:00+0000", "2016-04-24T12:00:00+0000", "2016-04-24T13:00:00+0000", "2016-04-24T14:00:00+0000"], opens: [100, 95, 98, 100, 99], closes: [95, 98, 100, 99, 103], highs: [102, 99, 101, 101, 104], lows: [94, 94, 97, 98, 98]),
             createPattern(name: "Rising Wedge", info: "Bearish reversal pattern with converging trendlines, both sloping upward, indicating a potential downward breakout.", filter: "Complex", dates: ["2016-04-25T10:00:00+0000", "2016-04-25T11:00:00+0000", "2016-04-25T12:00:00+0000", "2016-04-25T13:00:00+0000", "2016-04-25T14:00:00+0000"], opens: [100, 102, 104, 105, 106], closes: [102, 104, 105, 106, 104], highs: [103, 105, 106, 107, 107], lows: [99, 101, 103, 104, 103]),
         ]
-
-        do {
-            await modelContext.insertMultiple(patterns)
-            try await modelContext.save()
-            return patterns
-        } catch {
-            throw errorHandler.handle(DatabaseError.saveFailed)
-        }
+        await modelContext.insertMultiple(patterns)
+        try await modelContext.save()
+        return patterns
     }
 
     private func createPattern(name: String, info: String, filter: String, dates: [String], opens: [Double], closes: [Double], highs: [Double], lows: [Double]) -> Pattern {
