@@ -1,5 +1,4 @@
 import CoreArchitecture
-import CoreUI
 import SharedModels
 import SwiftUI
 
@@ -14,7 +13,7 @@ public struct TickerView: BaseView {
                 if model.isLoading {
                     ProgressView()
                 } else if let error = model.error {
-                    ErrorView(message: error) {
+                    TickerError(message: error) {
                         handleIntent(.loadTickers)
                     }
                 } else {

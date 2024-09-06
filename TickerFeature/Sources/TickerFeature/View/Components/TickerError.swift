@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct ErrorView: View {
+public struct TickerError: View {
     private let message: String
     private let retryAction: () -> Void
 
