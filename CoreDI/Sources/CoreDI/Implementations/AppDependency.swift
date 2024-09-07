@@ -7,7 +7,6 @@ import SwiftData
 @Observable
 public class AppDependency: Dependency {
     private let modelContainer: ModelContainer
-    private let modelContext: ModelContextWrapperProtocol
     private let networkService: NetworkServiceProtocol
     private let patternRepository: PatternRepositoryProtocol
     private let tickerRepository: TickerRepositoryProtocol
@@ -15,15 +14,14 @@ public class AppDependency: Dependency {
 
     public init(cacheExpirationInterval: TimeInterval = 120) {
         modelContainer = try! ModelContainer(for: Pattern.self, Ticker.self, Candle.self)
-        modelContext = ModelContextWrapper(modelContainer.mainContext)
         networkService = NetworkService()
-        patternRepository = PatternRepository(modelContext: modelContext)
+        patternRepository = PatternRepository()
         self.cacheExpirationInterval = cacheExpirationInterval
-        tickerRepository = TickerRepository(modelContext: modelContext, networkService: networkService, cacheExpirationInterval: cacheExpirationInterval)
+        tickerRepository = TickerRepository(networkService: networkService, cacheExpirationInterval: cacheExpirationInterval)
     }
 
     public func makePatternRepository() -> PatternRepositoryProtocol { patternRepository }
     public func makeTickerRepository() -> TickerRepositoryProtocol { tickerRepository }
     public func makeNetworkService() -> NetworkServiceProtocol { networkService }
-    public func makeModelContext() -> ModelContextWrapperProtocol { modelContext }
+    public func makeModelContext() -> ModelContextProtocol { modelContainer.mainContext }
 }

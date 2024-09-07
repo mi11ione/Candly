@@ -1,62 +1,61 @@
 import Foundation
-import NetworkService
 import SharedModels
-import SwiftData
+import NetworkService
 
 public actor TickerRepository: TickerRepositoryProtocol {
-    private let modelContext: ModelContextWrapperProtocol
     private let networkService: NetworkServiceProtocol
     private let tickerCache: CacheService<String, [Ticker]>
     private let candleCache: CacheService<CandleCacheKey, [Candle]>
 
-    public init(modelContext: ModelContextWrapperProtocol, networkService: NetworkServiceProtocol, cacheExpirationInterval: TimeInterval = 120) {
-        self.modelContext = modelContext
+    public init(networkService: NetworkServiceProtocol, cacheExpirationInterval: TimeInterval = 120) {
         self.networkService = networkService
         tickerCache = CacheService(expirationInterval: cacheExpirationInterval)
         candleCache = CacheService(expirationInterval: cacheExpirationInterval)
     }
 
-    public func fetchTickers() async throws -> [Ticker] {
+    @MainActor
+    public func fetchTickers(context: ModelContextProtocol) async throws -> [Ticker] {
         if let cachedTickers = await tickerCache.getValue(forKey: "allTickers") {
             return cachedTickers
         }
 
-        let moexTickersWrapper = try await networkService.getMoexTickers()
-        let tickers = await parseTickers(from: moexTickersWrapper.moexTickers)
-        try await saveTickers(tickers)
+        let moexTickers = try await networkService.getMoexTickers()
+        let tickers = parseTickers(from: moexTickers)
+        try await saveTickers(tickers, context: context)
         await tickerCache.setValue(tickers, forKey: "allTickers")
         return tickers
     }
 
-    public func fetchCandles(for ticker: String, timePeriod: ChartTimePeriod) async throws -> [Candle] {
-        let cacheKey = CandleCacheKey(ticker: ticker, timePeriod: timePeriod)
+    @MainActor
+    public func fetchCandles(for ticker: String, time: ChartTime, context: ModelContextProtocol) async throws -> [Candle] {
+        let cacheKey = CandleCacheKey(ticker: ticker, time: time)
         if let cachedCandles = await candleCache.getValue(forKey: cacheKey) {
             return cachedCandles
         }
 
-        let descriptor = FetchDescriptor<Candle>(predicate: #Predicate { $0.ticker == ticker })
-        let localCandles = try await modelContext.fetch(descriptor) { $0 }
-
-        if !localCandles.isEmpty {
-            await candleCache.setValue(localCandles, forKey: cacheKey)
-            return localCandles
-        }
-
-        let moexCandlesWrapper = try await networkService.getMoexCandles(ticker: ticker, timePeriod: timePeriod)
-        let candles = await parseCandles(from: moexCandlesWrapper.moexCandles, ticker: ticker)
-        try await saveCandles(candles, for: ticker)
+        let moexCandles = try await networkService.getMoexCandles(ticker: ticker, time: time)
+        let candles = parseCandles(from: moexCandles, ticker: ticker)
+        try await saveCandles(candles, for: ticker, context: context)
         await candleCache.setValue(candles, forKey: cacheKey)
         return candles
     }
 
-    private func saveTickers(_ tickers: [Ticker]) async throws {
-        await modelContext.insertMultiple(tickers)
-        try await modelContext.save()
+    private func saveTickers(_ tickers: [Ticker], context: ModelContextProtocol) async throws {
+        try await MainActor.run {
+            for ticker in tickers {
+                context.insert(ticker)
+            }
+            try context.save()
+        }
     }
 
-    private func saveCandles(_ candles: [Candle], for _: String) async throws {
-        await modelContext.insertMultiple(candles)
-        try await modelContext.save()
+    private func saveCandles(_ candles: [Candle], for ticker: String, context: ModelContextProtocol) async throws {
+        try await MainActor.run {
+            for candle in candles {
+                context.insert(candle)
+            }
+            try context.save()
+        }
     }
 
     @MainActor

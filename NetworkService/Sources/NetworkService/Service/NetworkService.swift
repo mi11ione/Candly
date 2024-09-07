@@ -18,24 +18,22 @@ public actor NetworkService: NetworkServiceProtocol {
         self.errorHandler = errorHandler
     }
 
-    public func getMoexTickers() async throws -> MoexTickersWrapper {
+    public func getMoexTickers() async throws -> MoexTickers {
         guard let url = MoexAPI.Endpoint.allTickers.url() else {
             throw NetworkError.invalidURL
         }
 
         let data = try await performRequest(URLRequest(url: url))
-        let moexTickers = try decoder.decode(MoexTickers.self, from: data)
-        return MoexTickersWrapper(moexTickers)
+        return try decoder.decode(MoexTickers.self, from: data)
     }
 
-    public func getMoexCandles(ticker: String, timePeriod: ChartTimePeriod) async throws -> MoexCandlesWrapper {
-        guard let url = MoexAPI.Endpoint.candles(ticker).url(queryItems: [timePeriod.queryItem]) else {
+    public func getMoexCandles(ticker: String, time: ChartTime) async throws -> MoexCandles {
+        guard let url = MoexAPI.Endpoint.candles(ticker).url(queryItems: [time.queryItem]) else {
             throw NetworkError.invalidURL
         }
 
         let data = try await performRequest(URLRequest(url: url))
-        let moexCandles = try decoder.decode(MoexCandles.self, from: data)
-        return MoexCandlesWrapper(moexCandles)
+        return try decoder.decode(MoexCandles.self, from: data)
     }
 
     private func performRequest(_ request: URLRequest) async throws -> Data {
@@ -149,21 +147,5 @@ public actor NetworkService: NetworkServiceProtocol {
         } catch {
             throw errorHandler.handle(error)
         }
-    }
-}
-
-public struct MoexTickersWrapper: Sendable {
-    public let moexTickers: MoexTickers
-
-    public init(_ moexTickers: MoexTickers) {
-        self.moexTickers = moexTickers
-    }
-}
-
-public struct MoexCandlesWrapper: Sendable {
-    public let moexCandles: MoexCandles
-
-    public init(_ moexCandles: MoexCandles) {
-        self.moexCandles = moexCandles
     }
 }

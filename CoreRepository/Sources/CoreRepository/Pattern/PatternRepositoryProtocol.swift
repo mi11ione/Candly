@@ -1,5 +1,5 @@
 import SharedModels
 
 public protocol PatternRepositoryProtocol: Sendable {
-    func fetchPatterns() async throws -> [Pattern]
+    func fetchPatterns(context: ModelContextProtocol) async throws -> [Pattern]
 }
