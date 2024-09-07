@@ -1,6 +1,6 @@
 import CoreRepository
-import SharedModels
 import NetworkService
+import SharedModels
 
 @MainActor
 public protocol Dependency: Sendable {

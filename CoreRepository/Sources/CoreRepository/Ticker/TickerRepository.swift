@@ -1,6 +1,6 @@
 import Foundation
-import SharedModels
 import NetworkService
+import SharedModels
 
 public actor TickerRepository: TickerRepositoryProtocol {
     private let networkService: NetworkServiceProtocol
@@ -13,20 +13,18 @@ public actor TickerRepository: TickerRepositoryProtocol {
         candleCache = CacheService(expirationInterval: cacheExpirationInterval)
     }
 
-    @MainActor
     public func fetchTickers(context: ModelContextProtocol) async throws -> [Ticker] {
         if let cachedTickers = await tickerCache.getValue(forKey: "allTickers") {
             return cachedTickers
         }
 
         let moexTickers = try await networkService.getMoexTickers()
-        let tickers = parseTickers(from: moexTickers)
-        try await saveTickers(tickers, context: context)
+        let tickers = await parseTickers(from: moexTickers)
+        await saveTickers(tickers, context: context)
         await tickerCache.setValue(tickers, forKey: "allTickers")
         return tickers
     }
 
-    @MainActor
     public func fetchCandles(for ticker: String, time: ChartTime, context: ModelContextProtocol) async throws -> [Candle] {
         let cacheKey = CandleCacheKey(ticker: ticker, time: time)
         if let cachedCandles = await candleCache.getValue(forKey: cacheKey) {
@@ -34,27 +32,27 @@ public actor TickerRepository: TickerRepositoryProtocol {
         }
 
         let moexCandles = try await networkService.getMoexCandles(ticker: ticker, time: time)
-        let candles = parseCandles(from: moexCandles, ticker: ticker)
-        try await saveCandles(candles, for: ticker, context: context)
+        let candles = await parseCandles(from: moexCandles, ticker: ticker)
+        await saveCandles(candles, for: ticker, context: context)
         await candleCache.setValue(candles, forKey: cacheKey)
         return candles
     }
 
-    private func saveTickers(_ tickers: [Ticker], context: ModelContextProtocol) async throws {
-        try await MainActor.run {
+    private func saveTickers(_ tickers: [Ticker], context: ModelContextProtocol) async {
+        await MainActor.run {
             for ticker in tickers {
                 context.insert(ticker)
             }
-            try context.save()
+            try? context.save()
         }
     }
 
-    private func saveCandles(_ candles: [Candle], for ticker: String, context: ModelContextProtocol) async throws {
-        try await MainActor.run {
+    private func saveCandles(_ candles: [Candle], for _: String, context: ModelContextProtocol) async {
+        await MainActor.run {
             for candle in candles {
                 context.insert(candle)
             }
-            try context.save()
+            try? context.save()
         }
     }
 

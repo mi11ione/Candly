@@ -1,13 +1,5 @@
 import SwiftData
 
-public struct DataWrapper<T: Sendable>: Sendable {
-    private let value: T
-
-    public init(value: T) {
-        self.value = value
-    }
-}
-
 @MainActor
 public protocol ModelContextProtocol: Sendable {
     func insert(_ model: any PersistentModel)

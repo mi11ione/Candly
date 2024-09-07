@@ -4,10 +4,9 @@ import SwiftData
 
 public actor PatternRepository: PatternRepositoryProtocol {
     public init() {}
-    
-    @MainActor
+
     public func fetchPatterns(context: ModelContextProtocol) async throws -> [Pattern] {
-        return try await withCheckedThrowingContinuation { continuation in
+        try await withCheckedThrowingContinuation { continuation in
             Task { @MainActor in
                 do {
                     let descriptor = FetchDescriptor<Pattern>(sortBy: [SortDescriptor(\.name)])
@@ -24,7 +23,7 @@ public actor PatternRepository: PatternRepositoryProtocol {
             }
         }
     }
-    
+
     private func createInitialPatterns(context: ModelContextProtocol) async throws -> [Pattern] {
         let patterns = [
             createPattern(name: "Three White Soldiers", info: "Bullish reversal pattern consisting of three consecutive long white candles.", filter: "Triple", dates: ["2016-04-14T10:00:00+0000", "2016-04-14T11:00:00+0000", "2016-04-14T12:00:00+0000"], opens: [108, 109, 121], closes: [120, 122, 130], highs: [122, 125, 130], lows: [107.5, 109, 121]),
@@ -46,7 +45,7 @@ public actor PatternRepository: PatternRepositoryProtocol {
             createPattern(name: "Cup and Handle", info: "Bullish continuation pattern resembling a cup with a handle, indicating a potential upward breakout.", filter: "Complex", dates: ["2016-04-24T10:00:00+0000", "2016-04-24T11:00:00+0000", "2016-04-24T12:00:00+0000", "2016-04-24T13:00:00+0000", "2016-04-24T14:00:00+0000"], opens: [100, 95, 98, 100, 99], closes: [95, 98, 100, 99, 103], highs: [102, 99, 101, 101, 104], lows: [94, 94, 97, 98, 98]),
             createPattern(name: "Rising Wedge", info: "Bearish reversal pattern with converging trendlines, both sloping upward, indicating a potential downward breakout.", filter: "Complex", dates: ["2016-04-25T10:00:00+0000", "2016-04-25T11:00:00+0000", "2016-04-25T12:00:00+0000", "2016-04-25T13:00:00+0000", "2016-04-25T14:00:00+0000"], opens: [100, 102, 104, 105, 106], closes: [102, 104, 105, 106, 104], highs: [103, 105, 106, 107, 107], lows: [99, 101, 103, 104, 103]),
         ]
-        
+
         return try await withCheckedThrowingContinuation { continuation in
             Task { @MainActor in
                 do {
@@ -61,7 +60,7 @@ public actor PatternRepository: PatternRepositoryProtocol {
             }
         }
     }
-    
+
     private func createPattern(name: String, info: String, filter: String, dates: [String], opens: [Double], closes: [Double], highs: [Double], lows: [Double]) -> Pattern {
         let candles = zip(dates, zip(opens, zip(closes, zip(highs, lows)))).map { date, values in
             Candle(id: UUID(), date: Candle.from(dateString: date), openPrice: values.0, closePrice: values.1.0, highPrice: values.1.1.0, lowPrice: values.1.1.1, ticker: "PATTERN_\(name)")

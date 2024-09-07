@@ -23,5 +23,9 @@ public class AppDependency: Dependency {
     public func makePatternRepository() -> PatternRepositoryProtocol { patternRepository }
     public func makeTickerRepository() -> TickerRepositoryProtocol { tickerRepository }
     public func makeNetworkService() -> NetworkServiceProtocol { networkService }
-    public func makeModelContext() -> ModelContextProtocol { modelContainer.mainContext }
+
+    @MainActor
+    public func makeModelContext() -> ModelContextProtocol {
+        ModelContextWrapper(context: modelContainer.mainContext)
+    }
 }
