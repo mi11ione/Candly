@@ -1,11 +1,11 @@
 import Foundation
 
-public enum MoexAPI {
-    private static let scheme = "https"
-    private static let host = "iss.moex.com"
-    private static let candlePath = "/iss/engines/stock/markets/shares/boards/TQBR/securities"
+enum MoexAPI {
+    static let scheme = "https"
+    static let host = "iss.moex.com"
+    static let candlePath = "/iss/engines/stock/markets/shares/boards/TQBR/securities"
 
-    public enum Endpoint {
+    enum Endpoint {
         case allTickers
         case candles(String)
 
@@ -18,7 +18,7 @@ public enum MoexAPI {
             }
         }
 
-        public func url(queryItems: [URLQueryItem]? = nil) -> URL? {
+        func url(queryItems: [URLQueryItem]? = nil) -> URL? {
             var components = URLComponents()
             components.scheme = MoexAPI.scheme
             components.host = MoexAPI.host
