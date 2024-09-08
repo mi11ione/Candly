@@ -6,23 +6,26 @@ let package = Package(
     name: "TickerFeature",
     platforms: [.iOS(.v17), .macOS(.v14), .visionOS(.v1)],
     products: [
-        .library(name: "TickerFeature", targets: ["TickerFeature"]),
+        .library(
+            name: "TickerFeature",
+            targets: ["TickerFeature"]
+        ),
     ],
     dependencies: [
+        .package(path: "../Data"),
         .package(path: "../CoreUI"),
         .package(path: "../CoreDI"),
         .package(path: "../SharedModels"),
-        .package(path: "../CoreRepository"),
         .package(path: "../CoreArchitecture"),
     ],
     targets: [
         .target(
             name: "TickerFeature",
             dependencies: [
+                "Data",
                 "CoreUI",
                 "CoreDI",
                 "SharedModels",
-                "CoreRepository",
                 "CoreArchitecture",
             ]
         ),

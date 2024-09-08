@@ -3,22 +3,23 @@
 import PackageDescription
 
 let package = Package(
-    name: "CoreRepository",
+    name: "Domain",
     platforms: [.iOS(.v17), .macOS(.v14), .visionOS(.v1)],
     products: [
-        .library(name: "CoreRepository", targets: ["CoreRepository"]),
+        .library(
+            name: "Domain",
+            targets: ["Domain"]
+        ),
     ],
     dependencies: [
         .package(path: "../SharedModels"),
-        .package(path: "../NetworkService"),
         .package(path: "../Data"),
     ],
     targets: [
         .target(
-            name: "CoreRepository",
+            name: "Domain",
             dependencies: [
                 "SharedModels",
-                "NetworkService",
                 "Data",
             ]
         ),

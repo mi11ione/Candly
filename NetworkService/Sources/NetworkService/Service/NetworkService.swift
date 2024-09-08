@@ -1,55 +1,32 @@
-import Data
 import Foundation
 import SharedModels
 
 public actor NetworkService: NetworkServiceProtocol {
     private let session: URLSession
-    private let dataService: DataServiceProtocol
-    private let errorHandler: NetworkErrorHandler
     private let cacher: NetworkCacher
     private var lastRequestTime: Date?
     private let minimumRequestInterval: TimeInterval = 1.0
     private let maxRetries = 3
 
     public init(session: URLSession = .shared,
-                dataService: DataServiceProtocol,
-                errorHandler: NetworkErrorHandler = DefaultNetworkErrorHandler(),
                 cacher: NetworkCacher = NetworkCacher())
     {
         self.session = session
-        self.dataService = dataService
-        self.errorHandler = errorHandler
         self.cacher = cacher
     }
 
-    public func getMoexTickers() async throws -> [Ticker] {
-        if let cachedTickers = await cacher.getCachedTickers() {
-            return cachedTickers
-        }
-
+    public func getMoexTickers() async throws -> Data {
         guard let url = MoexAPI.Endpoint.allTickers.url() else {
             throw NetworkError.invalidURL
         }
-
-        let data = try await performRequest(URLRequest(url: url))
-        let tickers = try await dataService.parseTickers(from: data)
-        await cacher.cacheTickers(tickers)
-        return tickers
+        return try await performRequest(URLRequest(url: url))
     }
 
-    public func getMoexCandles(ticker: String, time: ChartTime) async throws -> [Candle] {
-        if let cachedCandles = await cacher.getCachedCandles(for: ticker, time: time) {
-            return cachedCandles
-        }
-
+    public func getMoexCandles(ticker: String, time: ChartTime) async throws -> Data {
         guard let url = MoexAPI.Endpoint.candles(ticker).url(queryItems: [time.queryItem]) else {
             throw NetworkError.invalidURL
         }
-
-        let data = try await performRequest(URLRequest(url: url))
-        let candles = try await dataService.parseCandles(from: data, ticker: ticker)
-        await cacher.cacheCandles(candles, for: ticker, time: time)
-        return candles
+        return try await performRequest(URLRequest(url: url))
     }
 
     private func performRequest(_ request: URLRequest) async throws -> Data {
@@ -58,12 +35,12 @@ public actor NetworkService: NetworkServiceProtocol {
                 return try await rateLimitedRequest(request)
             } catch {
                 if attempt == maxRetries {
-                    throw errorHandler.handle(error)
+                    throw NetworkError.requestFailed
                 }
                 try await Task.sleep(for: .seconds(Double(attempt) * 2))
             }
         }
-        throw errorHandler.handle(NetworkError.requestFailed)
+        throw NetworkError.requestFailed
     }
 
     private func rateLimitedRequest(_ request: URLRequest) async throws -> Data {
@@ -96,4 +73,9 @@ public actor NetworkService: NetworkServiceProtocol {
             throw NetworkError.invalidResponse
         }
     }
+}
+
+public protocol NetworkServiceProtocol: Sendable {
+    func getMoexTickers() async throws -> Data
+    func getMoexCandles(ticker: String, time: ChartTime) async throws -> Data
 }

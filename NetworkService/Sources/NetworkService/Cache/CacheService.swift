@@ -1,4 +1,5 @@
 import Foundation
+import SharedModels
 
 public actor CacheService<Key: Hashable, Value> {
     private var cache: [Key: (value: Value, timestamp: Date)] = [:]
@@ -23,5 +24,15 @@ public actor CacheService<Key: Hashable, Value> {
 
     public func clear() {
         cache.removeAll()
+    }
+}
+
+public struct CandleCacheKey: Hashable, Sendable {
+    private let ticker: String
+    private let time: ChartTime
+
+    public init(ticker: String, time: ChartTime) {
+        self.ticker = ticker
+        self.time = time
     }
 }

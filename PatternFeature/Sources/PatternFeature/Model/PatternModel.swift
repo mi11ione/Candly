@@ -1,5 +1,5 @@
 import CoreArchitecture
-import CoreRepository
+import Data
 import Foundation
 import SharedModels
 

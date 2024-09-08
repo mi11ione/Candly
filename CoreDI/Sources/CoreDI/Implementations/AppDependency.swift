@@ -1,4 +1,3 @@
-import CoreRepository
 import Data
 import Foundation
 import NetworkService
@@ -9,9 +8,9 @@ import SwiftData
 public class AppDependency: Dependency {
     private let modelContainer: ModelContainer
     private let networkService: NetworkServiceProtocol
+    private let dataService: DataServiceProtocol
     private let patternRepository: PatternRepositoryProtocol
     private let tickerRepository: TickerRepositoryProtocol
-    private let dataService: DataServiceProtocol
 
     public init(cacheExpirationInterval: TimeInterval = 120) {
         modelContainer = try! ModelContainer(for: Pattern.self, Ticker.self, Candle.self)
@@ -19,7 +18,6 @@ public class AppDependency: Dependency {
         dataService = DataService()
 
         networkService = NetworkService(
-            dataService: dataService,
             cacher: NetworkCacher(
                 cacheExpirationInterval: cacheExpirationInterval
             )
@@ -31,7 +29,8 @@ public class AppDependency: Dependency {
         )
 
         tickerRepository = TickerRepository(
-            networkService: networkService
+            networkService: networkService,
+            dataService: dataService
         )
     }
 

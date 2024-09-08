@@ -14,9 +14,6 @@
       location = "group:CoreArchitecture">
    </FileRef>
    <FileRef
-      location = "group:CoreRepository">
-   </FileRef>
-   <FileRef
       location = "group:PatternFeature">
    </FileRef>
    <FileRef
@@ -30,5 +27,8 @@
    </FileRef>
    <FileRef
       location = "group:Data">
+   </FileRef>
+   <FileRef
+      location = "group:Domain">
    </FileRef>
 </Workspace>

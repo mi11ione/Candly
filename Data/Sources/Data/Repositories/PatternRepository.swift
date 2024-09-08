@@ -1,4 +1,3 @@
-import Data
 import SharedModels
 
 public actor PatternRepository: PatternRepositoryProtocol {
@@ -20,4 +19,8 @@ public actor PatternRepository: PatternRepositoryProtocol {
         }
         return patterns
     }
+}
+
+public protocol PatternRepositoryProtocol: Sendable {
+    func fetchPatterns(context: ModelContextProtocol) async throws -> [Pattern]
 }
