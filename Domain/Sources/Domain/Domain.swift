@@ -1,1 +1,0 @@
-// The Swift Programming Language
