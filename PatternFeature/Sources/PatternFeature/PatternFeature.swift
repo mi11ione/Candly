@@ -1,5 +1,4 @@
 import CoreDI
-import Data
 import SwiftUI
 
 public struct PatternFeature: View {

@@ -1,5 +1,4 @@
 import CoreArchitecture
-import Data
 import Domain
 import Foundation
 import SharedModels
@@ -19,8 +18,7 @@ public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Send
     }
 
     override public var filteredItems: [Ticker] {
-        guard !searchText.isEmpty else { return items }
-        return items.filter { $0.title.lowercased().contains(searchText.lowercased()) }
+        fetchTickersUseCase.filterTickers(items, searchText: searchText)
     }
 
     override public func handle(_ intent: TickerIntent) {

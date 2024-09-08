@@ -5,15 +5,16 @@ import SwiftUI
 public struct PatternView: BaseView {
     public typealias T = Pattern
     public typealias I = PatternIntent
-    @State public var model: PatternModel
+    @Bindable public var model: PatternModel
 
     public var body: some View {
         NavigationStack {
             ScrollView {
                 FilterView(
-                    filterKeys: model.filterKeys,
                     selectedFilter: model.selectedFilter,
-                    onFilterSelected: { handleIntent(.filterSelected($0)) }
+                    onFilterSelected: { filter in
+                        handleIntent(.filterSelected(filter))
+                    }
                 )
                 PatternGrid(
                     patterns: model.filteredItems,

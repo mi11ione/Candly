@@ -1,5 +1,4 @@
 import CoreArchitecture
-import Data
 import Domain
 import Foundation
 import SharedModels
@@ -7,7 +6,6 @@ import SharedModels
 @Observable
 public final class PatternModel: BaseModel<Pattern, PatternIntent>, @unchecked Sendable {
     private let fetchPatternsUseCase: FetchPatternsUseCaseProtocol
-    public let filterKeys = ["Single", "Double", "Triple", "Complex"]
     public private(set) var selectedFilter: String = ""
 
     public init(fetchPatternsUseCase: FetchPatternsUseCaseProtocol) {
@@ -18,10 +16,6 @@ public final class PatternModel: BaseModel<Pattern, PatternIntent>, @unchecked S
     override public func loadItems() async throws {
         let fetchedPatterns = try await fetchPatternsUseCase.execute()
         updateItems(fetchedPatterns)
-    }
-
-    public func selectFilter(_ filter: String) {
-        selectedFilter = selectedFilter == filter ? "" : filter
     }
 
     override public var filteredItems: [Pattern] {
@@ -35,7 +29,7 @@ public final class PatternModel: BaseModel<Pattern, PatternIntent>, @unchecked S
         case .loadPatterns:
             load()
         case let .filterSelected(filter):
-            selectFilter(filter)
+            selectedFilter = selectedFilter == filter ? "" : filter
         case let .togglePatternExpansion(id):
             toggleItemExpansion(id)
         }

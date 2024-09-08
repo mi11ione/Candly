@@ -12,7 +12,6 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../Data"),
         .package(path: "../Domain"),
         .package(path: "../CoreUI"),
         .package(path: "../CoreDI"),
@@ -23,7 +22,6 @@ let package = Package(
         .target(
             name: "PatternFeature",
             dependencies: [
-                "Data",
                 "Domain",
                 "CoreUI",
                 "CoreDI",
