@@ -6,35 +6,50 @@ public actor NetworkService: NetworkServiceProtocol {
     private let session: URLSession
     private let dataService: DataServiceProtocol
     private let errorHandler: NetworkErrorHandler
+    private let cacher: NetworkCacher
     private var lastRequestTime: Date?
     private let minimumRequestInterval: TimeInterval = 1.0
     private let maxRetries = 3
 
     public init(session: URLSession = .shared,
                 dataService: DataServiceProtocol,
-                errorHandler: NetworkErrorHandler = DefaultNetworkErrorHandler())
+                errorHandler: NetworkErrorHandler = DefaultNetworkErrorHandler(),
+                cacher: NetworkCacher = NetworkCacher())
     {
         self.session = session
         self.dataService = dataService
         self.errorHandler = errorHandler
+        self.cacher = cacher
     }
 
     public func getMoexTickers() async throws -> [Ticker] {
+        if let cachedTickers = await cacher.getCachedTickers() {
+            return cachedTickers
+        }
+
         guard let url = MoexAPI.Endpoint.allTickers.url() else {
             throw NetworkError.invalidURL
         }
 
         let data = try await performRequest(URLRequest(url: url))
-        return try await dataService.parseTickers(from: data)
+        let tickers = try await dataService.parseTickers(from: data)
+        await cacher.cacheTickers(tickers)
+        return tickers
     }
 
     public func getMoexCandles(ticker: String, time: ChartTime) async throws -> [Candle] {
+        if let cachedCandles = await cacher.getCachedCandles(for: ticker, time: time) {
+            return cachedCandles
+        }
+
         guard let url = MoexAPI.Endpoint.candles(ticker).url(queryItems: [time.queryItem]) else {
             throw NetworkError.invalidURL
         }
 
         let data = try await performRequest(URLRequest(url: url))
-        return try await dataService.parseCandles(from: data, ticker: ticker)
+        let candles = try await dataService.parseCandles(from: data, ticker: ticker)
+        await cacher.cacheCandles(candles, for: ticker, time: time)
+        return candles
     }
 
     private func performRequest(_ request: URLRequest) async throws -> Data {

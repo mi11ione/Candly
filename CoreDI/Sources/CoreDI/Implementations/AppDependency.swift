@@ -12,15 +12,27 @@ public class AppDependency: Dependency {
     private let patternRepository: PatternRepositoryProtocol
     private let tickerRepository: TickerRepositoryProtocol
     private let dataService: DataServiceProtocol
-    private let cacheExpirationInterval: TimeInterval
 
     public init(cacheExpirationInterval: TimeInterval = 120) {
         modelContainer = try! ModelContainer(for: Pattern.self, Ticker.self, Candle.self)
-        networkService = NetworkService(dataService: DataService())
+
         dataService = DataService()
-        patternRepository = PatternRepository(dataService: dataService, context: ModelContextWrapper(context: modelContainer.mainContext))
-        self.cacheExpirationInterval = cacheExpirationInterval
-        tickerRepository = TickerRepository(networkService: networkService, cacheExpirationInterval: cacheExpirationInterval)
+
+        networkService = NetworkService(
+            dataService: dataService,
+            cacher: NetworkCacher(
+                cacheExpirationInterval: cacheExpirationInterval
+            )
+        )
+
+        patternRepository = PatternRepository(
+            dataService: dataService,
+            context: ModelContextWrapper(context: modelContainer.mainContext)
+        )
+
+        tickerRepository = TickerRepository(
+            networkService: networkService
+        )
     }
 
     public func makePatternRepository() -> PatternRepositoryProtocol { patternRepository }
