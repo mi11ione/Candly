@@ -3,28 +3,22 @@
 import PackageDescription
 
 let package = Package(
-    name: "CoreDI",
+    name: "Data",
     platforms: [.iOS(.v17), .macOS(.v14), .visionOS(.v1)],
     products: [
         .library(
-            name: "CoreDI",
-            targets: ["CoreDI"]
+            name: "Data",
+            targets: ["Data"]
         ),
     ],
     dependencies: [
-        .package(path: "../NetworkService"),
-        .package(path: "../CoreRepository"),
         .package(path: "../SharedModels"),
-        .package(path: "../Data"),
     ],
     targets: [
         .target(
-            name: "CoreDI",
+            name: "Data",
             dependencies: [
-                "NetworkService",
-                "CoreRepository",
                 "SharedModels",
-                "Data",
             ]
         ),
     ]

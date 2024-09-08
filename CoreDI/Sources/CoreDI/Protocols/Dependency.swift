@@ -1,4 +1,5 @@
 import CoreRepository
+import Data
 import NetworkService
 import SharedModels
 
@@ -8,6 +9,7 @@ public protocol Dependency: Sendable {
     func makeTickerRepository() -> TickerRepositoryProtocol
     func makeNetworkService() -> NetworkServiceProtocol
     func makeModelContext() -> ModelContextProtocol
+    func makeDataService() -> DataServiceProtocol
 }
 
 @MainActor
@@ -16,6 +18,7 @@ struct UnimplementedDependency: Dependency {
     func makeTickerRepository() -> TickerRepositoryProtocol { unimplemented() }
     func makeNetworkService() -> NetworkServiceProtocol { unimplemented() }
     func makeModelContext() -> ModelContextProtocol { unimplemented() }
+    func makeDataService() -> DataServiceProtocol { unimplemented() }
 
     private func unimplemented() -> Never {
         fatalError("DependencyFactory not implemented")

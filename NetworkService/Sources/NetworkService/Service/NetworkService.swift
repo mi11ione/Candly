@@ -1,3 +1,4 @@
+import Data
 import Foundation
 import SharedModels
 
@@ -8,14 +9,17 @@ public actor NetworkService: NetworkServiceProtocol {
     private var lastRequestTime: Date?
     private let minimumRequestInterval: TimeInterval = 1.0
     private let maxRetries = 3
+    private let parser: DataParser
 
     public init(session: URLSession = .shared,
                 decoder: JSONDecoder = JSONDecoder(),
-                errorHandler: NetworkErrorHandler = DefaultNetworkErrorHandler())
+                errorHandler: NetworkErrorHandler = DefaultNetworkErrorHandler(),
+                parser: DataParser = DataParser())
     {
         self.session = session
         self.decoder = decoder
         self.errorHandler = errorHandler
+        self.parser = parser
     }
 
     public func getMoexTickers() async throws -> MoexTickers {
@@ -24,7 +28,7 @@ public actor NetworkService: NetworkServiceProtocol {
         }
 
         let data = try await performRequest(URLRequest(url: url))
-        return try decoder.decode(MoexTickers.self, from: data)
+        return try parser.decoder.decode(MoexTickers.self, from: data)
     }
 
     public func getMoexCandles(ticker: String, time: ChartTime) async throws -> MoexCandles {
@@ -33,7 +37,7 @@ public actor NetworkService: NetworkServiceProtocol {
         }
 
         let data = try await performRequest(URLRequest(url: url))
-        return try decoder.decode(MoexCandles.self, from: data)
+        return try parser.decoder.decode(MoexCandles.self, from: data)
     }
 
     private func performRequest(_ request: URLRequest) async throws -> Data {

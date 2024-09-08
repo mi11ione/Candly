@@ -1,0 +1,536 @@
+[
+    {
+        "name": "Three White Soldiers",
+        "info": "Bullish reversal pattern consisting of three consecutive long white candles.",
+        "filter": "Triple",
+        "candles": [
+            {
+                "date": "2016-04-14T10:00:00+0000",
+                "openPrice": 108,
+                "closePrice": 120,
+                "highPrice": 122,
+                "lowPrice": 107.5,
+                "ticker": "PATTERN_Three White Soldiers"
+            },
+            {
+                "date": "2016-04-14T11:00:00+0000",
+                "openPrice": 109,
+                "closePrice": 122,
+                "highPrice": 125,
+                "lowPrice": 109,
+                "ticker": "PATTERN_Three White Soldiers"
+            },
+            {
+                "date": "2016-04-14T12:00:00+0000",
+                "openPrice": 121,
+                "closePrice": 130,
+                "highPrice": 130,
+                "lowPrice": 121,
+                "ticker": "PATTERN_Three White Soldiers"
+            }
+        ]
+    },
+    {
+        "name": "Inverted Hammer",
+        "info": "Bullish reversal pattern with a small body and a long upper shadow.",
+        "filter": "Single",
+        "candles": [
+            {
+                "date": "2016-04-21T10:00:00+0000",
+                "openPrice": 100,
+                "closePrice": 102,
+                "highPrice": 107,
+                "lowPrice": 99,
+                "ticker": "PATTERN_Inverted Hammer"
+            }
+        ]
+    },
+    {
+        "name": "Doji",
+        "info": "Neutral pattern where opening and closing prices are nearly equal.",
+        "filter": "Single",
+        "candles": [
+            {
+                "date": "2016-04-25T10:00:00+0000",
+                "openPrice": 105,
+                "closePrice": 105,
+                "highPrice": 110,
+                "lowPrice": 100,
+                "ticker": "PATTERN_Doji"
+            }
+        ]
+    },
+    {
+        "name": "Closing Marubozu",
+        "info": "Bearish pattern with no lower shadow and a small or non-existent upper shadow.",
+        "filter": "Single",
+        "candles": [
+            {
+                "date": "2016-04-14T10:00:00+0000",
+                "openPrice": 260,
+                "closePrice": 220,
+                "highPrice": 260,
+                "lowPrice": 220,
+                "ticker": "PATTERN_Closing Marubozu"
+            }
+        ]
+    },
+    {
+        "name": "Gartley Pattern",
+        "info": "Harmonic pattern used to identify potential reversal zones in price trends.",
+        "filter": "Complex",
+        "candles": [
+            {
+                "date": "2016-05-18T10:00:00+0000",
+                "openPrice": 100,
+                "closePrice": 105,
+                "highPrice": 106,
+                "lowPrice": 99,
+                "ticker": "PATTERN_Gartley Pattern"
+            },
+            {
+                "date": "2016-05-18T11:00:00+0000",
+                "openPrice": 105,
+                "closePrice": 95,
+                "highPrice": 106,
+                "lowPrice": 94,
+                "ticker": "PATTERN_Gartley Pattern"
+            },
+            {
+                "date": "2016-05-18T12:00:00+0000",
+                "openPrice": 95,
+                "closePrice": 100,
+                "highPrice": 101,
+                "lowPrice": 94,
+                "ticker": "PATTERN_Gartley Pattern"
+            },
+            {
+                "date": "2016-05-18T13:00:00+0000",
+                "openPrice": 100,
+                "closePrice": 90,
+                "highPrice": 101,
+                "lowPrice": 89,
+                "ticker": "PATTERN_Gartley Pattern"
+            },
+            {
+                "date": "2016-05-18T14:00:00+0000",
+                "openPrice": 90,
+                "closePrice": 95,
+                "highPrice": 96,
+                "lowPrice": 89,
+                "ticker": "PATTERN_Gartley Pattern"
+            }
+        ]
+    },
+    {
+        "name": "Harami",
+        "info": "Reversal pattern where the second candle is completely contained within the first.",
+        "filter": "Double",
+        "candles": [
+            {
+                "date": "2016-04-14T10:00:00+0000",
+                "openPrice": 250,
+                "closePrice": 200,
+                "highPrice": 260,
+                "lowPrice": 195,
+                "ticker": "PATTERN_Harami"
+            },
+            {
+                "date": "2016-04-14T11:00:00+0000",
+                "openPrice": 210,
+                "closePrice": 230,
+                "highPrice": 235,
+                "lowPrice": 205,
+                "ticker": "PATTERN_Harami"
+            }
+        ]
+    },
+    {
+        "name": "Piercing Line",
+        "info": "Bullish reversal pattern where the second candle closes above the midpoint of the first.",
+        "filter": "Double",
+        "candles": [
+            {
+                "date": "2016-04-14T10:00:00+0000",
+                "openPrice": 250,
+                "closePrice": 200,
+                "highPrice": 255,
+                "lowPrice": 195,
+                "ticker": "PATTERN_Piercing Line"
+            },
+            {
+                "date": "2016-04-14T11:00:00+0000",
+                "openPrice": 190,
+                "closePrice": 240,
+                "highPrice": 245,
+                "lowPrice": 185,
+                "ticker": "PATTERN_Piercing Line"
+            }
+        ]
+    },
+    {
+        "name": "Shooting Star",
+        "info": "Bearish reversal pattern with a small body and a long upper shadow.",
+        "filter": "Single",
+        "candles": [
+            {
+                "date": "2016-04-15T10:00:00+0000",
+                "openPrice": 100,
+                "closePrice": 98,
+                "highPrice": 110,
+                "lowPrice": 97,
+                "ticker": "PATTERN_Shooting Star"
+            }
+        ]
+    },
+    {
+        "name": "Morning Star",
+        "info": "Bullish reversal pattern consisting of three candles, signaling a potential uptrend.",
+        "filter": "Triple",
+        "candles": [
+            {
+                "date": "2016-04-16T10:00:00+0000",
+                "openPrice": 100,
+                "closePrice": 90,
+                "highPrice": 102,
+                "lowPrice": 88,
+                "ticker": "PATTERN_Morning Star"
+            },
+            {
+                "date": "2016-04-16T11:00:00+0000",
+                "openPrice": 88,
+                "closePrice": 89,
+                "highPrice": 91,
+                "lowPrice": 87,
+                "ticker": "PATTERN_Morning Star"
+            },
+            {
+                "date": "2016-04-16T12:00:00+0000",
+                "openPrice": 92,
+                "closePrice": 98,
+                "highPrice": 100,
+                "lowPrice": 91,
+                "ticker": "PATTERN_Morning Star"
+            }
+        ]
+    },
+    {
+        "name": "Evening Star",
+        "info": "Bearish reversal pattern consisting of three candles, signaling a potential downtrend.",
+        "filter": "Triple",
+        "candles": [
+            {
+                "date": "2016-04-17T10:00:00+0000",
+                "openPrice": 100,
+                "closePrice": 110,
+                "highPrice": 112,
+                "lowPrice": 99,
+                "ticker": "PATTERN_Evening Star"
+            },
+            {
+                "date": "2016-04-17T11:00:00+0000",
+                "openPrice": 112,
+                "closePrice": 111,
+                "highPrice": 114,
+                "lowPrice": 110,
+                "ticker": "PATTERN_Evening Star"
+            },
+            {
+                "date": "2016-04-17T12:00:00+0000",
+                "openPrice": 108,
+                "closePrice": 102,
+                "highPrice": 109,
+                "lowPrice": 100,
+                "ticker": "PATTERN_Evening Star"
+            }
+        ]
+    },
+    {
+        "name": "Three Black Crows",
+        "info": "Bearish reversal pattern consisting of three consecutive long black candles.",
+        "filter": "Triple",
+        "candles": [
+            {
+                "date": "2016-04-18T10:00:00+0000",
+                "openPrice": 100,
+                "closePrice": 95,
+                "highPrice": 102,
+                "lowPrice": 94,
+                "ticker": "PATTERN_Three Black Crows"
+            },
+            {
+                "date": "2016-04-18T11:00:00+0000",
+                "openPrice": 94,
+                "closePrice": 89,
+                "highPrice": 95,
+                "lowPrice": 88,
+                "ticker": "PATTERN_Three Black Crows"
+            },
+            {
+                "date": "2016-04-18T12:00:00+0000",
+                "openPrice": 88,
+                "closePrice": 83,
+                "highPrice": 89,
+                "lowPrice": 82,
+                "ticker": "PATTERN_Three Black Crows"
+            }
+        ]
+    },
+    {
+        "name": "Bullish Flag",
+        "info": "Continuation pattern showing a temporary pause in an uptrend before further gains.",
+        "filter": "Complex",
+        "candles": [
+            {
+                "date": "2016-04-19T10:00:00+0000",
+                "openPrice": 100,
+                "closePrice": 110,
+                "highPrice": 112,
+                "lowPrice": 99,
+                "ticker": "PATTERN_Bullish Flag"
+            },
+            {
+                "date": "2016-04-19T11:00:00+0000",
+                "openPrice": 111,
+                "closePrice": 109,
+                "highPrice": 113,
+                "lowPrice": 108,
+                "ticker": "PATTERN_Bullish Flag"
+            },
+            {
+                "date": "2016-04-19T12:00:00+0000",
+                "openPrice": 110,
+                "closePrice": 108,
+                "highPrice": 111,
+                "lowPrice": 107,
+                "ticker": "PATTERN_Bullish Flag"
+            },
+            {
+                "date": "2016-04-19T13:00:00+0000",
+                "openPrice": 109,
+                "closePrice": 107,
+                "highPrice": 110,
+                "lowPrice": 106,
+                "ticker": "PATTERN_Bullish Flag"
+            },
+            {
+                "date": "2016-04-19T14:00:00+0000",
+                "openPrice": 108,
+                "closePrice": 115,
+                "highPrice": 117,
+                "lowPrice": 107,
+                "ticker": "PATTERN_Bullish Flag"
+            }
+        ]
+    },
+    {
+        "name": "Bullish Engulfing",
+        "info": "Bullish reversal pattern where the second candle completely engulfs the first.",
+        "filter": "Double",
+        "candles": [
+            {
+                "date": "2016-04-20T10:00:00+0000",
+                "openPrice": 100,
+                "closePrice": 95,
+                "highPrice": 102,
+                "lowPrice": 94,
+                "ticker": "PATTERN_Bullish Engulfing"
+            },
+            {
+                "date": "2016-04-20T11:00:00+0000",
+                "openPrice": 94,
+                "closePrice": 103,
+                "highPrice": 104,
+                "lowPrice": 93,
+                "ticker": "PATTERN_Bullish Engulfing"
+            }
+        ]
+    },
+    {
+        "name": "Bearish Engulfing",
+        "info": "Bearish reversal pattern is a reversed Bullish Engulfing.",
+        "filter": "Double",
+        "candles": [
+            {
+                "date": "2016-04-21T10:00:00+0000",
+                "openPrice": 100,
+                "closePrice": 105,
+                "highPrice": 106,
+                "lowPrice": 99,
+                "ticker": "PATTERN_Bearish Engulfing"
+            },
+            {
+                "date": "2016-04-21T11:00:00+0000",
+                "openPrice": 106,
+                "closePrice": 98,
+                "highPrice": 107,
+                "lowPrice": 97,
+                "ticker": "PATTERN_Bearish Engulfing"
+            }
+        ]
+    },
+    {
+        "name": "Tweezer Top",
+        "info": "Bearish reversal pattern with two candles having the same high price.",
+        "filter": "Double",
+        "candles": [
+            {
+                "date": "2016-04-22T10:00:00+0000",
+                "openPrice": 100,
+                "closePrice": 105,
+                "highPrice": 107,
+                "lowPrice": 99,
+                "ticker": "PATTERN_Tweezer Top"
+            },
+            {
+                "date": "2016-04-22T11:00:00+0000",
+                "openPrice": 105,
+                "closePrice": 101,
+                "highPrice": 107,
+                "lowPrice": 100,
+                "ticker": "PATTERN_Tweezer Top"
+            }
+        ]
+    },
+    {
+        "name": "Head and Shoulders",
+        "info": "Bearish reversal pattern resembling a head with two shoulders, signaling a potential downtrend.",
+        "filter": "Complex",
+        "candles": [
+            {
+                "date": "2016-04-23T10:00:00+0000",
+                "openPrice": 100,
+                "closePrice": 105,
+                "highPrice": 106,
+                "lowPrice": 99,
+                "ticker": "PATTERN_Head and Shoulders"
+            },
+            {
+                "date": "2016-04-23T11:00:00+0000",
+                "openPrice": 106,
+                "closePrice": 110,
+                "highPrice": 112,
+                "lowPrice": 105,
+                "ticker": "PATTERN_Head and Shoulders"
+            },
+            {
+                "date": "2016-04-23T12:00:00+0000",
+                "openPrice": 110,
+                "closePrice": 108,
+                "highPrice": 111,
+                "lowPrice": 107,
+                "ticker": "PATTERN_Head and Shoulders"
+            },
+            {
+                "date": "2016-04-23T13:00:00+0000",
+                "openPrice": 108,
+                "closePrice": 115,
+                "highPrice": 116,
+                "lowPrice": 107,
+                "ticker": "PATTERN_Head and Shoulders"
+            },
+            {
+                "date": "2016-04-23T14:00:00+0000",
+                "openPrice": 115,
+                "closePrice": 105,
+                "highPrice": 116,
+                "lowPrice": 104,
+                "ticker": "PATTERN_Head and Shoulders"
+            }
+        ]
+    },
+    {
+        "name": "Cup and Handle",
+        "info": "Bullish continuation pattern resembling a cup with a handle, indicating a potential upward breakout.",
+        "filter": "Complex",
+        "candles": [
+            {
+                "date": "2016-04-24T10:00:00+0000",
+                "openPrice": 100,
+                "closePrice": 95,
+                "highPrice": 102,
+                "lowPrice": 94,
+                "ticker": "PATTERN_Cup and Handle"
+            },
+            {
+                "date": "2016-04-24T11:00:00+0000",
+                "openPrice": 95,
+                "closePrice": 98,
+                "highPrice": 99,
+                "lowPrice": 94,
+                "ticker": "PATTERN_Cup and Handle"
+            },
+            {
+                "date": "2016-04-24T12:00:00+0000",
+                "openPrice": 98,
+                "closePrice": 100,
+                "highPrice": 101,
+                "lowPrice": 97,
+                "ticker": "PATTERN_Cup and Handle"
+            },
+            {
+                "date": "2016-04-24T13:00:00+0000",
+                "openPrice": 100,
+                "closePrice": 99,
+                "highPrice": 101,
+                "lowPrice": 98,
+                "ticker": "PATTERN_Cup and Handle"
+            },
+            {
+                "date": "2016-04-24T14:00:00+0000",
+                "openPrice": 99,
+                "closePrice": 103,
+                "highPrice": 104,
+                "lowPrice": 98,
+                "ticker": "PATTERN_Cup and Handle"
+            }
+        ]
+    },
+    {
+        "name": "Rising Wedge",
+        "info": "Bearish reversal pattern with converging trendlines, both sloping upward, indicating a potential downward breakout.",
+        "filter": "Complex",
+        "candles": [
+            {
+                "date": "2016-04-25T10:00:00+0000",
+                "openPrice": 100,
+                "closePrice": 102,
+                "highPrice": 103,
+                "lowPrice": 99,
+                "ticker": "PATTERN_Rising Wedge"
+            },
+            {
+                "date": "2016-04-25T11:00:00+0000",
+                "openPrice": 102,
+                "closePrice": 104,
+                "highPrice": 105,
+                "lowPrice": 101,
+                "ticker": "PATTERN_Rising Wedge"
+            },
+            {
+                "date": "2016-04-25T12:00:00+0000",
+                "openPrice": 104,
+                "closePrice": 105,
+                "highPrice": 106,
+                "lowPrice": 103,
+                "ticker": "PATTERN_Rising Wedge"
+            },
+            {
+                "date": "2016-04-25T13:00:00+0000",
+                "openPrice": 105,
+                "closePrice": 106,
+                "highPrice": 107,
+                "lowPrice": 104,
+                "ticker": "PATTERN_Rising Wedge"
+            },
+            {
+                "date": "2016-04-25T14:00:00+0000",
+                "openPrice": 106,
+                "closePrice": 104,
+                "highPrice": 107,
+                "lowPrice": 103,
+                "ticker": "PATTERN_Rising Wedge"
+            }
+        ]
+    }
+]

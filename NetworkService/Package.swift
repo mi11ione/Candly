@@ -6,16 +6,21 @@ let package = Package(
     name: "NetworkService",
     platforms: [.iOS(.v17), .macOS(.v14), .visionOS(.v1)],
     products: [
-        .library(name: "NetworkService", targets: ["NetworkService"]),
+        .library(
+            name: "NetworkService",
+            targets: ["NetworkService"]
+        ),
     ],
     dependencies: [
         .package(path: "../SharedModels"),
+        .package(path: "../Data"),
     ],
     targets: [
         .target(
             name: "NetworkService",
             dependencies: [
                 "SharedModels",
+                "Data",
             ]
         ),
     ]

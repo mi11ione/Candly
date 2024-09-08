@@ -1,5 +1,3 @@
-import Foundation
-
 public protocol NetworkErrorHandler {
     func handle(_ error: Error) -> NetworkError
 }

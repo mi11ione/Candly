@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		330021992C5B9DDC00F1A7B1 /* TickerFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 330021982C5B9DDC00F1A7B1 /* TickerFeature */; };
 		3321802D2C5BB20700B444C4 /* NetworkService in Frameworks */ = {isa = PBXBuildFile; productRef = 3321802C2C5BB20700B444C4 /* NetworkService */; };
+		334D4E6D2C8D957B00760CDA /* Data in Frameworks */ = {isa = PBXBuildFile; productRef = 334D4E6C2C8D957B00760CDA /* Data */; };
 		33C27DC72C5B6F6000093463 /* CoreRepository in Frameworks */ = {isa = PBXBuildFile; productRef = 33C27DC62C5B6F6000093463 /* CoreRepository */; };
 		33DB01B62C5FA1B7006463DF /* CoreArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 33DB01B52C5FA1B7006463DF /* CoreArchitecture */; };
 		33DD4A3B2C5A44F2002CA246 /* PatternFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 33DD4A3A2C5A44F2002CA246 /* PatternFeature */; };
@@ -48,6 +49,7 @@
 				33EC51702C5AACE700DB7ECF /* CoreUI in Frameworks */,
 				330021992C5B9DDC00F1A7B1 /* TickerFeature in Frameworks */,
 				33EC51782C5AD06600DB7ECF /* SharedModels in Frameworks */,
+				334D4E6D2C8D957B00760CDA /* Data in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +100,7 @@
 				330021982C5B9DDC00F1A7B1 /* TickerFeature */,
 				3321802C2C5BB20700B444C4 /* NetworkService */,
 				33DB01B52C5FA1B7006463DF /* CoreArchitecture */,
+				334D4E6C2C8D957B00760CDA /* Data */,
 			);
 			productName = Candly;
 			productReference = 33DD4A232C5A447B002CA246 /* Candly.app */;
@@ -136,6 +139,7 @@
 				330021972C5B9DDC00F1A7B1 /* XCLocalSwiftPackageReference "../TickerFeature" */,
 				3321802B2C5BB20700B444C4 /* XCLocalSwiftPackageReference "../NetworkService" */,
 				33DB01B42C5FA1B7006463DF /* XCLocalSwiftPackageReference "../CoreArchitecture" */,
+				334D4E6B2C8D957B00760CDA /* XCLocalSwiftPackageReference "../Data" */,
 			);
 			productRefGroup = 33DD4A242C5A447B002CA246 /* Products */;
 			projectDirPath = "";
@@ -396,6 +400,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../NetworkService;
 		};
+		334D4E6B2C8D957B00760CDA /* XCLocalSwiftPackageReference "../Data" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Data;
+		};
 		33C27DC52C5B6F6000093463 /* XCLocalSwiftPackageReference "../CoreRepository" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../CoreRepository;
@@ -430,6 +438,10 @@
 		3321802C2C5BB20700B444C4 /* NetworkService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = NetworkService;
+		};
+		334D4E6C2C8D957B00760CDA /* Data */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Data;
 		};
 		33C27DC62C5B6F6000093463 /* CoreRepository */ = {
 			isa = XCSwiftPackageProductDependency;

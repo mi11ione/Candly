@@ -1,4 +1,5 @@
 import CoreDI
+import CoreRepository
 import SwiftUI
 
 public struct PatternFeature: View {
@@ -7,6 +8,11 @@ public struct PatternFeature: View {
     public init() {}
 
     public var body: some View {
-        PatternView(model: PatternModel(repository: dependencyFactory.makePatternRepository(), context: dependencyFactory.makeModelContext()))
+        PatternView(
+            model: PatternModel(
+                repository: dependencyFactory.makePatternRepository(),
+                context: dependencyFactory.makeModelContext()
+            )
+        )
     }
 }

@@ -11,6 +11,7 @@ let package = Package(
     dependencies: [
         .package(path: "../SharedModels"),
         .package(path: "../NetworkService"),
+        .package(path: "../Data"),
     ],
     targets: [
         .target(
@@ -18,6 +19,7 @@ let package = Package(
             dependencies: [
                 "SharedModels",
                 "NetworkService",
+                "Data",
             ]
         ),
     ]
