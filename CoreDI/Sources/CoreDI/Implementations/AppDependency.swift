@@ -16,7 +16,7 @@ public class AppDependency: Dependency {
 
     public init(cacheExpirationInterval: TimeInterval = 120) {
         modelContainer = try! ModelContainer(for: Pattern.self, Ticker.self, Candle.self)
-        networkService = NetworkService()
+        networkService = NetworkService(dataService: DataService())
         dataService = DataService()
         patternRepository = PatternRepository(dataService: dataService, context: ModelContextWrapper(context: modelContainer.mainContext))
         self.cacheExpirationInterval = cacheExpirationInterval

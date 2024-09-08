@@ -23,7 +23,7 @@ public final class Pattern: Identifiable, Codable, @unchecked Sendable {
 
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = UUID() // Generate a new UUID for each pattern
+        id = UUID()
         name = try container.decode(String.self, forKey: .name)
         info = try container.decode(String.self, forKey: .info)
         filter = try container.decode(String.self, forKey: .filter)

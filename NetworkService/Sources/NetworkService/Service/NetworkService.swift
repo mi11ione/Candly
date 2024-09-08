@@ -4,40 +4,37 @@ import SharedModels
 
 public actor NetworkService: NetworkServiceProtocol {
     private let session: URLSession
-    private let decoder: JSONDecoder
+    private let dataService: DataServiceProtocol
     private let errorHandler: NetworkErrorHandler
     private var lastRequestTime: Date?
     private let minimumRequestInterval: TimeInterval = 1.0
     private let maxRetries = 3
-    private let parser: DataParser
 
     public init(session: URLSession = .shared,
-                decoder: JSONDecoder = JSONDecoder(),
-                errorHandler: NetworkErrorHandler = DefaultNetworkErrorHandler(),
-                parser: DataParser = DataParser())
+                dataService: DataServiceProtocol,
+                errorHandler: NetworkErrorHandler = DefaultNetworkErrorHandler())
     {
         self.session = session
-        self.decoder = decoder
+        self.dataService = dataService
         self.errorHandler = errorHandler
-        self.parser = parser
     }
 
-    public func getMoexTickers() async throws -> MoexTickers {
+    public func getMoexTickers() async throws -> [Ticker] {
         guard let url = MoexAPI.Endpoint.allTickers.url() else {
             throw NetworkError.invalidURL
         }
 
         let data = try await performRequest(URLRequest(url: url))
-        return try parser.decoder.decode(MoexTickers.self, from: data)
+        return try await dataService.parseTickers(from: data)
     }
 
-    public func getMoexCandles(ticker: String, time: ChartTime) async throws -> MoexCandles {
+    public func getMoexCandles(ticker: String, time: ChartTime) async throws -> [Candle] {
         guard let url = MoexAPI.Endpoint.candles(ticker).url(queryItems: [time.queryItem]) else {
             throw NetworkError.invalidURL
         }
 
         let data = try await performRequest(URLRequest(url: url))
-        return try parser.decoder.decode(MoexCandles.self, from: data)
+        return try await dataService.parseCandles(from: data, ticker: ticker)
     }
 
     private func performRequest(_ request: URLRequest) async throws -> Data {
@@ -82,74 +79,6 @@ public actor NetworkService: NetworkServiceProtocol {
             throw NetworkError.serverError
         default:
             throw NetworkError.invalidResponse
-        }
-    }
-
-    private func parseMoexTickers(from data: Data) throws -> [Ticker] {
-        do {
-            let moexTickers = try decoder.decode(MoexTickers.self, from: data)
-            let parsedTickers = moexTickers.securities.data.compactMap { tickerData -> Ticker? in
-                guard tickerData.count >= 26,
-                      case let .string(title) = tickerData[0],
-                      case let .string(subTitle) = tickerData[2],
-                      case let .double(price) = tickerData[3],
-                      case let .double(priceChange) = tickerData[25]
-                else { return nil }
-
-                return Ticker(
-                    id: UUID(),
-                    title: title,
-                    subTitle: subTitle,
-                    price: price,
-                    priceChange: priceChange,
-                    currency: "RUB"
-                )
-            }
-
-            guard !parsedTickers.isEmpty else {
-                throw NetworkError.decodingError
-            }
-
-            return parsedTickers
-        } catch {
-            throw errorHandler.handle(error)
-        }
-    }
-
-    private func parseMoexCandles(from data: Data, ticker: String) throws -> [Candle] {
-        do {
-            let moexCandles = try decoder.decode(MoexCandles.self, from: data)
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-
-            let parsedCandles = moexCandles.candles.data.compactMap { candleData -> Candle? in
-                guard
-                    case let .string(dateString) = candleData[6],
-                    let date = dateFormatter.date(from: dateString),
-                    case let .double(openPrice) = candleData[0],
-                    case let .double(closePrice) = candleData[1],
-                    case let .double(highPrice) = candleData[2],
-                    case let .double(lowPrice) = candleData[3]
-                else { return nil }
-
-                return Candle(
-                    id: UUID(),
-                    date: date,
-                    openPrice: openPrice,
-                    closePrice: closePrice,
-                    highPrice: highPrice,
-                    lowPrice: lowPrice,
-                    ticker: ticker
-                )
-            }
-
-            guard !parsedCandles.isEmpty else {
-                throw NetworkError.decodingError
-            }
-
-            return parsedCandles
-        } catch {
-            throw errorHandler.handle(error)
         }
     }
 }

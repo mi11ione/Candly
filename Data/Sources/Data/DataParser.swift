@@ -2,28 +2,31 @@ import Foundation
 import SharedModels
 
 public struct DataParser {
-    public let decoder: JSONDecoder
+    private let decoder: JSONDecoder
 
     public init(decoder: JSONDecoder = JSONDecoder()) {
         self.decoder = decoder
+        self.decoder.dateDecodingStrategy = .iso8601
     }
 
     public func parsePatterns(from data: Data) throws -> [Pattern] {
-        let patterns = try decoder.decode([Pattern].self, from: data)
-        guard !patterns.isEmpty else {
-            throw DataParserError.emptyResult
-        }
-        return patterns
+        try decoder.decode([Pattern].self, from: data)
     }
 
     public func parseTickers(from data: Data) throws -> [Ticker] {
-        let moexTickers = try decoder.decode(MoexTickers.self, from: data)
-        let parsedTickers = moexTickers.securities.data.compactMap { tickerData -> Ticker? in
+        let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+        guard let securitiesData = json?["securities"] as? [String: Any],
+              let tickersData = securitiesData["data"] as? [[Any]]
+        else {
+            throw DataParserError.invalidData
+        }
+
+        return tickersData.compactMap { tickerData -> Ticker? in
             guard tickerData.count >= 26,
-                  case let .string(title) = tickerData[0],
-                  case let .string(subTitle) = tickerData[2],
-                  case let .double(price) = tickerData[3],
-                  case let .double(priceChange) = tickerData[25]
+                  let title = tickerData[0] as? String,
+                  let subTitle = tickerData[2] as? String,
+                  let price = tickerData[3] as? Double,
+                  let priceChange = tickerData[25] as? Double
             else { return nil }
 
             return Ticker(
@@ -35,27 +38,24 @@ public struct DataParser {
                 currency: "RUB"
             )
         }
-
-        guard !parsedTickers.isEmpty else {
-            throw DataParserError.emptyResult
-        }
-
-        return parsedTickers
     }
 
     public func parseCandles(from data: Data, ticker: String) throws -> [Candle] {
-        let moexCandles = try decoder.decode(MoexCandles.self, from: data)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+        guard let candlesData = json?["candles"] as? [String: Any],
+              let candlesList = candlesData["data"] as? [[Any]]
+        else {
+            throw DataParserError.invalidData
+        }
 
-        let parsedCandles = moexCandles.candles.data.compactMap { candleData -> Candle? in
-            guard
-                case let .string(dateString) = candleData[6],
-                let date = dateFormatter.date(from: dateString),
-                case let .double(openPrice) = candleData[0],
-                case let .double(closePrice) = candleData[1],
-                case let .double(highPrice) = candleData[2],
-                case let .double(lowPrice) = candleData[3]
+        return candlesList.compactMap { candleData -> Candle? in
+            guard candleData.count >= 7,
+                  let openPrice = candleData[0] as? Double,
+                  let closePrice = candleData[1] as? Double,
+                  let highPrice = candleData[2] as? Double,
+                  let lowPrice = candleData[3] as? Double,
+                  let dateString = candleData[6] as? String,
+                  let date = ISO8601DateFormatter().date(from: dateString)
             else { return nil }
 
             return Candle(
@@ -68,15 +68,9 @@ public struct DataParser {
                 ticker: ticker
             )
         }
-
-        guard !parsedCandles.isEmpty else {
-            throw DataParserError.emptyResult
-        }
-
-        return parsedCandles
     }
 }
 
 public enum DataParserError: Error {
-    case emptyResult
+    case invalidData
 }
