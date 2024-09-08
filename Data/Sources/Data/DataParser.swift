@@ -10,7 +10,51 @@ public struct DataParser {
     }
 
     public func parsePatterns(from data: Data) throws -> [Pattern] {
-        try decoder.decode([Pattern].self, from: data)
+        let json = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]]
+        guard let patternsData = json else {
+            throw DataParserError.invalidData
+        }
+
+        return patternsData.compactMap { patternData -> Pattern? in
+            guard let name = patternData["name"] as? String,
+                  let info = patternData["info"] as? String,
+                  let filter = patternData["filter"] as? String,
+                  let candlesData = patternData["candles"] as? [[String: Any]]
+            else {
+                return nil
+            }
+
+            let candles = candlesData.compactMap { candleData -> Candle? in
+                guard let dateString = candleData["date"] as? String,
+                      let date = ISO8601DateFormatter().date(from: dateString),
+                      let openPrice = candleData["openPrice"] as? Double,
+                      let closePrice = candleData["closePrice"] as? Double,
+                      let highPrice = candleData["highPrice"] as? Double,
+                      let lowPrice = candleData["lowPrice"] as? Double,
+                      let ticker = candleData["ticker"] as? String
+                else {
+                    return nil
+                }
+
+                return Candle(
+                    id: UUID(),
+                    date: date,
+                    openPrice: openPrice,
+                    closePrice: closePrice,
+                    highPrice: highPrice,
+                    lowPrice: lowPrice,
+                    ticker: ticker
+                )
+            }
+
+            return Pattern(
+                id: UUID(),
+                name: name,
+                info: info,
+                filter: filter,
+                candles: candles
+            )
+        }
     }
 
     public func parseTickers(from data: Data) throws -> [Ticker] {

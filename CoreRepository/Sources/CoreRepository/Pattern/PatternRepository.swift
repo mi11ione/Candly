@@ -12,11 +12,11 @@ public actor PatternRepository: PatternRepositoryProtocol {
 
     public func fetchPatterns(context: ModelContextProtocol) async throws -> [Pattern] {
         let patterns = try await dataService.loadPatterns()
-        await MainActor.run {
+        try await MainActor.run {
             for pattern in patterns {
                 context.insert(pattern)
             }
-            try? context.save()
+            try context.save()
         }
         return patterns
     }
