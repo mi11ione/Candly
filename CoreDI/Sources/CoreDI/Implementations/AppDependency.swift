@@ -1,4 +1,5 @@
 import Data
+import Domain
 import Foundation
 import NetworkService
 import SharedModels
@@ -11,6 +12,8 @@ public class AppDependency: Dependency {
     private let dataService: DataServiceProtocol
     private let patternRepository: PatternRepositoryProtocol
     private let tickerRepository: TickerRepositoryProtocol
+    private let fetchPatternsUseCase: FetchPatternsUseCaseProtocol
+    private let fetchTickersUseCase: FetchTickersUseCaseProtocol
 
     public init(cacheExpirationInterval: TimeInterval = 120) {
         modelContainer = try! ModelContainer(for: Pattern.self, Ticker.self, Candle.self)
@@ -23,19 +26,33 @@ public class AppDependency: Dependency {
             )
         )
 
+        let context = ModelContextWrapper(
+            context: modelContainer.mainContext
+        )
+
         patternRepository = PatternRepository(
             dataService: dataService,
-            context: ModelContextWrapper(context: modelContainer.mainContext)
+            context: context
         )
 
         tickerRepository = TickerRepository(
             networkService: networkService,
             dataService: dataService
         )
+
+        fetchPatternsUseCase = FetchPatternsUseCase(
+            repository: patternRepository,
+            context: context
+        )
+
+        fetchTickersUseCase = FetchTickersUseCase(
+            repository: tickerRepository,
+            context: context
+        )
     }
 
-    public func makePatternRepository() -> PatternRepositoryProtocol { patternRepository }
-    public func makeTickerRepository() -> TickerRepositoryProtocol { tickerRepository }
+    public func makeFetchPatternsUseCase() -> FetchPatternsUseCaseProtocol { fetchPatternsUseCase }
+    public func makeFetchTickersUseCase() -> FetchTickersUseCaseProtocol { fetchTickersUseCase }
     public func makeNetworkService() -> NetworkServiceProtocol { networkService }
     public func makeDataService() -> DataServiceProtocol { dataService }
 

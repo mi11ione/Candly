@@ -1,6 +1,11 @@
 import NetworkService
 import SharedModels
 
+public protocol TickerRepositoryProtocol: Sendable {
+    func fetchTickers(context: ModelContextProtocol) async throws -> [Ticker]
+    func fetchCandles(for ticker: String, time: ChartTime, context: ModelContextProtocol) async throws -> [Candle]
+}
+
 public actor TickerRepository: TickerRepositoryProtocol {
     private let networkService: NetworkServiceProtocol
     private let dataService: DataServiceProtocol
@@ -24,26 +29,19 @@ public actor TickerRepository: TickerRepositoryProtocol {
         return candles
     }
 
+    @MainActor
     private func saveTickers(_ tickers: [Ticker], context: ModelContextProtocol) async {
-        await MainActor.run {
-            for ticker in tickers {
-                context.insert(ticker)
-            }
-            try? context.save()
+        for ticker in tickers {
+            context.insert(ticker)
         }
+        try? context.save()
     }
 
+    @MainActor
     private func saveCandles(_ candles: [Candle], for _: String, context: ModelContextProtocol) async {
-        await MainActor.run {
-            for candle in candles {
-                context.insert(candle)
-            }
-            try? context.save()
+        for candle in candles {
+            context.insert(candle)
         }
+        try? context.save()
     }
-}
-
-public protocol TickerRepositoryProtocol: Sendable {
-    func fetchTickers(context: ModelContextProtocol) async throws -> [Ticker]
-    func fetchCandles(for ticker: String, time: ChartTime, context: ModelContextProtocol) async throws -> [Candle]
 }

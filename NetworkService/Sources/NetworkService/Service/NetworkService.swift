@@ -1,6 +1,11 @@
 import Foundation
 import SharedModels
 
+public protocol NetworkServiceProtocol: Sendable {
+    func getMoexTickers() async throws -> Data
+    func getMoexCandles(ticker: String, time: ChartTime) async throws -> Data
+}
+
 public actor NetworkService: NetworkServiceProtocol {
     private let session: URLSession
     private let cacher: NetworkCacher
@@ -73,9 +78,4 @@ public actor NetworkService: NetworkServiceProtocol {
             throw NetworkError.invalidResponse
         }
     }
-}
-
-public protocol NetworkServiceProtocol: Sendable {
-    func getMoexTickers() async throws -> Data
-    func getMoexCandles(ticker: String, time: ChartTime) async throws -> Data
 }

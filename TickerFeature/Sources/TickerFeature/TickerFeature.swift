@@ -9,8 +9,7 @@ public struct TickerFeature: View {
     public var body: some View {
         TickerView(
             model: TickerModel(
-                repository: dependencyFactory.makeTickerRepository(),
-                context: dependencyFactory.makeModelContext()
+                fetchTickersUseCase: dependencyFactory.makeFetchTickersUseCase()
             )
         )
     }

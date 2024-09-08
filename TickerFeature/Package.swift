@@ -13,6 +13,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Data"),
+        .package(path: "../Domain"),
         .package(path: "../CoreUI"),
         .package(path: "../CoreDI"),
         .package(path: "../SharedModels"),
@@ -23,6 +24,7 @@ let package = Package(
             name: "TickerFeature",
             dependencies: [
                 "Data",
+                "Domain",
                 "CoreUI",
                 "CoreDI",
                 "SharedModels",

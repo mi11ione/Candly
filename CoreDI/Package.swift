@@ -13,6 +13,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../Data"),
+        .package(path: "../Domain"),
         .package(path: "../SharedModels"),
         .package(path: "../NetworkService"),
     ],
@@ -21,6 +22,7 @@ let package = Package(
             name: "CoreDI",
             dependencies: [
                 "Data",
+                "Domain",
                 "SharedModels",
                 "NetworkService",
             ]

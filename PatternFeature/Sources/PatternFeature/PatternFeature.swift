@@ -10,8 +10,7 @@ public struct PatternFeature: View {
     public var body: some View {
         PatternView(
             model: PatternModel(
-                repository: dependencyFactory.makePatternRepository(),
-                context: dependencyFactory.makeModelContext()
+                fetchPatternsUseCase: dependencyFactory.makeFetchPatternsUseCase()
             )
         )
     }

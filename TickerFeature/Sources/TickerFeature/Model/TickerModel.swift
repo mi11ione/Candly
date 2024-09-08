@@ -1,21 +1,20 @@
 import CoreArchitecture
 import Data
+import Domain
 import Foundation
 import SharedModels
 
 @Observable
 public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Sendable {
-    private let repository: TickerRepositoryProtocol
-    private let context: ModelContextProtocol
+    private let fetchTickersUseCase: FetchTickersUseCaseProtocol
 
-    public init(repository: TickerRepositoryProtocol, context: ModelContextProtocol) {
-        self.repository = repository
-        self.context = context
+    public init(fetchTickersUseCase: FetchTickersUseCaseProtocol) {
+        self.fetchTickersUseCase = fetchTickersUseCase
         super.init()
     }
 
     override public func loadItems() async throws {
-        let fetchedTickers = try await repository.fetchTickers(context: context)
+        let fetchedTickers = try await fetchTickersUseCase.execute()
         updateItems(fetchedTickers)
     }
 

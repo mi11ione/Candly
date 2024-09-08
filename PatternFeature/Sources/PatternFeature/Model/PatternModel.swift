@@ -1,23 +1,22 @@
 import CoreArchitecture
 import Data
+import Domain
 import Foundation
 import SharedModels
 
 @Observable
 public final class PatternModel: BaseModel<Pattern, PatternIntent>, @unchecked Sendable {
-    private let repository: PatternRepositoryProtocol
-    private let context: ModelContextProtocol
+    private let fetchPatternsUseCase: FetchPatternsUseCaseProtocol
     public let filterKeys = ["Single", "Double", "Triple", "Complex"]
     public private(set) var selectedFilter: String = ""
 
-    public init(repository: PatternRepositoryProtocol, context: ModelContextProtocol) {
-        self.repository = repository
-        self.context = context
+    public init(fetchPatternsUseCase: FetchPatternsUseCaseProtocol) {
+        self.fetchPatternsUseCase = fetchPatternsUseCase
         super.init()
     }
 
     override public func loadItems() async throws {
-        let fetchedPatterns = try await repository.fetchPatterns(context: context)
+        let fetchedPatterns = try await fetchPatternsUseCase.execute()
         updateItems(fetchedPatterns)
     }
 

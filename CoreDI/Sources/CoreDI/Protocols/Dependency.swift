@@ -1,20 +1,21 @@
 import Data
+import Domain
 import NetworkService
 import SharedModels
 
 @MainActor
 public protocol Dependency: Sendable {
-    func makePatternRepository() -> PatternRepositoryProtocol
-    func makeTickerRepository() -> TickerRepositoryProtocol
+    func makeFetchPatternsUseCase() -> FetchPatternsUseCaseProtocol
+    func makeFetchTickersUseCase() -> FetchTickersUseCaseProtocol
     func makeNetworkService() -> NetworkServiceProtocol
-    func makeModelContext() -> ModelContextProtocol
     func makeDataService() -> DataServiceProtocol
+    func makeModelContext() -> ModelContextProtocol
 }
 
 @MainActor
 struct UnimplementedDependency: Dependency {
-    func makePatternRepository() -> PatternRepositoryProtocol { unimplemented() }
-    func makeTickerRepository() -> TickerRepositoryProtocol { unimplemented() }
+    func makeFetchPatternsUseCase() -> FetchPatternsUseCaseProtocol { unimplemented() }
+    func makeFetchTickersUseCase() -> FetchTickersUseCaseProtocol { unimplemented() }
     func makeNetworkService() -> NetworkServiceProtocol { unimplemented() }
     func makeModelContext() -> ModelContextProtocol { unimplemented() }
     func makeDataService() -> DataServiceProtocol { unimplemented() }
