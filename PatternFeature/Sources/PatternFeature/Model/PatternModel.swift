@@ -30,8 +30,6 @@ public final class PatternModel: BaseModel<Pattern, PatternIntent>, @unchecked S
             load()
         case let .filterSelected(filter):
             selectedFilter = selectedFilter == filter ? "" : filter
-        case let .togglePatternExpansion(id):
-            toggleItemExpansion(id)
         }
     }
 }

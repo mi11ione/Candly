@@ -4,16 +4,13 @@ import SwiftUI
 
 public struct PatternCell: View {
     private let pattern: Pattern
-    private let isExpanded: Bool
 
-    public init(pattern: Pattern, isExpanded: Bool) {
+    public init(pattern: Pattern) {
         self.pattern = pattern
-        self.isExpanded = isExpanded
     }
 
     public var body: some View {
         DataCell(
-            isExpanded: .constant(isExpanded),
             content: { PatternChart(pattern: pattern) },
             footer: {
                 Text(pattern.name)
@@ -27,6 +24,5 @@ public struct PatternCell: View {
                     .padding(10)
             }
         )
-        .id(pattern.id)
     }
 }

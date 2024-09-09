@@ -6,7 +6,6 @@ open class BaseModel<T: Identifiable, I>: @unchecked Sendable {
     public private(set) var searchText: String = ""
     public private(set) var isLoading: Bool = false
     public private(set) var error: String?
-    public private(set) var expandedItemId: T.ID?
 
     public init() {}
 
@@ -35,10 +34,6 @@ open class BaseModel<T: Identifiable, I>: @unchecked Sendable {
 
     public func updateSearchText(_ newText: String) {
         searchText = newText
-    }
-
-    public func toggleItemExpansion(_ id: T.ID) {
-        expandedItemId = expandedItemId == id ? nil : id
     }
 
     open var filteredItems: [T] {

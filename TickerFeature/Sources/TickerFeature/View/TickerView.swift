@@ -17,11 +17,7 @@ public struct TickerView: BaseView {
                         handleIntent(.loadTickers)
                     }
                 } else {
-                    TickerGrid(
-                        tickers: model.filteredItems,
-                        expandedTickerId: model.expandedItemId,
-                        onTickerTapped: { handleIntent(.toggleTickerExpansion($0)) }
-                    )
+                    TickerGrid(tickers: model.filteredItems)
                 }
             }
             .navigationTitle("Tickers")

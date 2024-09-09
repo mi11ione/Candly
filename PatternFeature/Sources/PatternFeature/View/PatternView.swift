@@ -16,11 +16,7 @@ public struct PatternView: BaseView {
                         handleIntent(.filterSelected(filter))
                     }
                 )
-                PatternGrid(
-                    patterns: model.filteredItems,
-                    expandedPatternId: model.expandedItemId,
-                    onPatternTapped: { handleIntent(.togglePatternExpansion($0)) }
-                )
+                PatternGrid(patterns: model.filteredItems)
             }
             .navigationTitle("Patterns")
         }

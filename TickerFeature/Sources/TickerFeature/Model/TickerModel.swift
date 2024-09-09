@@ -27,8 +27,6 @@ public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Send
             load()
         case let .updateSearchText(text):
             updateSearchText(text)
-        case let .toggleTickerExpansion(id):
-            toggleItemExpansion(id)
         }
     }
 }

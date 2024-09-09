@@ -1,18 +1,16 @@
 import SwiftUI
 
 public struct DataCell<Content: View, Footer: View, ExpandedContent: View>: View {
-    @Binding private var isExpanded: Bool
+    @State private var isExpanded: Bool = false
     private let content: () -> Content
     private let footer: () -> Footer
     private let expandedContent: () -> ExpandedContent
 
     public init(
-        isExpanded: Binding<Bool>,
         @ViewBuilder content: @escaping () -> Content,
         @ViewBuilder footer: @escaping () -> Footer,
         @ViewBuilder expandedContent: @escaping () -> ExpandedContent
     ) {
-        _isExpanded = isExpanded
         self.content = content
         self.footer = footer
         self.expandedContent = expandedContent
@@ -22,6 +20,11 @@ public struct DataCell<Content: View, Footer: View, ExpandedContent: View>: View
         VStack {
             content()
                 .cellBackground(isExpanded: isExpanded)
+                .onTapGesture {
+                    withAnimation(.spring()) {
+                        isExpanded.toggle()
+                    }
+                }
 
             footer()
 
@@ -30,6 +33,5 @@ public struct DataCell<Content: View, Footer: View, ExpandedContent: View>: View
             }
         }
         .cellOverlay(isExpanded: isExpanded)
-        .animation(.spring(), value: isExpanded)
     }
 }
