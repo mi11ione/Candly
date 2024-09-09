@@ -5,7 +5,7 @@ import SwiftUI
 public struct PatternView: BaseView {
     public typealias T = Pattern
     public typealias I = PatternIntent
-    @Bindable public var model: PatternModel
+    @State public var model: PatternModel
 
     public var body: some View {
         NavigationStack {
