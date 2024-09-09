@@ -13,7 +13,7 @@ public struct PatternChart: View {
     public var body: some View {
         ChartConfig.applyCommonConfig(
             Chart {
-                ForEach(pattern.candles.sorted(by: { $0.date < $1.date }), id: \.id) { candle in
+                ForEach(pattern.candles, id: \.id) { candle in
                     CandleStick(
                         time: candle.formattedTime,
                         openPrice: candle.openPrice,
@@ -26,14 +26,14 @@ public struct PatternChart: View {
         )
         .padding()
         .frame(height: 160)
-        .chartYScale(domain: calculateYAxisDomain())
+        .chartYScale(domain: yAxisDomain)
         .id(pattern.id)
     }
 
-    private func calculateYAxisDomain() -> ClosedRange<Double> {
+    private var yAxisDomain: ClosedRange<Double> {
         let prices = pattern.candles.flatMap { [$0.lowPrice, $0.highPrice] }
-        guard let min = prices.min(), let max = prices.max() else { return 0 ... 100 }
-        let padding = (max - min) * 0.15
-        return (min - padding) ... (max + padding)
+        let min = prices.min() ?? 0
+        let max = prices.max() ?? 100
+        return ChartConfig.calculateYAxisDomain(minValue: min, maxValue: max)
     }
 }

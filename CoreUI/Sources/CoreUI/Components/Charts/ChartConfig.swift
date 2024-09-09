@@ -14,4 +14,9 @@ public enum ChartConfig {
                 AxisMarks(position: .trailing, values: .automatic(desiredCount: 5))
             }
     }
+
+    public static func calculateYAxisDomain(minValue: Double, maxValue: Double) -> ClosedRange<Double> {
+        let padding = (maxValue - minValue) * 0.1
+        return (minValue - padding) ... (maxValue + padding)
+    }
 }

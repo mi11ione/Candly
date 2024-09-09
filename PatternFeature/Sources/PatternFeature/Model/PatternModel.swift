@@ -15,7 +15,12 @@ public final class PatternModel: BaseModel<Pattern, PatternIntent>, @unchecked S
 
     override public func loadItems() async throws {
         let fetchedPatterns = try await fetchPatternsUseCase.execute()
-        updateItems(fetchedPatterns)
+        let sortedPatterns = fetchedPatterns.map { pattern in
+            var sortedPattern = pattern
+            sortedPattern.candles.sort { $0.date < $1.date }
+            return sortedPattern
+        }
+        updateItems(sortedPatterns)
     }
 
     override public var filteredItems: [Pattern] {
