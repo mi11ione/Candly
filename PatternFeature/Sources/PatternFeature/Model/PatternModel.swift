@@ -6,7 +6,7 @@ import SharedModels
 @Observable
 public final class PatternModel: BaseModel<Pattern, PatternIntent>, @unchecked Sendable {
     private let fetchPatternsUseCase: FetchPatternsUseCaseProtocol
-    public private(set) var selectedFilter: String = ""
+    public var selectedFilter: String = ""
 
     public init(fetchPatternsUseCase: FetchPatternsUseCaseProtocol) {
         self.fetchPatternsUseCase = fetchPatternsUseCase
@@ -19,9 +19,7 @@ public final class PatternModel: BaseModel<Pattern, PatternIntent>, @unchecked S
     }
 
     override public var filteredItems: [Pattern] {
-        guard !selectedFilter.isEmpty else { return items }
-        return items.filter { $0.filter.lowercased() == selectedFilter.lowercased() }
-            .sorted { $0.id.uuidString < $1.id.uuidString }
+        selectedFilter.isEmpty ? items : items.filter { $0.filter == selectedFilter }
     }
 
     override public func handle(_ intent: PatternIntent) {
