@@ -11,10 +11,15 @@ let package = Package(
             targets: ["SharedModels"]
         ),
     ],
-    dependencies: [],
+    dependencies: [
+        .package(url: "https://github.com/hmlongco/Factory.git", from: "2.3.0"),
+    ],
     targets: [
         .target(
-            name: "SharedModels"
+            name: "SharedModels",
+            dependencies: [
+                "Factory",
+            ]
         ),
     ]
 )

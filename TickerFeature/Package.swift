@@ -14,9 +14,9 @@ let package = Package(
     dependencies: [
         .package(path: "../Domain"),
         .package(path: "../CoreUI"),
-        .package(path: "../CoreDI"),
         .package(path: "../SharedModels"),
         .package(path: "../CoreArchitecture"),
+        .package(url: "https://github.com/hmlongco/Factory.git", from: "2.3.0"),
     ],
     targets: [
         .target(
@@ -24,9 +24,9 @@ let package = Package(
             dependencies: [
                 "Domain",
                 "CoreUI",
-                "CoreDI",
                 "SharedModels",
                 "CoreArchitecture",
+                "Factory",
             ]
         ),
     ]

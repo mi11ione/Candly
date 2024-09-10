@@ -1,15 +1,16 @@
-import CoreDI
+import Domain
+import Factory
 import SwiftUI
 
 public struct PatternFeature: View {
-    @Environment(\.dependencyFactory) private var dependencyFactory
+    @Injected(\.fetchPatternsUseCase) private var fetchPatternsUseCase
 
     public init() {}
 
     public var body: some View {
         PatternView(
             model: PatternModel(
-                fetchPatternsUseCase: dependencyFactory.makeFetchPatternsUseCase()
+                fetchPatternsUseCase: fetchPatternsUseCase
             )
         )
     }

@@ -1,15 +1,16 @@
-import CoreDI
+import Domain
+import Factory
 import SwiftUI
 
 public struct TickerFeature: View {
-    @Environment(\.dependencyFactory) private var dependencyFactory
+    @Injected(\.fetchTickersUseCase) private var fetchTickersUseCase
 
     public init() {}
 
     public var body: some View {
         TickerView(
             model: TickerModel(
-                fetchTickersUseCase: dependencyFactory.makeFetchTickersUseCase()
+                fetchTickersUseCase: fetchTickersUseCase
             )
         )
     }

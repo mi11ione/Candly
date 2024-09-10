@@ -14,7 +14,6 @@
 		33DB01B62C5FA1B7006463DF /* CoreArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 33DB01B52C5FA1B7006463DF /* CoreArchitecture */; };
 		33DD4A3B2C5A44F2002CA246 /* PatternFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 33DD4A3A2C5A44F2002CA246 /* PatternFeature */; };
 		33EC51702C5AACE700DB7ECF /* CoreUI in Frameworks */ = {isa = PBXBuildFile; productRef = 33EC516F2C5AACE700DB7ECF /* CoreUI */; };
-		33EC51732C5AAF4800DB7ECF /* CoreDI in Frameworks */ = {isa = PBXBuildFile; productRef = 33EC51722C5AAF4800DB7ECF /* CoreDI */; };
 		33EC51782C5AD06600DB7ECF /* SharedModels in Frameworks */ = {isa = PBXBuildFile; productRef = 33EC51772C5AD06600DB7ECF /* SharedModels */; };
 /* End PBXBuildFile section */
 
@@ -43,7 +42,6 @@
 			files = (
 				331ADBD12C8DF4E2001C498D /* Domain in Frameworks */,
 				3321802D2C5BB20700B444C4 /* NetworkService in Frameworks */,
-				33EC51732C5AAF4800DB7ECF /* CoreDI in Frameworks */,
 				33DB01B62C5FA1B7006463DF /* CoreArchitecture in Frameworks */,
 				33DD4A3B2C5A44F2002CA246 /* PatternFeature in Frameworks */,
 				33EC51702C5AACE700DB7ECF /* CoreUI in Frameworks */,
@@ -94,7 +92,6 @@
 			packageProductDependencies = (
 				33DD4A3A2C5A44F2002CA246 /* PatternFeature */,
 				33EC516F2C5AACE700DB7ECF /* CoreUI */,
-				33EC51722C5AAF4800DB7ECF /* CoreDI */,
 				33EC51772C5AD06600DB7ECF /* SharedModels */,
 				330021982C5B9DDC00F1A7B1 /* TickerFeature */,
 				3321802C2C5BB20700B444C4 /* NetworkService */,
@@ -133,7 +130,6 @@
 			packageReferences = (
 				33DD4A392C5A44F2002CA246 /* XCLocalSwiftPackageReference "../PatternFeature" */,
 				33EC516E2C5AACE700DB7ECF /* XCLocalSwiftPackageReference "../CoreUI" */,
-				33EC51712C5AAF4800DB7ECF /* XCLocalSwiftPackageReference "../CoreDI" */,
 				33EC51762C5AD06600DB7ECF /* XCLocalSwiftPackageReference "../SharedModels" */,
 				330021972C5B9DDC00F1A7B1 /* XCLocalSwiftPackageReference "../TickerFeature" */,
 				3321802B2C5BB20700B444C4 /* XCLocalSwiftPackageReference "../NetworkService" */,
@@ -420,10 +416,6 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../CoreUI;
 		};
-		33EC51712C5AAF4800DB7ECF /* XCLocalSwiftPackageReference "../CoreDI" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../CoreDI;
-		};
 		33EC51762C5AD06600DB7ECF /* XCLocalSwiftPackageReference "../SharedModels" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../SharedModels;
@@ -458,10 +450,6 @@
 		33EC516F2C5AACE700DB7ECF /* CoreUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CoreUI;
-		};
-		33EC51722C5AAF4800DB7ECF /* CoreDI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = CoreDI;
 		};
 		33EC51772C5AD06600DB7ECF /* SharedModels */ = {
 			isa = XCSwiftPackageProductDependency;
