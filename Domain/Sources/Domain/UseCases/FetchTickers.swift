@@ -1,22 +1,20 @@
 import Data
 import SharedModels
 
-public protocol FetchTickersUseCaseProtocol {
+public protocol FetchTickersUseCaseProtocol: Sendable {
     func execute() async throws -> [Ticker]
     func filterTickers(_ tickers: [Ticker], searchText: String) -> [Ticker]
 }
 
-public class FetchTickersUseCase: FetchTickersUseCaseProtocol {
+public final class FetchTickersUseCase: FetchTickersUseCaseProtocol {
     private let repository: TickerRepositoryProtocol
-    private let context: ModelContextProtocol
 
-    public init(repository: TickerRepositoryProtocol, context: ModelContextProtocol) {
+    public init(repository: TickerRepositoryProtocol) {
         self.repository = repository
-        self.context = context
     }
 
     public func execute() async throws -> [Ticker] {
-        try await repository.fetchTickers(context: context)
+        try await repository.fetchTickers()
     }
 
     public func filterTickers(_ tickers: [Ticker], searchText: String) -> [Ticker] {

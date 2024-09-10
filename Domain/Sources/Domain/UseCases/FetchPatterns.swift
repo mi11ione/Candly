@@ -1,20 +1,18 @@
 import Data
 import SharedModels
 
-public protocol FetchPatternsUseCaseProtocol {
+public protocol FetchPatternsUseCaseProtocol: Sendable {
     func execute() async throws -> [Pattern]
 }
 
-public class FetchPatternsUseCase: FetchPatternsUseCaseProtocol {
+public final class FetchPatternsUseCase: FetchPatternsUseCaseProtocol {
     private let repository: PatternRepositoryProtocol
-    private let context: ModelContextProtocol
 
-    public init(repository: PatternRepositoryProtocol, context: ModelContextProtocol) {
+    public init(repository: PatternRepositoryProtocol) {
         self.repository = repository
-        self.context = context
     }
 
     public func execute() async throws -> [Pattern] {
-        try await repository.fetchPatterns(context: context)
+        try await repository.fetchPatterns()
     }
 }

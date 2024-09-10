@@ -2,8 +2,8 @@ import NetworkService
 import SharedModels
 
 public protocol TickerRepositoryProtocol: Sendable {
-    func fetchTickers(context: ModelContextProtocol) async throws -> [Ticker]
-    func fetchCandles(for ticker: String, time: ChartTime, context: ModelContextProtocol) async throws -> [Candle]
+    func fetchTickers() async throws -> [Ticker]
+    func fetchCandles(for ticker: String, time: ChartTime) async throws -> [Candle]
 }
 
 public actor TickerRepository: TickerRepositoryProtocol {
@@ -15,33 +15,23 @@ public actor TickerRepository: TickerRepositoryProtocol {
         self.dataService = dataService
     }
 
-    public func fetchTickers(context: ModelContextProtocol) async throws -> [Ticker] {
+    public func fetchTickers() async throws -> [Ticker] {
         let data = try await networkService.getMoexTickers()
         let tickers = try await dataService.parseTickers(from: data)
-        await saveTickers(tickers, context: context)
+        for ticker in tickers {
+            await PersistenceActor.shared.insert(ticker)
+        }
+        try await PersistenceActor.shared.save()
         return tickers
     }
 
-    public func fetchCandles(for ticker: String, time: ChartTime, context: ModelContextProtocol) async throws -> [Candle] {
+    public func fetchCandles(for ticker: String, time: ChartTime) async throws -> [Candle] {
         let data = try await networkService.getMoexCandles(ticker: ticker, time: time)
         let candles = try await dataService.parseCandles(from: data, ticker: ticker)
-        await saveCandles(candles, for: ticker, context: context)
-        return candles
-    }
-
-    @MainActor
-    private func saveTickers(_ tickers: [Ticker], context: ModelContextProtocol) async {
-        for ticker in tickers {
-            context.insert(ticker)
-        }
-        try? context.save()
-    }
-
-    @MainActor
-    private func saveCandles(_ candles: [Candle], for _: String, context: ModelContextProtocol) async {
         for candle in candles {
-            context.insert(candle)
+            await PersistenceActor.shared.insert(candle)
         }
-        try? context.save()
+        try await PersistenceActor.shared.save()
+        return candles
     }
 }

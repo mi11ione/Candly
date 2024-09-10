@@ -1,25 +1,22 @@
 import SharedModels
 
 public protocol PatternRepositoryProtocol: Sendable {
-    func fetchPatterns(context: ModelContextProtocol) async throws -> [Pattern]
+    func fetchPatterns() async throws -> [Pattern]
 }
 
 public actor PatternRepository: PatternRepositoryProtocol {
     private let dataService: DataServiceProtocol
-    private let context: ModelContextProtocol
 
-    public init(dataService: DataServiceProtocol, context: ModelContextProtocol) {
+    public init(dataService: DataServiceProtocol) {
         self.dataService = dataService
-        self.context = context
     }
 
-    @MainActor
-    public func fetchPatterns(context: ModelContextProtocol) async throws -> [Pattern] {
+    public func fetchPatterns() async throws -> [Pattern] {
         let patterns = try await dataService.loadPatterns()
         for pattern in patterns {
-            context.insert(pattern)
+            await PersistenceActor.shared.insert(pattern)
         }
-        try context.save()
+        try await PersistenceActor.shared.save()
         return patterns
     }
 }

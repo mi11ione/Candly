@@ -7,7 +7,6 @@ import SwiftData
 
 @Observable
 public class AppDependency: Dependency {
-    private let modelContainer: ModelContainer
     private let networkService: NetworkServiceProtocol
     private let dataService: DataServiceProtocol
     private let patternRepository: PatternRepositoryProtocol
@@ -16,8 +15,6 @@ public class AppDependency: Dependency {
     private let fetchTickersUseCase: FetchTickersUseCaseProtocol
 
     public init(cacheExpirationInterval: TimeInterval = 120) {
-        modelContainer = try! ModelContainer(for: Pattern.self, Ticker.self, Candle.self)
-
         dataService = DataService()
 
         networkService = NetworkService(
@@ -26,13 +23,8 @@ public class AppDependency: Dependency {
             )
         )
 
-        let context = ModelContextWrapper(
-            context: modelContainer.mainContext
-        )
-
         patternRepository = PatternRepository(
-            dataService: dataService,
-            context: context
+            dataService: dataService
         )
 
         tickerRepository = TickerRepository(
@@ -41,13 +33,11 @@ public class AppDependency: Dependency {
         )
 
         fetchPatternsUseCase = FetchPatternsUseCase(
-            repository: patternRepository,
-            context: context
+            repository: patternRepository
         )
 
         fetchTickersUseCase = FetchTickersUseCase(
-            repository: tickerRepository,
-            context: context
+            repository: tickerRepository
         )
     }
 
@@ -56,8 +46,7 @@ public class AppDependency: Dependency {
     public func makeNetworkService() -> NetworkServiceProtocol { networkService }
     public func makeDataService() -> DataServiceProtocol { dataService }
 
-    @MainActor
     public func makeModelContext() -> ModelContextProtocol {
-        ModelContextWrapper(context: modelContainer.mainContext)
+        PersistenceActor.shared
     }
 }
