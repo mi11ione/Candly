@@ -3,7 +3,6 @@ import Domain
 import Foundation
 import NetworkService
 import SharedModels
-import SwiftData
 
 @Observable
 public class AppDependency: Dependency {
@@ -45,8 +44,5 @@ public class AppDependency: Dependency {
     public func makeFetchTickersUseCase() -> FetchTickersUseCaseProtocol { fetchTickersUseCase }
     public func makeNetworkService() -> NetworkServiceProtocol { networkService }
     public func makeDataService() -> DataServiceProtocol { dataService }
-
-    public func makeModelContext() -> ModelContextProtocol {
-        PersistenceActor.shared
-    }
+    public func makeModelContext() -> ModelContextProtocol { PersistenceActor.shared }
 }
