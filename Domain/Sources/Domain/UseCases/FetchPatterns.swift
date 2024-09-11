@@ -1,5 +1,5 @@
+import Core
 import Data
-import SharedModels
 
 public protocol FetchPatternsUseCaseProtocol: Sendable {
     func execute() async throws -> [Pattern]

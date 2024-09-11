@@ -1,5 +1,5 @@
+import Core
 import Data
-import SharedModels
 
 public protocol FetchTickersUseCaseProtocol: Sendable {
     func execute() async throws -> [Ticker]

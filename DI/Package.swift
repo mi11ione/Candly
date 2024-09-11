@@ -12,21 +12,19 @@ let package = Package(
         ),
     ],
     dependencies: [
+        .package(path: "../Core"),
         .package(path: "../Data"),
         .package(path: "../Domain"),
-        .package(path: "../SharedModels"),
-        .package(path: "../NetworkService"),
         .package(url: "https://github.com/hmlongco/Factory.git", from: "2.3.0"),
     ],
     targets: [
         .target(
             name: "DI",
             dependencies: [
+                "Core",
                 "Data",
                 "Domain",
                 "Factory",
-                "SharedModels",
-                "NetworkService",
             ]
         ),
     ]

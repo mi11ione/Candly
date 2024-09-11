@@ -12,14 +12,14 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../SharedModels"),
+        .package(path: "../Core"),
         .package(path: "../Data"),
     ],
     targets: [
         .target(
             name: "Domain",
             dependencies: [
-                "SharedModels",
+                "Core",
                 "Data",
             ]
         ),

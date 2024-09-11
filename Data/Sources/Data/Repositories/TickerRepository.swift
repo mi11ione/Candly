@@ -1,5 +1,4 @@
-import NetworkService
-import SharedModels
+import Core
 
 public protocol TickerRepositoryProtocol: Sendable {
     func fetchTickers() async throws -> [Ticker]

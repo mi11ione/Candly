@@ -1,6 +1,5 @@
-import PatternFeature
+import Features
 import SwiftUI
-import TickerFeature
 
 struct ContentView: View {
     var body: some View {
