@@ -8,13 +8,13 @@ public protocol NetworkServiceProtocol: Sendable {
 
 public actor NetworkService: NetworkServiceProtocol {
     private let session: URLSession
-    private let cacher: NetworkCacher
+    private let cacher: Cacher
     private var lastRequestTime: Date?
     private let minimumRequestInterval: TimeInterval = 1.0
     private let maxRetries = 3
 
     public init(session: URLSession = .shared,
-                cacher: NetworkCacher = NetworkCacher())
+                cacher: Cacher = Cacher())
     {
         self.session = session
         self.cacher = cacher
