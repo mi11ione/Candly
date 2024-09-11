@@ -4,7 +4,6 @@ import SwiftUI
 
 public struct PatternCell: View {
     public let pattern: Pattern
-    @State public var isExpanded: Bool = false
 
     public var body: some View {
         CellView(

@@ -4,7 +4,6 @@ import SwiftUI
 
 public struct TickerCell: View {
     public let ticker: Ticker
-    @State public var isExpanded: Bool = false
 
     public var body: some View {
         CellView(
