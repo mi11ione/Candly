@@ -1,4 +1,3 @@
-import Core
 import Models
 
 public protocol FetchTickersUseCaseProtocol: Sendable {

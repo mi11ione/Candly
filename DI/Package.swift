@@ -12,7 +12,6 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../Core"),
         .package(path: "../Data"),
         .package(path: "../Models"),
         .package(path: "../Network"),
@@ -22,7 +21,6 @@ let package = Package(
         .target(
             name: "DI",
             dependencies: [
-                "Core",
                 "Data",
                 "Models",
                 "Network",

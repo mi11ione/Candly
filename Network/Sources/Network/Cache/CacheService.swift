@@ -26,7 +26,7 @@ public actor CacheService<Key: Hashable, Value> {
     }
 }
 
-public struct CandleCacheKey: Hashable, Sendable {
+public struct CandleCacheKey: Hashable {
     private let ticker: String
     private let time: Time
 

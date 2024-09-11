@@ -12,14 +12,12 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../Core"),
         .package(path: "../Models"),
     ],
     targets: [
         .target(
             name: "Network",
             dependencies: [
-                "Core",
                 "Models",
             ]
         ),
