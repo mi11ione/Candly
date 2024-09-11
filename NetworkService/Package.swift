@@ -13,14 +13,12 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../SharedModels"),
-        .package(url: "https://github.com/hmlongco/Factory.git", from: "2.3.0"),
     ],
     targets: [
         .target(
             name: "NetworkService",
             dependencies: [
                 "SharedModels",
-                "Factory",
             ]
         ),
     ]

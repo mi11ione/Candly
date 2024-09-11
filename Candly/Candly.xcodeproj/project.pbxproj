@@ -15,6 +15,7 @@
 		33DD4A3B2C5A44F2002CA246 /* PatternFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 33DD4A3A2C5A44F2002CA246 /* PatternFeature */; };
 		33EC51702C5AACE700DB7ECF /* CoreUI in Frameworks */ = {isa = PBXBuildFile; productRef = 33EC516F2C5AACE700DB7ECF /* CoreUI */; };
 		33EC51782C5AD06600DB7ECF /* SharedModels in Frameworks */ = {isa = PBXBuildFile; productRef = 33EC51772C5AD06600DB7ECF /* SharedModels */; };
+		33FC12D92C91A49D00134F8F /* DI in Frameworks */ = {isa = PBXBuildFile; productRef = 33FC12D82C91A49D00134F8F /* DI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 			files = (
 				331ADBD12C8DF4E2001C498D /* Domain in Frameworks */,
 				3321802D2C5BB20700B444C4 /* NetworkService in Frameworks */,
+				33FC12D92C91A49D00134F8F /* DI in Frameworks */,
 				33DB01B62C5FA1B7006463DF /* CoreArchitecture in Frameworks */,
 				33DD4A3B2C5A44F2002CA246 /* PatternFeature in Frameworks */,
 				33EC51702C5AACE700DB7ECF /* CoreUI in Frameworks */,
@@ -98,6 +100,7 @@
 				33DB01B52C5FA1B7006463DF /* CoreArchitecture */,
 				334D4E6C2C8D957B00760CDA /* Data */,
 				331ADBD02C8DF4E2001C498D /* Domain */,
+				33FC12D82C91A49D00134F8F /* DI */,
 			);
 			productName = Candly;
 			productReference = 33DD4A232C5A447B002CA246 /* Candly.app */;
@@ -136,6 +139,7 @@
 				33DB01B42C5FA1B7006463DF /* XCLocalSwiftPackageReference "../CoreArchitecture" */,
 				334D4E6B2C8D957B00760CDA /* XCLocalSwiftPackageReference "../Data" */,
 				331ADBCF2C8DF4E2001C498D /* XCLocalSwiftPackageReference "../Domain" */,
+				33FC12D72C91A49D00134F8F /* XCLocalSwiftPackageReference "../DI" */,
 			);
 			productRefGroup = 33DD4A242C5A447B002CA246 /* Products */;
 			projectDirPath = "";
@@ -420,6 +424,10 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../SharedModels;
 		};
+		33FC12D72C91A49D00134F8F /* XCLocalSwiftPackageReference "../DI" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../DI;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -454,6 +462,10 @@
 		33EC51772C5AD06600DB7ECF /* SharedModels */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SharedModels;
+		};
+		33FC12D82C91A49D00134F8F /* DI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

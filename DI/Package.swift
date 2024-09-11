@@ -3,32 +3,30 @@
 import PackageDescription
 
 let package = Package(
-    name: "PatternFeature",
+    name: "DI",
     platforms: [.iOS(.v17), .macOS(.v14), .visionOS(.v1)],
     products: [
         .library(
-            name: "PatternFeature",
-            targets: ["PatternFeature"]
+            name: "DI",
+            targets: ["DI"]
         ),
     ],
     dependencies: [
-        .package(path: "../DI"),
+        .package(path: "../Data"),
         .package(path: "../Domain"),
-        .package(path: "../CoreUI"),
         .package(path: "../SharedModels"),
-        .package(path: "../CoreArchitecture"),
+        .package(path: "../NetworkService"),
         .package(url: "https://github.com/hmlongco/Factory.git", from: "2.3.0"),
     ],
     targets: [
         .target(
-            name: "PatternFeature",
+            name: "DI",
             dependencies: [
-                "DI",
+                "Data",
                 "Domain",
-                "CoreUI",
-                "SharedModels",
-                "CoreArchitecture",
                 "Factory",
+                "SharedModels",
+                "NetworkService",
             ]
         ),
     ]

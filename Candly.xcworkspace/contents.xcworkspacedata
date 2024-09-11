@@ -8,6 +8,9 @@
       location = "group:CoreUI">
    </FileRef>
    <FileRef
+      location = "group:DI">
+   </FileRef>
+   <FileRef
       location = "group:CoreArchitecture">
    </FileRef>
    <FileRef

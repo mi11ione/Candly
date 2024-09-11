@@ -12,6 +12,7 @@ let package = Package(
         ),
     ],
     dependencies: [
+        .package(path: "../DI"),
         .package(path: "../Domain"),
         .package(path: "../CoreUI"),
         .package(path: "../SharedModels"),
@@ -22,6 +23,7 @@ let package = Package(
         .target(
             name: "TickerFeature",
             dependencies: [
+                "DI",
                 "Domain",
                 "CoreUI",
                 "SharedModels",
