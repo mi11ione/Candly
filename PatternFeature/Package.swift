@@ -26,9 +26,9 @@ let package = Package(
                 "DI",
                 "Domain",
                 "CoreUI",
+                "Factory",
                 "SharedModels",
                 "CoreArchitecture",
-                "Factory",
             ]
         ),
     ]
