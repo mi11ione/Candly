@@ -1,13 +1,8 @@
 import SwiftUI
 
 public struct TickerError: View {
-    private let message: String
-    private let retryAction: () -> Void
-
-    public init(message: String, retryAction: @escaping () -> Void) {
-        self.message = message
-        self.retryAction = retryAction
-    }
+    public var message: String
+    public var retryAction: () -> Void
 
     public var body: some View {
         VStack(spacing: 16) {

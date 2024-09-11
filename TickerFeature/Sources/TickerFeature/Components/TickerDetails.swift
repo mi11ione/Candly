@@ -3,11 +3,7 @@ import Models
 import SwiftUI
 
 public struct TickerDetails: View {
-    private let ticker: Ticker
-
-    public init(ticker: Ticker) {
-        self.ticker = ticker
-    }
+    public var ticker: Ticker
 
     public var body: some View {
         HStack {

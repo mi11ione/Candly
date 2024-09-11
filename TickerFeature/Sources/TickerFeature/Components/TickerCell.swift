@@ -3,11 +3,8 @@ import Models
 import SwiftUI
 
 public struct TickerCell: View {
-    private let ticker: Ticker
-
-    public init(ticker: Ticker) {
-        self.ticker = ticker
-    }
+    public let ticker: Ticker
+    @State public var isExpanded: Bool = false
 
     public var body: some View {
         CellView(

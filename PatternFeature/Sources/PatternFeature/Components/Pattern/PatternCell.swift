@@ -3,11 +3,8 @@ import Models
 import SwiftUI
 
 public struct PatternCell: View {
-    private let pattern: Pattern
-
-    public init(pattern: Pattern) {
-        self.pattern = pattern
-    }
+    public let pattern: Pattern
+    @State public var isExpanded: Bool = false
 
     public var body: some View {
         CellView(

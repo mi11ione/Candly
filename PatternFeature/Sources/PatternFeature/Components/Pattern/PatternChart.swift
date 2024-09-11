@@ -4,11 +4,7 @@ import Models
 import SwiftUI
 
 public struct PatternChart: View {
-    private let pattern: Pattern
-
-    public init(pattern: Pattern) {
-        self.pattern = pattern
-    }
+    public var pattern: Pattern
 
     public var body: some View {
         ChartConfig.applyCommonConfig(

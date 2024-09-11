@@ -2,13 +2,8 @@ import SwiftUI
 
 public struct FilterView: View {
     private static let filterKeys = ["Single", "Double", "Triple", "Complex"]
-    private let selectedFilter: String
-    private let onFilterSelected: (String) -> Void
-
-    public init(selectedFilter: String, onFilterSelected: @escaping (String) -> Void) {
-        self.selectedFilter = selectedFilter
-        self.onFilterSelected = onFilterSelected
-    }
+    public var selectedFilter: String
+    public var onFilterSelected: (String) -> Void
 
     public var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
