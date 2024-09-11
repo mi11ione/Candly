@@ -9,7 +9,7 @@ public struct TickerCell: View {
     }
 
     public var body: some View {
-        DataCell(
+        CellView(
             content: { TickerDetails(ticker: ticker) },
             footer: { EmptyView() },
             expandedContent: {

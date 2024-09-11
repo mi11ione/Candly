@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct DataCell<Content: View, Footer: View, ExpandedContent: View>: View {
+public struct CellView<Content: View, Footer: View, ExpandedContent: View>: View {
     @State private var isExpanded: Bool = false
     private let content: () -> Content
     private let footer: () -> Footer

@@ -1,7 +1,7 @@
 import Core
 import Foundation
 
-public actor Cacher {
+public actor CacheManager {
     private let tickerCache: CacheService<String, [Ticker]>
     private let candleCache: CacheService<CandleCacheKey, [Candle]>
 

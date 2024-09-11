@@ -9,7 +9,7 @@ public struct PatternCell: View {
     }
 
     public var body: some View {
-        DataCell(
+        CellView(
             content: { PatternChart(pattern: pattern) },
             footer: {
                 Text(pattern.name)
