@@ -1,5 +1,6 @@
 import Core
 import Foundation
+import Models
 
 public struct DataParser {
     private let decoder: JSONDecoder

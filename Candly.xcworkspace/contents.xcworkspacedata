@@ -14,9 +14,15 @@
       location = "group:Data">
    </FileRef>
    <FileRef
-      location = "group:Domain">
+      location = "group:Models">
    </FileRef>
    <FileRef
-      location = "group:Features">
+      location = "group:Network">
+   </FileRef>
+   <FileRef
+      location = "group:PatternFeature">
+   </FileRef>
+   <FileRef
+      location = "group:TickerFeature">
    </FileRef>
 </Workspace>

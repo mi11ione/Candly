@@ -3,26 +3,24 @@
 import PackageDescription
 
 let package = Package(
-    name: "Data",
+    name: "Network",
     platforms: [.iOS(.v17), .macOS(.v14), .visionOS(.v1)],
     products: [
         .library(
-            name: "Data",
-            targets: ["Data"]
+            name: "Network",
+            targets: ["Network"]
         ),
     ],
     dependencies: [
         .package(path: "../Core"),
         .package(path: "../Models"),
-        .package(path: "../Network"),
     ],
     targets: [
         .target(
-            name: "Data",
+            name: "Network",
             dependencies: [
                 "Core",
                 "Models",
-                "Network",
             ]
         ),
     ]

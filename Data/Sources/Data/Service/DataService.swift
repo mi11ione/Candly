@@ -1,5 +1,6 @@
 import Core
 import Foundation
+import Models
 
 public actor DataService: DataServiceProtocol {
     private let fileManager: FileManager

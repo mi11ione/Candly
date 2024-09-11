@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		331ADBD12C8DF4E2001C498D /* Domain in Frameworks */ = {isa = PBXBuildFile; productRef = 331ADBD02C8DF4E2001C498D /* Domain */; };
+		3323D4DE2C91E3A20004EC86 /* PatternFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 3323D4DD2C91E3A20004EC86 /* PatternFeature */; };
+		3323D4F32C91E49D0004EC86 /* TickerFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 3323D4F22C91E49D0004EC86 /* TickerFeature */; };
+		332508E12C91E26D0027F2BF /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = 332508E02C91E26D0027F2BF /* Factory */; };
 		334D4E6D2C8D957B00760CDA /* Data in Frameworks */ = {isa = PBXBuildFile; productRef = 334D4E6C2C8D957B00760CDA /* Data */; };
 		336331972C91C09500C760AA /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 336331962C91C09500C760AA /* Core */; };
-		336332CC2C91C44D00C760AA /* Features in Frameworks */ = {isa = PBXBuildFile; productRef = 336332CB2C91C44D00C760AA /* Features */; };
 		33FC12D92C91A49D00134F8F /* DI in Frameworks */ = {isa = PBXBuildFile; productRef = 33FC12D82C91A49D00134F8F /* DI */; };
 /* End PBXBuildFile section */
 
@@ -37,11 +38,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				331ADBD12C8DF4E2001C498D /* Domain in Frameworks */,
+				3323D4DE2C91E3A20004EC86 /* PatternFeature in Frameworks */,
 				33FC12D92C91A49D00134F8F /* DI in Frameworks */,
-				336332CC2C91C44D00C760AA /* Features in Frameworks */,
+				332508E12C91E26D0027F2BF /* Factory in Frameworks */,
 				336331972C91C09500C760AA /* Core in Frameworks */,
 				334D4E6D2C8D957B00760CDA /* Data in Frameworks */,
+				3323D4F32C91E49D0004EC86 /* TickerFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,10 +87,11 @@
 			name = Candly;
 			packageProductDependencies = (
 				334D4E6C2C8D957B00760CDA /* Data */,
-				331ADBD02C8DF4E2001C498D /* Domain */,
 				33FC12D82C91A49D00134F8F /* DI */,
 				336331962C91C09500C760AA /* Core */,
-				336332CB2C91C44D00C760AA /* Features */,
+				332508E02C91E26D0027F2BF /* Factory */,
+				3323D4DD2C91E3A20004EC86 /* PatternFeature */,
+				3323D4F22C91E49D0004EC86 /* TickerFeature */,
 			);
 			productName = Candly;
 			productReference = 33DD4A232C5A447B002CA246 /* Candly.app */;
@@ -120,10 +123,11 @@
 			mainGroup = 33DD4A1A2C5A447B002CA246;
 			packageReferences = (
 				334D4E6B2C8D957B00760CDA /* XCLocalSwiftPackageReference "../Data" */,
-				331ADBCF2C8DF4E2001C498D /* XCLocalSwiftPackageReference "../Domain" */,
 				33FC12D72C91A49D00134F8F /* XCLocalSwiftPackageReference "../DI" */,
 				336331952C91C09500C760AA /* XCLocalSwiftPackageReference "../Core" */,
-				336332CA2C91C44D00C760AA /* XCLocalSwiftPackageReference "../Features" */,
+				332508DF2C91E26D0027F2BF /* XCRemoteSwiftPackageReference "Factory" */,
+				3323D4DC2C91E3A20004EC86 /* XCLocalSwiftPackageReference "../PatternFeature" */,
+				3323D4F12C91E49D0004EC86 /* XCLocalSwiftPackageReference "../TickerFeature" */,
 			);
 			productRefGroup = 33DD4A242C5A447B002CA246 /* Products */;
 			projectDirPath = "";
@@ -376,9 +380,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		331ADBCF2C8DF4E2001C498D /* XCLocalSwiftPackageReference "../Domain" */ = {
+		3323D4DC2C91E3A20004EC86 /* XCLocalSwiftPackageReference "../PatternFeature" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../Domain;
+			relativePath = ../PatternFeature;
+		};
+		3323D4F12C91E49D0004EC86 /* XCLocalSwiftPackageReference "../TickerFeature" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../TickerFeature;
 		};
 		334D4E6B2C8D957B00760CDA /* XCLocalSwiftPackageReference "../Data" */ = {
 			isa = XCLocalSwiftPackageReference;
@@ -388,20 +396,36 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../Core;
 		};
-		336332CA2C91C44D00C760AA /* XCLocalSwiftPackageReference "../Features" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../Features;
-		};
 		33FC12D72C91A49D00134F8F /* XCLocalSwiftPackageReference "../DI" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../DI;
 		};
 /* End XCLocalSwiftPackageReference section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		332508DF2C91E26D0027F2BF /* XCRemoteSwiftPackageReference "Factory" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hmlongco/Factory.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
-		331ADBD02C8DF4E2001C498D /* Domain */ = {
+		3323D4DD2C91E3A20004EC86 /* PatternFeature */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Domain;
+			productName = PatternFeature;
+		};
+		3323D4F22C91E49D0004EC86 /* TickerFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TickerFeature;
+		};
+		332508E02C91E26D0027F2BF /* Factory */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 332508DF2C91E26D0027F2BF /* XCRemoteSwiftPackageReference "Factory" */;
+			productName = Factory;
 		};
 		334D4E6C2C8D957B00760CDA /* Data */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -410,10 +434,6 @@
 		336331962C91C09500C760AA /* Core */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Core;
-		};
-		336332CB2C91C44D00C760AA /* Features */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Features;
 		};
 		33FC12D82C91A49D00134F8F /* DI */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -1,8 +1,10 @@
 import Core
+import Models
+import Network
 
 public protocol TickerRepositoryProtocol: Sendable {
     func fetchTickers() async throws -> [Ticker]
-    func fetchCandles(for ticker: String, time: ChartTime) async throws -> [Candle]
+    func fetchCandles(for ticker: String, time: Time) async throws -> [Candle]
 }
 
 public actor TickerRepository: TickerRepositoryProtocol {
@@ -24,7 +26,7 @@ public actor TickerRepository: TickerRepositoryProtocol {
         return tickers
     }
 
-    public func fetchCandles(for ticker: String, time: ChartTime) async throws -> [Candle] {
+    public func fetchCandles(for ticker: String, time: Time) async throws -> [Candle] {
         let data = try await networkService.getMoexCandles(ticker: ticker, time: time)
         let candles = try await dataService.parseCandles(from: data, ticker: ticker)
         for candle in candles {
