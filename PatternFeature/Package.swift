@@ -13,10 +13,8 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../DI"),
-        .package(path: "../Domain"),
-        .package(path: "../CoreUI"),
-        .package(path: "../SharedModels"),
-        .package(path: "../CoreArchitecture"),
+        .package(path: "../Core"),
+        .package(path: "../Models"),
         .package(url: "https://github.com/hmlongco/Factory.git", from: "2.3.0"),
     ],
     targets: [
@@ -24,10 +22,8 @@ let package = Package(
             name: "PatternFeature",
             dependencies: [
                 "DI",
-                "Domain",
-                "CoreUI",
-                "SharedModels",
-                "CoreArchitecture",
+                "Core",
+                "Models",
                 "Factory",
             ]
         ),

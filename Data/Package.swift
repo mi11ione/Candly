@@ -12,15 +12,17 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../SharedModels"),
-        .package(path: "../NetworkService"),
+        .package(path: "../Core"),
+        .package(path: "../Models"),
+        .package(path: "../Network"),
     ],
     targets: [
         .target(
             name: "Data",
             dependencies: [
-                "SharedModels",
-                "NetworkService",
+                "Core",
+                "Models",
+                "Network",
             ]
         ),
     ]

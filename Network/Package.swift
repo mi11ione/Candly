@@ -3,28 +3,24 @@
 import PackageDescription
 
 let package = Package(
-    name: "TickerFeature",
+    name: "Network",
     platforms: [.iOS(.v17), .macOS(.v14), .visionOS(.v1)],
     products: [
         .library(
-            name: "TickerFeature",
-            targets: ["TickerFeature"]
+            name: "Network",
+            targets: ["Network"]
         ),
     ],
     dependencies: [
-        .package(path: "../DI"),
         .package(path: "../Core"),
         .package(path: "../Models"),
-        .package(url: "https://github.com/hmlongco/Factory.git", from: "2.3.0"),
     ],
     targets: [
         .target(
-            name: "TickerFeature",
+            name: "Network",
             dependencies: [
-                "DI",
                 "Core",
                 "Models",
-                "Factory",
             ]
         ),
     ]

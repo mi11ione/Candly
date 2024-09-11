@@ -7,14 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		330021992C5B9DDC00F1A7B1 /* TickerFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 330021982C5B9DDC00F1A7B1 /* TickerFeature */; };
-		331ADBD12C8DF4E2001C498D /* Domain in Frameworks */ = {isa = PBXBuildFile; productRef = 331ADBD02C8DF4E2001C498D /* Domain */; };
-		3321802D2C5BB20700B444C4 /* NetworkService in Frameworks */ = {isa = PBXBuildFile; productRef = 3321802C2C5BB20700B444C4 /* NetworkService */; };
+		3323D4DE2C91E3A20004EC86 /* PatternFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 3323D4DD2C91E3A20004EC86 /* PatternFeature */; };
+		3323D4F32C91E49D0004EC86 /* TickerFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 3323D4F22C91E49D0004EC86 /* TickerFeature */; };
+		3323D4F62C91EA8D0004EC86 /* Network in Frameworks */ = {isa = PBXBuildFile; productRef = 3323D4F52C91EA8D0004EC86 /* Network */; };
+		3323D4F92C91EAB10004EC86 /* Models in Frameworks */ = {isa = PBXBuildFile; productRef = 3323D4F82C91EAB10004EC86 /* Models */; };
 		334D4E6D2C8D957B00760CDA /* Data in Frameworks */ = {isa = PBXBuildFile; productRef = 334D4E6C2C8D957B00760CDA /* Data */; };
-		33DB01B62C5FA1B7006463DF /* CoreArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 33DB01B52C5FA1B7006463DF /* CoreArchitecture */; };
-		33DD4A3B2C5A44F2002CA246 /* PatternFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 33DD4A3A2C5A44F2002CA246 /* PatternFeature */; };
-		33EC51702C5AACE700DB7ECF /* CoreUI in Frameworks */ = {isa = PBXBuildFile; productRef = 33EC516F2C5AACE700DB7ECF /* CoreUI */; };
-		33EC51782C5AD06600DB7ECF /* SharedModels in Frameworks */ = {isa = PBXBuildFile; productRef = 33EC51772C5AD06600DB7ECF /* SharedModels */; };
+		336331972C91C09500C760AA /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 336331962C91C09500C760AA /* Core */; };
 		33FC12D92C91A49D00134F8F /* DI in Frameworks */ = {isa = PBXBuildFile; productRef = 33FC12D82C91A49D00134F8F /* DI */; };
 /* End PBXBuildFile section */
 
@@ -41,15 +39,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				331ADBD12C8DF4E2001C498D /* Domain in Frameworks */,
-				3321802D2C5BB20700B444C4 /* NetworkService in Frameworks */,
+				3323D4DE2C91E3A20004EC86 /* PatternFeature in Frameworks */,
+				3323D4F62C91EA8D0004EC86 /* Network in Frameworks */,
 				33FC12D92C91A49D00134F8F /* DI in Frameworks */,
-				33DB01B62C5FA1B7006463DF /* CoreArchitecture in Frameworks */,
-				33DD4A3B2C5A44F2002CA246 /* PatternFeature in Frameworks */,
-				33EC51702C5AACE700DB7ECF /* CoreUI in Frameworks */,
-				330021992C5B9DDC00F1A7B1 /* TickerFeature in Frameworks */,
-				33EC51782C5AD06600DB7ECF /* SharedModels in Frameworks */,
+				336331972C91C09500C760AA /* Core in Frameworks */,
 				334D4E6D2C8D957B00760CDA /* Data in Frameworks */,
+				3323D4F92C91EAB10004EC86 /* Models in Frameworks */,
+				3323D4F32C91E49D0004EC86 /* TickerFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,15 +88,13 @@
 			);
 			name = Candly;
 			packageProductDependencies = (
-				33DD4A3A2C5A44F2002CA246 /* PatternFeature */,
-				33EC516F2C5AACE700DB7ECF /* CoreUI */,
-				33EC51772C5AD06600DB7ECF /* SharedModels */,
-				330021982C5B9DDC00F1A7B1 /* TickerFeature */,
-				3321802C2C5BB20700B444C4 /* NetworkService */,
-				33DB01B52C5FA1B7006463DF /* CoreArchitecture */,
 				334D4E6C2C8D957B00760CDA /* Data */,
-				331ADBD02C8DF4E2001C498D /* Domain */,
 				33FC12D82C91A49D00134F8F /* DI */,
+				336331962C91C09500C760AA /* Core */,
+				3323D4DD2C91E3A20004EC86 /* PatternFeature */,
+				3323D4F22C91E49D0004EC86 /* TickerFeature */,
+				3323D4F52C91EA8D0004EC86 /* Network */,
+				3323D4F82C91EAB10004EC86 /* Models */,
 			);
 			productName = Candly;
 			productReference = 33DD4A232C5A447B002CA246 /* Candly.app */;
@@ -131,15 +125,13 @@
 			);
 			mainGroup = 33DD4A1A2C5A447B002CA246;
 			packageReferences = (
-				33DD4A392C5A44F2002CA246 /* XCLocalSwiftPackageReference "../PatternFeature" */,
-				33EC516E2C5AACE700DB7ECF /* XCLocalSwiftPackageReference "../CoreUI" */,
-				33EC51762C5AD06600DB7ECF /* XCLocalSwiftPackageReference "../SharedModels" */,
-				330021972C5B9DDC00F1A7B1 /* XCLocalSwiftPackageReference "../TickerFeature" */,
-				3321802B2C5BB20700B444C4 /* XCLocalSwiftPackageReference "../NetworkService" */,
-				33DB01B42C5FA1B7006463DF /* XCLocalSwiftPackageReference "../CoreArchitecture" */,
 				334D4E6B2C8D957B00760CDA /* XCLocalSwiftPackageReference "../Data" */,
-				331ADBCF2C8DF4E2001C498D /* XCLocalSwiftPackageReference "../Domain" */,
 				33FC12D72C91A49D00134F8F /* XCLocalSwiftPackageReference "../DI" */,
+				336331952C91C09500C760AA /* XCLocalSwiftPackageReference "../Core" */,
+				3323D4DC2C91E3A20004EC86 /* XCLocalSwiftPackageReference "../PatternFeature" */,
+				3323D4F12C91E49D0004EC86 /* XCLocalSwiftPackageReference "../TickerFeature" */,
+				3323D4F42C91EA8D0004EC86 /* XCLocalSwiftPackageReference "../Network" */,
+				3323D4F72C91EAB10004EC86 /* XCLocalSwiftPackageReference "../Models" */,
 			);
 			productRefGroup = 33DD4A242C5A447B002CA246 /* Products */;
 			projectDirPath = "";
@@ -392,37 +384,29 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		330021972C5B9DDC00F1A7B1 /* XCLocalSwiftPackageReference "../TickerFeature" */ = {
+		3323D4DC2C91E3A20004EC86 /* XCLocalSwiftPackageReference "../PatternFeature" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../PatternFeature;
+		};
+		3323D4F12C91E49D0004EC86 /* XCLocalSwiftPackageReference "../TickerFeature" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../TickerFeature;
 		};
-		331ADBCF2C8DF4E2001C498D /* XCLocalSwiftPackageReference "../Domain" */ = {
+		3323D4F42C91EA8D0004EC86 /* XCLocalSwiftPackageReference "../Network" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../Domain;
+			relativePath = ../Network;
 		};
-		3321802B2C5BB20700B444C4 /* XCLocalSwiftPackageReference "../NetworkService" */ = {
+		3323D4F72C91EAB10004EC86 /* XCLocalSwiftPackageReference "../Models" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../NetworkService;
+			relativePath = ../Models;
 		};
 		334D4E6B2C8D957B00760CDA /* XCLocalSwiftPackageReference "../Data" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../Data;
 		};
-		33DB01B42C5FA1B7006463DF /* XCLocalSwiftPackageReference "../CoreArchitecture" */ = {
+		336331952C91C09500C760AA /* XCLocalSwiftPackageReference "../Core" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../CoreArchitecture;
-		};
-		33DD4A392C5A44F2002CA246 /* XCLocalSwiftPackageReference "../PatternFeature" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../PatternFeature;
-		};
-		33EC516E2C5AACE700DB7ECF /* XCLocalSwiftPackageReference "../CoreUI" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../CoreUI;
-		};
-		33EC51762C5AD06600DB7ECF /* XCLocalSwiftPackageReference "../SharedModels" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../SharedModels;
+			relativePath = ../Core;
 		};
 		33FC12D72C91A49D00134F8F /* XCLocalSwiftPackageReference "../DI" */ = {
 			isa = XCLocalSwiftPackageReference;
@@ -431,37 +415,29 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		330021982C5B9DDC00F1A7B1 /* TickerFeature */ = {
+		3323D4DD2C91E3A20004EC86 /* PatternFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PatternFeature;
+		};
+		3323D4F22C91E49D0004EC86 /* TickerFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TickerFeature;
 		};
-		331ADBD02C8DF4E2001C498D /* Domain */ = {
+		3323D4F52C91EA8D0004EC86 /* Network */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Domain;
+			productName = Network;
 		};
-		3321802C2C5BB20700B444C4 /* NetworkService */ = {
+		3323D4F82C91EAB10004EC86 /* Models */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = NetworkService;
+			productName = Models;
 		};
 		334D4E6C2C8D957B00760CDA /* Data */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Data;
 		};
-		33DB01B52C5FA1B7006463DF /* CoreArchitecture */ = {
+		336331962C91C09500C760AA /* Core */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = CoreArchitecture;
-		};
-		33DD4A3A2C5A44F2002CA246 /* PatternFeature */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = PatternFeature;
-		};
-		33EC516F2C5AACE700DB7ECF /* CoreUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = CoreUI;
-		};
-		33EC51772C5AD06600DB7ECF /* SharedModels */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SharedModels;
+			productName = Core;
 		};
 		33FC12D82C91A49D00134F8F /* DI */ = {
 			isa = XCSwiftPackageProductDependency;

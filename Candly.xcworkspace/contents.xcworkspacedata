@@ -5,30 +5,24 @@
       location = "group:Candly/Candly.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:CoreUI">
+      location = "group:Core">
    </FileRef>
    <FileRef
       location = "group:DI">
    </FileRef>
    <FileRef
-      location = "group:CoreArchitecture">
+      location = "group:Data">
+   </FileRef>
+   <FileRef
+      location = "group:Models">
+   </FileRef>
+   <FileRef
+      location = "group:Network">
    </FileRef>
    <FileRef
       location = "group:PatternFeature">
    </FileRef>
    <FileRef
       location = "group:TickerFeature">
-   </FileRef>
-   <FileRef
-      location = "group:SharedModels">
-   </FileRef>
-   <FileRef
-      location = "group:NetworkService">
-   </FileRef>
-   <FileRef
-      location = "group:Data">
-   </FileRef>
-   <FileRef
-      location = "group:Domain">
    </FileRef>
 </Workspace>
