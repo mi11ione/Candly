@@ -1,4 +1,5 @@
 import Foundation
+import Synchronization
 
 public protocol NetworkServiceProtocol: Sendable {
     func getMoexTickers() async throws -> Data
@@ -8,7 +9,7 @@ public protocol NetworkServiceProtocol: Sendable {
 public actor NetworkService: NetworkServiceProtocol {
     private let session: URLSession
     private let cacheManager: CacheManager
-    private var lastRequestTime: Date?
+    private let lastRequestTime: Mutex<Date?>
     private let minimumRequestInterval: TimeInterval = 1.0
     private let maxRetries = 3
 
@@ -17,6 +18,7 @@ public actor NetworkService: NetworkServiceProtocol {
     {
         self.session = session
         self.cacheManager = cacheManager
+        self.lastRequestTime = Mutex(nil)
     }
 
     public func getMoexTickers() async throws -> Data {
@@ -62,14 +64,20 @@ public actor NetworkService: NetworkServiceProtocol {
     }
 
     private func rateLimitedRequest(_ request: URLRequest) async throws -> Data {
-        if let lastRequestTime {
-            let timeSinceLastRequest = Date().timeIntervalSince(lastRequestTime)
-            if timeSinceLastRequest < minimumRequestInterval {
-                try await Task.sleep(for: .seconds(minimumRequestInterval - timeSinceLastRequest))
+        let shouldWait = lastRequestTime.withLock { lastRequest in
+            if let lastRequest {
+                let timeSinceLastRequest = Date().timeIntervalSince(lastRequest)
+                if timeSinceLastRequest < minimumRequestInterval {
+                    return true
+                }
             }
+            lastRequest = Date()
+            return false
         }
 
-        lastRequestTime = Date()
+        if shouldWait {
+            try await Task.sleep(for: .seconds(minimumRequestInterval))
+        }
 
         let (data, response) = try await session.data(for: request)
         guard let httpResponse = response as? HTTPURLResponse else {

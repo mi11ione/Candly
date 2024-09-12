@@ -1,32 +1,42 @@
 import Foundation
 import Network
+import Synchronization
 
 public actor CacheModel: CacheProtocol {
-    private var cache: [String: (data: Data, timestamp: Date)] = [:]
+    private let cache: Mutex<[String: (data: Data, timestamp: Date)]>
     private let expirationInterval: TimeInterval
 
     public init(expirationInterval: TimeInterval = 120) {
+        self.cache = Mutex([:])
         self.expirationInterval = expirationInterval
     }
 
     public func getData(forKey key: String) async -> Data? {
-        guard let (data, timestamp) = cache[key] else { return nil }
-        guard Date().timeIntervalSince(timestamp) < expirationInterval else {
-            cache[key] = nil
-            return nil
+        cache.withLock { cache in
+            guard let (data, timestamp) = cache[key] else { return nil }
+            guard Date().timeIntervalSince(timestamp) < expirationInterval else {
+                cache[key] = nil
+                return nil
+            }
+            return data
         }
-        return data
     }
 
     public func setData(_ data: Data, forKey key: String) async {
-        cache[key] = (data, Date())
+        cache.withLock { cache in
+            cache[key] = (data, Date())
+        }
     }
 
     public func removeData(forKey key: String) async {
-        cache[key] = nil
+        cache.withLock { cache in
+            cache[key] = nil
+        }
     }
 
     public func clearAll() async {
-        cache.removeAll()
+        cache.withLock { cache in
+            cache.removeAll()
+        }
     }
 }
