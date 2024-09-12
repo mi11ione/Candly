@@ -1,6 +1,6 @@
 import Foundation
 
-public enum Time: String, CaseIterable, Identifiable, Codable, Sendable {
+public enum Time: String, Sendable {
     case hour, day, week, month
 
     public var id: String { rawValue }
@@ -19,7 +19,7 @@ public enum Time: String, CaseIterable, Identifiable, Codable, Sendable {
     }
 }
 
-public struct CandleKey: Hashable {
+public struct CandleKey {
     private let ticker: String
     private let time: Time
 

@@ -1,7 +1,7 @@
 import SwiftUICore
 
 public protocol BaseView: View {
-    associatedtype T: Identifiable
+    associatedtype T
     associatedtype I
     associatedtype Model: BaseModel<T, I>
     var model: Model { get }

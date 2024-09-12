@@ -1,7 +1,7 @@
 import Foundation
 
 @Observable
-open class BaseModel<T: Identifiable, I> {
+open class BaseModel<T, I> {
     public private(set) var items: [T] = []
     public private(set) var searchText: String = ""
     public private(set) var isLoading: Bool = false
