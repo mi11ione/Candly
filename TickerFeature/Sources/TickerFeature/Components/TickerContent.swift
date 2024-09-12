@@ -1,8 +1,7 @@
-import Core
 import Models
 import SwiftUICore
 
-public struct TickerDetails: View {
+public struct TickerContent: View {
     public var ticker: Ticker
 
     public var body: some View {
@@ -19,9 +18,7 @@ public struct TickerDetails: View {
                 Text(priceChangeText)
                     .foregroundColor(priceChangeColor)
             }
-
             Spacer()
-
             // chart
         }
         .padding()

@@ -10,15 +10,11 @@ public struct TickerView: BaseView {
     public var body: some View {
         NavigationStack {
             ScrollView {
-                if model.isLoading {
-                    ProgressView()
-                } else if let error = model.error {
-                    TickerError(message: error) {
-                        handleIntent(.loadTickers)
-                    }
-                } else {
-                    TickerGrid(tickers: model.filteredItems)
-                }
+                TickerGrid(
+                    tickers: model.filteredItems,
+                    isLoading: model.isLoading,
+                    error: model.error
+                ) { handleIntent(.loadTickers) }
             }
             .navigationTitle("Tickers")
             .searchable(text: .init(

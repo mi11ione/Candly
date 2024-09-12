@@ -7,7 +7,7 @@ public struct TickerCell: View {
 
     public var body: some View {
         CellView(
-            content: { TickerDetails(ticker: ticker) },
+            content: { TickerContent(ticker: ticker) },
             footer: { EmptyView() },
             expandedContent: {
                 Text("Detected patterns")
