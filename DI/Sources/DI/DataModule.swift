@@ -6,8 +6,8 @@ public extension Container {
         self { DataService() }.singleton
     }
 
-    var modelCache: Factory<ModelCache> {
-        self { ModelCache() }.singleton
+    var cacheModel: Factory<CacheModel> {
+        self { CacheModel() }.singleton
     }
 
     var patternRepository: Factory<PatternRepositoryProtocol> {

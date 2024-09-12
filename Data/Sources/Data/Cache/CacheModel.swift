@@ -1,7 +1,7 @@
 import Foundation
 import Network
 
-public actor ModelCache: CacheProtocol {
+public actor CacheModel: CacheProtocol {
     private var cache: [String: (data: Data, timestamp: Date)] = [:]
     private let expirationInterval: TimeInterval
 
