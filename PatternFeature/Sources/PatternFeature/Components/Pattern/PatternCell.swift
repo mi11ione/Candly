@@ -2,10 +2,10 @@ import Core
 import Models
 import SwiftUICore
 
-public struct PatternCell: View {
-    public let pattern: Pattern
+struct PatternCell: View {
+    let pattern: Pattern
 
-    public var body: some View {
+    var body: some View {
         CellView(
             content: { PatternChart(pattern: pattern) },
             footer: {

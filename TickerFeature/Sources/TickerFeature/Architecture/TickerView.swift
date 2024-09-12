@@ -2,12 +2,12 @@ import Core
 import Models
 import SwiftUI
 
-public struct TickerView: BaseView {
-    public typealias T = Ticker
-    public typealias I = TickerIntent
-    @State public var model: TickerModel
+struct TickerView: BaseView {
+    typealias T = Ticker
+    typealias I = TickerIntent
+    @State var model: TickerModel
 
-    public var body: some View {
+    var body: some View {
         NavigationStack {
             ScrollView {
                 TickerGrid(

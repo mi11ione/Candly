@@ -3,10 +3,10 @@ import Core
 import Models
 import SwiftUICore
 
-public struct PatternChart: View {
-    public var pattern: Pattern
+struct PatternChart: View {
+    var pattern: Pattern
 
-    public var body: some View {
+    var body: some View {
         ChartConfig.applyCommonConfig(
             Chart {
                 ForEach(pattern.candles, id: \.id) { candle in

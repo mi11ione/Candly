@@ -2,13 +2,13 @@ import Core
 import Models
 import SwiftUI
 
-public struct TickerGrid: View {
-    public var tickers: [Ticker]
-    public var isLoading: Bool
-    public var error: String?
-    public var retryAction: () -> Void
+struct TickerGrid: View {
+    var tickers: [Ticker]
+    var isLoading: Bool
+    var error: String?
+    var retryAction: () -> Void
 
-    public var body: some View {
+    var body: some View {
         if isLoading {
             ProgressView()
         } else if let error {

@@ -1,11 +1,11 @@
 import SwiftUI
 
-public struct FilterButton: View {
-    public var filter: String
-    public var isSelected: Bool
-    public var action: () -> Void
+struct FilterButton: View {
+    var filter: String
+    var isSelected: Bool
+    var action: () -> Void
 
-    public var body: some View {
+    var body: some View {
         Button(action: { withAnimation { action() } }) {
             Text(filter)
                 .font(.headline)

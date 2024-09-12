@@ -28,7 +28,7 @@ public actor DataService: DataServiceProtocol {
     }
 }
 
-public enum DataServiceError: Error {
+enum DataServiceError: Error {
     case fileNotFound
 }
 

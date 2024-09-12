@@ -2,12 +2,12 @@ import Core
 import Models
 import SwiftUI
 
-public struct PatternView: BaseView {
-    public typealias T = Pattern
-    public typealias I = PatternIntent
-    @State public var model: PatternModel
+struct PatternView: BaseView {
+    typealias T = Pattern
+    typealias I = PatternIntent
+    @State var model: PatternModel
 
-    public var body: some View {
+    var body: some View {
         NavigationStack {
             ScrollView {
                 FilterView(

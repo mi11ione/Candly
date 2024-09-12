@@ -115,6 +115,6 @@ public struct DataParser {
     }
 }
 
-public enum DataParserError: Error {
+enum DataParserError: Error {
     case invalidData
 }

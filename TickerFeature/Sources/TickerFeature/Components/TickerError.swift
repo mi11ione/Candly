@@ -1,10 +1,10 @@
 import SwiftUI
 
-public struct TickerError: View {
-    public var message: String
-    public var retryAction: () -> Void
+struct TickerError: View {
+    var message: String
+    var retryAction: () -> Void
 
-    public var body: some View {
+    var body: some View {
         VStack(spacing: 16) {
             Text("Error")
                 .font(.title)

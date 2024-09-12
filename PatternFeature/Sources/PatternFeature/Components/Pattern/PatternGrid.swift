@@ -2,10 +2,10 @@ import Core
 import Models
 import SwiftUICore
 
-public struct PatternGrid: View {
-    public var patterns: [Pattern]
+struct PatternGrid: View {
+    var patterns: [Pattern]
 
-    public var body: some View {
+    var body: some View {
         GridView(items: patterns) { pattern in
             PatternCell(pattern: pattern)
         }

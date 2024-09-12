@@ -2,10 +2,10 @@ import Core
 import Models
 import SwiftUICore
 
-public struct TickerCell: View {
-    public let ticker: Ticker
+struct TickerCell: View {
+    let ticker: Ticker
 
-    public var body: some View {
+    var body: some View {
         CellView(
             content: { TickerContent(ticker: ticker) },
             footer: { EmptyView() },

@@ -1,7 +1,7 @@
 import Factory
 import Network
 
-public extension Container {
+extension Container {
     var cacheProtocol: Factory<CacheProtocol> {
         self { self.cacheModel() as CacheProtocol }.singleton
     }
