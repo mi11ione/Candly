@@ -16,11 +16,9 @@ public actor ModelCache: CacheProtocol {
         return try? JSONEncoder().encode(tickers)
     }
 
-    public func cacheData(_ data: Data, forKey key: String) {
+    public func cacheData(_ data: Data, forKey key: String) async {
         guard let tickers = try? JSONDecoder().decode([Ticker].self, from: data) else { return }
-        Task {
-            await tickerCache.setValue(tickers, forKey: key)
-        }
+        await tickerCache.setValue(tickers, forKey: key)
     }
 
     public func getCachedDataArray(forKey key: String, time: Time) async -> Data? {
@@ -29,18 +27,14 @@ public actor ModelCache: CacheProtocol {
         return try? JSONEncoder().encode(candles)
     }
 
-    public func cacheDataArray(_ data: Data, forKey key: String, time: Time) {
+    public func cacheDataArray(_ data: Data, forKey key: String, time: Time) async {
         guard let candles = try? JSONDecoder().decode([Candle].self, from: data) else { return }
         let cacheKey = CandleKey(ticker: key, time: time)
-        Task {
-            await candleCache.setValue(candles, forKey: cacheKey)
-        }
+        await candleCache.setValue(candles, forKey: cacheKey)
     }
 
-    public func clearCache() {
-        Task {
-            await tickerCache.clear()
-            await candleCache.clear()
-        }
+    public func clearCache() async {
+        await tickerCache.clear()
+        await candleCache.clear()
     }
 }
