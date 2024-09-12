@@ -1,9 +1,14 @@
 import Data
 import Factory
+import Network
 
 public extension Container {
     var dataService: Factory<DataServiceProtocol> {
         self { DataService() }.singleton
+    }
+
+    var modelCache: Factory<CacheProtocol> {
+        self { ModelCache() }.singleton
     }
 
     var patternRepository: Factory<PatternRepositoryProtocol> {

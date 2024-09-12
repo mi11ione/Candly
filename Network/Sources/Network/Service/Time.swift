@@ -18,3 +18,13 @@ public enum Time: String, CaseIterable, Identifiable, Codable, Sendable {
         }
     }
 }
+
+public struct CandleKey: Hashable {
+    private let ticker: String
+    private let time: Time
+
+    public init(ticker: String, time: Time) {
+        self.ticker = ticker
+        self.time = time
+    }
+}

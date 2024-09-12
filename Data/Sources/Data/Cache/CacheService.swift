@@ -25,13 +25,3 @@ public actor CacheService<Key: Hashable, Value> {
         cache.removeAll()
     }
 }
-
-public struct CandleCacheKey: Hashable {
-    private let ticker: String
-    private let time: Time
-
-    public init(ticker: String, time: Time) {
-        self.ticker = ticker
-        self.time = time
-    }
-}

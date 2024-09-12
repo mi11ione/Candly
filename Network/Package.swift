@@ -11,15 +11,9 @@ let package = Package(
             targets: ["Network"]
         ),
     ],
-    dependencies: [
-        .package(path: "../Models"),
-    ],
     targets: [
         .target(
-            name: "Network",
-            dependencies: [
-                "Models",
-            ]
+            name: "Network"
         ),
     ]
 )

@@ -7,30 +7,42 @@ public protocol NetworkServiceProtocol: Sendable {
 
 public actor NetworkService: NetworkServiceProtocol {
     private let session: URLSession
-    private let cacher: CacheManager
+    private let cacheManager: CacheManager
     private var lastRequestTime: Date?
     private let minimumRequestInterval: TimeInterval = 1.0
     private let maxRetries = 3
 
     public init(session: URLSession = .shared,
-                cacher: CacheManager = CacheManager())
+                cacheManager: CacheManager)
     {
         self.session = session
-        self.cacher = cacher
+        self.cacheManager = cacheManager
     }
 
     public func getMoexTickers() async throws -> Data {
+        if let cachedData = await cacheManager.getCachedTickers() {
+            return cachedData
+        }
+
         guard let url = MoexAPI.Endpoint.allTickers.url() else {
             throw NetworkError.invalidURL
         }
-        return try await performRequest(URLRequest(url: url))
+        let data = try await performRequest(URLRequest(url: url))
+        await cacheManager.cacheTickers(data)
+        return data
     }
 
     public func getMoexCandles(ticker: String, time: Time) async throws -> Data {
+        if let cachedData = await cacheManager.getCachedCandles(for: ticker, time: time) {
+            return cachedData
+        }
+
         guard let url = MoexAPI.Endpoint.candles(ticker).url(queryItems: [time.queryItem]) else {
             throw NetworkError.invalidURL
         }
-        return try await performRequest(URLRequest(url: url))
+        let data = try await performRequest(URLRequest(url: url))
+        await cacheManager.cacheCandles(data, for: ticker, time: time)
+        return data
     }
 
     private func performRequest(_ request: URLRequest) async throws -> Data {

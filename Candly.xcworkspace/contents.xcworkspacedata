@@ -8,10 +8,10 @@
       location = "group:Core">
    </FileRef>
    <FileRef
-      location = "group:DI">
+      location = "group:Data">
    </FileRef>
    <FileRef
-      location = "group:Data">
+      location = "group:DI">
    </FileRef>
    <FileRef
       location = "group:Models">
