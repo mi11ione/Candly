@@ -1,7 +1,7 @@
 import Foundation
 
 @Observable
-open class BaseModel<T: Identifiable, I>: @unchecked Sendable {
+open class BaseModel<T: Identifiable, I> {
     public private(set) var items: [T] = []
     public private(set) var searchText: String = ""
     public private(set) var isLoading: Bool = false
@@ -13,14 +13,16 @@ open class BaseModel<T: Identifiable, I>: @unchecked Sendable {
         fatalError("loadItems() has not been implemented")
     }
 
+    @MainActor
     open func handle(_: I) {
         fatalError("handle(_:) has not been implemented")
     }
 
+    @MainActor
     public func load() {
         guard items.isEmpty else { return }
 
-        Task { @MainActor in
+        Task {
             isLoading = true
             do {
                 try await loadItems()

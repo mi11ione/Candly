@@ -1,7 +1,7 @@
 import Models
 import Network
 
-public protocol TickerRepositoryProtocol: Sendable {
+public protocol TickerRepositoryProtocol {
     func fetchTickers() async throws -> [Ticker]
     func fetchCandles(for ticker: String, time: Time) async throws -> [Candle]
 }

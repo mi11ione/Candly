@@ -1,6 +1,6 @@
 import Models
 
-public protocol PatternRepositoryProtocol: Sendable {
+public protocol PatternRepositoryProtocol {
     func fetchPatterns() async throws -> [Pattern]
 }
 

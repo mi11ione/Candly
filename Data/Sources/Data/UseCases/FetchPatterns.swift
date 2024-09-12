@@ -1,6 +1,6 @@
 import Models
 
-public protocol FetchPatternsUseCaseProtocol: Sendable {
+public protocol FetchPatternsUseCaseProtocol {
     func execute() async throws -> [Pattern]
 }
 

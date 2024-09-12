@@ -10,11 +10,11 @@ public final actor PersistenceActor: ModelContextProtocol {
         return try ModelContainer(for: schema, configurations: [modelConfiguration])
     }
 
-    public func insert(_ model: any(PersistentModel & Sendable)) {
+    public func insert(_ model: any PersistentModel) {
         modelContext.insert(model)
     }
 
-    public func delete(_ model: any(PersistentModel & Sendable)) {
+    public func delete(_ model: any PersistentModel) {
         modelContext.delete(model)
     }
 
@@ -22,14 +22,14 @@ public final actor PersistenceActor: ModelContextProtocol {
         try modelContext.save()
     }
 
-    public func fetch<T: PersistentModel & Sendable>(_ fetchDescriptor: FetchDescriptor<T>) throws -> [T] {
+    public func fetch<T: PersistentModel>(_ fetchDescriptor: FetchDescriptor<T>) throws -> [T] {
         try modelContext.fetch(fetchDescriptor)
     }
 }
 
-public protocol ModelContextProtocol: Sendable, Actor {
-    func insert(_ model: any(PersistentModel & Sendable))
-    func delete(_ model: any(PersistentModel & Sendable))
+public protocol ModelContextProtocol: Actor {
+    func insert(_ model: any(PersistentModel))
+    func delete(_ model: any(PersistentModel))
     func save() throws
-    func fetch<T: PersistentModel & Sendable>(_ fetchDescriptor: FetchDescriptor<T>) throws -> [T]
+    func fetch<T: PersistentModel>(_ fetchDescriptor: FetchDescriptor<T>) throws -> [T]
 }

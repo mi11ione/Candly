@@ -4,7 +4,7 @@ import Foundation
 import Models
 
 @Observable
-public final class PatternModel: BaseModel<Pattern, PatternIntent>, @unchecked Sendable {
+public final class PatternModel: BaseModel<Pattern, PatternIntent> {
     private let fetchPatternsUseCase: FetchPatternsUseCaseProtocol
     public var selectedFilter: String = ""
 

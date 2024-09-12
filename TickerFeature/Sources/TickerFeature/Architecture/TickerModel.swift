@@ -4,7 +4,7 @@ import Foundation
 import Models
 
 @Observable
-public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Sendable {
+public final class TickerModel: BaseModel<Ticker, TickerIntent> {
     private let fetchTickersUseCase: FetchTickersUseCaseProtocol
 
     public init(fetchTickersUseCase: FetchTickersUseCaseProtocol) {
