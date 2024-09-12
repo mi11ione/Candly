@@ -1,6 +1,6 @@
 import DI
 import Factory
-import SwiftUI
+import SwiftUICore
 
 public struct TickerFeature: View {
     @Injected(\.fetchTickersUseCase) private var fetchTickersUseCase

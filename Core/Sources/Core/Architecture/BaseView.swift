@@ -1,4 +1,4 @@
-import SwiftUI
+import SwiftUICore
 
 public protocol BaseView: View {
     associatedtype T: Identifiable

@@ -1,5 +1,5 @@
-import Factory
 import Data
+import Factory
 
 public extension Container {
     var dataService: Factory<DataServiceProtocol> {

@@ -9,7 +9,7 @@ public struct TickerView: BaseView {
 
     public var body: some View {
         NavigationStack {
-            ZStack {
+            ScrollView {
                 if model.isLoading {
                     ProgressView()
                 } else if let error = model.error {

@@ -1,7 +1,7 @@
 import Charts
 import Core
 import Models
-import SwiftUI
+import SwiftUICore
 
 public struct PatternChart: View {
     public var pattern: Pattern

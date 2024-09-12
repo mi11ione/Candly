@@ -1,4 +1,4 @@
-import SwiftUI
+import SwiftUICore
 
 extension View {
     func cellBackground(isExpanded: Bool) -> some View {

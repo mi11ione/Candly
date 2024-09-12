@@ -1,4 +1,4 @@
-import SwiftUI
+import SwiftUICore
 
 struct CellOverlayModifier: ViewModifier {
     let isExpanded: Bool

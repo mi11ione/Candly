@@ -1,5 +1,3 @@
-import Foundation
-
 public protocol NetworkErrorHandler {
     func handle(_ error: Error) -> NetworkError
 }
@@ -15,7 +13,7 @@ public struct DefaultNetworkErrorHandler: NetworkErrorHandler {
     }
 }
 
-public enum NetworkError: Error, LocalizedError {
+public enum NetworkError: Error {
     case invalidURL
     case requestFailed
     case invalidResponse

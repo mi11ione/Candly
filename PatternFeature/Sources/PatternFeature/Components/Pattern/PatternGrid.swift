@@ -1,6 +1,6 @@
 import Core
 import Models
-import SwiftUI
+import SwiftUICore
 
 public struct PatternGrid: View {
     public var patterns: [Pattern]

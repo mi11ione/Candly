@@ -1,5 +1,5 @@
 import Charts
-import SwiftUI
+import SwiftUICore
 
 public enum ChartConfig {
     public static func applyCommonConfig(_ chart: Chart<some ChartContent>) -> some View {

@@ -13,13 +13,11 @@ public struct GridView<T: Identifiable, Content: View>: View {
     }
 
     public var body: some View {
-        ScrollView {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 300), spacing: 25)], spacing: 20) {
-                ForEach(items) { item in
-                    content(item)
-                }
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 300), spacing: 25)], spacing: 20) {
+            ForEach(items) { item in
+                content(item)
             }
-            .padding()
         }
+        .padding()
     }
 }

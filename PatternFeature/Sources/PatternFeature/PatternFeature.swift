@@ -1,6 +1,6 @@
 import DI
 import Factory
-import SwiftUI
+import SwiftUICore
 
 public struct PatternFeature: View {
     @Injected(\.fetchPatternsUseCase) private var fetchPatternsUseCase

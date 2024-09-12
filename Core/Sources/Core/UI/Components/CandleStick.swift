@@ -1,5 +1,5 @@
 import Charts
-import SwiftUI
+import SwiftUICore
 
 public struct CandleStick: ChartContent {
     private let time: String

@@ -1,4 +1,4 @@
-import SwiftUI
+import SwiftUICore
 
 struct CellBackgroundModifier: ViewModifier {
     let isExpanded: Bool

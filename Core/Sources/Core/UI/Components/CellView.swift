@@ -1,4 +1,4 @@
-import SwiftUI
+import SwiftUICore
 
 public struct CellView<Content: View, Footer: View, ExpandedContent: View>: View {
     @State private var isExpanded: Bool = false

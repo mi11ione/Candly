@@ -1,6 +1,6 @@
 import Core
 import Models
-import SwiftUI
+import SwiftUICore
 
 public struct TickerCell: View {
     public let ticker: Ticker
