@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
-public final class Candle: Identifiable, @unchecked Sendable {
+public final class Candle: @unchecked Sendable {
     @Attribute(.unique) public var id: UUID
     public var date: Date
     public var openPrice: Double

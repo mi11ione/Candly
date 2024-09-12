@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
-public final class Pattern: Identifiable, @unchecked Sendable {
+public final class Pattern: @unchecked Sendable {
     @Attribute(.unique) public var id: UUID
     public var name: String
     public var info: String

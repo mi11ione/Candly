@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 
 @Model
-public final class Ticker: Identifiable, @unchecked Sendable {
+public final class Ticker: @unchecked Sendable {
     @Attribute(.unique) public var id: UUID
     public var title: String
     public var subTitle: String
