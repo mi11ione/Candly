@@ -1,14 +1,13 @@
-import Data
 import Factory
 import Network
 
 public extension Container {
-    var modelCache: Factory<CacheProtocol> {
-        self { ModelCache() }.singleton
+    var cacheProtocol: Factory<CacheProtocol> {
+        self { self.modelCache() as CacheProtocol }.singleton
     }
 
     var cacheManager: Factory<CacheManager> {
-        self { CacheManager(cache: self.modelCache()) }.singleton
+        self { CacheManager(cache: self.cacheProtocol()) }.singleton
     }
 
     var networkService: Factory<NetworkServiceProtocol> {
