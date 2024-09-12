@@ -20,7 +20,8 @@ public actor NetworkService: NetworkServiceProtocol {
     }
 
     public func getMoexTickers() async throws -> Data {
-        if let cachedData = await cacheManager.getCachedTickers() {
+        let cacheKey = "moexTickers"
+        if let cachedData = await cacheManager.getCachedData(forKey: cacheKey) {
             return cachedData
         }
 
@@ -28,12 +29,13 @@ public actor NetworkService: NetworkServiceProtocol {
             throw NetworkError.invalidURL
         }
         let data = try await performRequest(URLRequest(url: url))
-        await cacheManager.cacheTickers(data)
+        await cacheManager.cacheData(data, forKey: cacheKey)
         return data
     }
 
     public func getMoexCandles(ticker: String, time: Time) async throws -> Data {
-        if let cachedData = await cacheManager.getCachedCandles(for: ticker, time: time) {
+        let cacheKey = "moexCandles_\(ticker)_\(time.rawValue)"
+        if let cachedData = await cacheManager.getCachedData(forKey: cacheKey) {
             return cachedData
         }
 
@@ -41,7 +43,7 @@ public actor NetworkService: NetworkServiceProtocol {
             throw NetworkError.invalidURL
         }
         let data = try await performRequest(URLRequest(url: url))
-        await cacheManager.cacheCandles(data, for: ticker, time: time)
+        await cacheManager.cacheData(data, forKey: cacheKey)
         return data
     }
 

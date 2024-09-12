@@ -7,23 +7,19 @@ public actor CacheManager {
         self.cache = cache
     }
 
-    public func getCachedTickers() async -> Data? {
-        await cache.getCachedData(forKey: "allTickers")
+    public func getCachedData(forKey key: String) async -> Data? {
+        await cache.getData(forKey: key)
     }
 
-    public func cacheTickers(_ data: Data) async {
-        await cache.cacheData(data, forKey: "allTickers")
+    public func cacheData(_ data: Data, forKey key: String) async {
+        await cache.setData(data, forKey: key)
     }
 
-    public func getCachedCandles(for ticker: String, time: Time) async -> Data? {
-        await cache.getCachedDataArray(forKey: ticker, time: time)
-    }
-
-    public func cacheCandles(_ data: Data, for ticker: String, time: Time) async {
-        await cache.cacheDataArray(data, forKey: ticker, time: time)
+    public func removeCachedData(forKey key: String) async {
+        await cache.removeData(forKey: key)
     }
 
     public func clearCache() async {
-        await cache.clearCache()
+        await cache.clearAll()
     }
 }

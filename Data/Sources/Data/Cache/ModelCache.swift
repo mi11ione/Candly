@@ -1,40 +1,32 @@
 import Foundation
-import Models
 import Network
 
 public actor ModelCache: CacheProtocol {
-    private let tickerCache: CacheService<String, [Ticker]>
-    private let candleCache: CacheService<CandleKey, [Candle]>
+    private var cache: [String: (data: Data, timestamp: Date)] = [:]
+    private let expirationInterval: TimeInterval
 
-    public init(cacheExpirationInterval: TimeInterval = 120) {
-        tickerCache = CacheService(expirationInterval: cacheExpirationInterval)
-        candleCache = CacheService(expirationInterval: cacheExpirationInterval)
+    public init(expirationInterval: TimeInterval = 120) {
+        self.expirationInterval = expirationInterval
     }
 
-    public func getCachedData(forKey key: String) async -> Data? {
-        guard let tickers = await tickerCache.getValue(forKey: key) else { return nil }
-        return try? JSONEncoder().encode(tickers)
+    public func getData(forKey key: String) async -> Data? {
+        guard let (data, timestamp) = cache[key] else { return nil }
+        guard Date().timeIntervalSince(timestamp) < expirationInterval else {
+            cache[key] = nil
+            return nil
+        }
+        return data
     }
 
-    public func cacheData(_ data: Data, forKey key: String) async {
-        guard let tickers = try? JSONDecoder().decode([Ticker].self, from: data) else { return }
-        await tickerCache.setValue(tickers, forKey: key)
+    public func setData(_ data: Data, forKey key: String) async {
+        cache[key] = (data, Date())
     }
 
-    public func getCachedDataArray(forKey key: String, time: Time) async -> Data? {
-        let cacheKey = CandleKey(ticker: key, time: time)
-        guard let candles = await candleCache.getValue(forKey: cacheKey) else { return nil }
-        return try? JSONEncoder().encode(candles)
+    public func removeData(forKey key: String) async {
+        cache[key] = nil
     }
 
-    public func cacheDataArray(_ data: Data, forKey key: String, time: Time) async {
-        guard let candles = try? JSONDecoder().decode([Candle].self, from: data) else { return }
-        let cacheKey = CandleKey(ticker: key, time: time)
-        await candleCache.setValue(candles, forKey: cacheKey)
-    }
-
-    public func clearCache() async {
-        await tickerCache.clear()
-        await candleCache.clear()
+    public func clearAll() async {
+        cache.removeAll()
     }
 }
