@@ -10,7 +10,7 @@ public actor DataService: DataServiceProtocol {
     public init(fileManager: FileManager = .default, parser: DataParser = DataParser()) {
         self.fileManager = fileManager
         self.parser = parser
-        self.fileAccessMutex = Mutex(())
+        fileAccessMutex = Mutex(())
     }
 
     public func loadPatterns() throws -> [Pattern] {

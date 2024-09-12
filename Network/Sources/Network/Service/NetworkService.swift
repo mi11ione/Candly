@@ -18,7 +18,7 @@ public actor NetworkService: NetworkServiceProtocol {
     {
         self.session = session
         self.cacheManager = cacheManager
-        self.lastRequestTime = Mutex(nil)
+        lastRequestTime = Mutex(nil)
     }
 
     public func getMoexTickers() async throws -> Data {

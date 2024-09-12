@@ -7,7 +7,7 @@ public actor CacheModel: CacheProtocol {
     private let expirationInterval: TimeInterval
 
     public init(expirationInterval: TimeInterval = 120) {
-        self.cache = Mutex([:])
+        cache = Mutex([:])
         self.expirationInterval = expirationInterval
     }
 
