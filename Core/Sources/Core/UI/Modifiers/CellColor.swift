@@ -11,7 +11,7 @@ struct CellColor: ViewModifier {
                     .overlay(
                         RoundedRectangle(cornerRadius: 30)
                         #if os(visionOS)
-                            .fill(Material.thin)
+                            .fill(Color.clear)
                         #else
                             .fill(isExpanded ? Color("CellColor") : .clear)
                         #endif

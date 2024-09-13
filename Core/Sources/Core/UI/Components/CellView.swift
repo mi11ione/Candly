@@ -18,6 +18,21 @@ public struct CellView<Content: View, Footer: View, ExpandedContent: View>: View
 
     public var body: some View {
         VStack {
+            #if os(visionOS)
+                if isExpanded {
+                    expandedView
+                } else {
+                    collapsedView
+                }
+            #else
+                defaultView
+            #endif
+        }
+        .cellColor(isExpanded: isExpanded)
+    }
+
+    private var defaultView: some View {
+        VStack {
             content()
                 .cellBackground(isExpanded: isExpanded)
                 .onTapGesture {
@@ -35,6 +50,35 @@ public struct CellView<Content: View, Footer: View, ExpandedContent: View>: View
                 expandedContent()
             }
         }
-        .cellColor(isExpanded: isExpanded)
     }
+
+    #if os(visionOS)
+        private var collapsedView: some View {
+            VStack {
+                content()
+                    .cellBackground(isExpanded: false)
+                    .cellColor(isExpanded: false)
+                    .onTapGesture {
+                        withAnimation(.spring()) {
+                            isExpanded.toggle()
+                        }
+                    }
+                footer()
+            }
+        }
+
+        private var expandedView: some View {
+            VStack {
+                content()
+                footer()
+                expandedContent()
+            }
+            .cellBackground(isExpanded: true)
+            .onTapGesture {
+                withAnimation(.spring()) {
+                    isExpanded.toggle()
+                }
+            }
+        }
+    #endif
 }
