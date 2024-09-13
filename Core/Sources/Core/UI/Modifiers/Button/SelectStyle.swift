@@ -6,11 +6,27 @@ struct SelectButtonStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
             .font(.headline)
-            .foregroundColor(isSelected ? Color("InvertedTextColor") : .primary)
+            .foregroundColor(foregroundColor)
             .padding(.vertical, 6)
             .padding(.horizontal, 12)
-            .background(isSelected ? .primary : Color("BackgroundColor"))
+            .background(backgroundColor)
             .cornerRadius(16)
             .shadow(color: Color("ShadowColor"), radius: 6)
+    }
+
+    private var foregroundColor: Color {
+        #if os(visionOS)
+            isSelected ? .black : .white
+        #else
+            isSelected ? Color("InvertedTextColor") : .primary
+        #endif
+    }
+
+    private var backgroundColor: Color {
+        #if os(visionOS)
+            .white.opacity(isSelected ? 1 : 0.2)
+        #else
+            isSelected ? .primary : Color("BackgroundColor")
+        #endif
     }
 }
