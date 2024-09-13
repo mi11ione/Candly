@@ -1,6 +1,6 @@
 import SwiftUICore
 
-struct CellBackgroundModifier: ViewModifier {
+struct CellBackground: ViewModifier {
     let isExpanded: Bool
 
     func body(content: Content) -> some View {

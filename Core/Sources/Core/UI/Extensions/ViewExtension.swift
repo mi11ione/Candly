@@ -2,10 +2,10 @@ import SwiftUICore
 
 extension View {
     func cellBackground(isExpanded: Bool) -> some View {
-        modifier(CellBackgroundModifier(isExpanded: isExpanded))
+        modifier(CellBackground(isExpanded: isExpanded))
     }
 
-    func cellOverlay(isExpanded: Bool) -> some View {
-        modifier(CellOverlayModifier(isExpanded: isExpanded))
+    func cellColor(isExpanded: Bool) -> some View {
+        modifier(CellColor(isExpanded: isExpanded))
     }
 }

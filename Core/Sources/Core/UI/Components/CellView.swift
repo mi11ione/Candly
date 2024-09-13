@@ -35,6 +35,6 @@ public struct CellView<Content: View, Footer: View, ExpandedContent: View>: View
                 expandedContent()
             }
         }
-        .cellOverlay(isExpanded: isExpanded)
+        .cellColor(isExpanded: isExpanded)
     }
 }

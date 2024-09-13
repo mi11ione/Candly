@@ -1,6 +1,6 @@
 import SwiftUICore
 
-struct CellOverlayModifier: ViewModifier {
+struct CellColor: ViewModifier {
     let isExpanded: Bool
 
     func body(content: Content) -> some View {
@@ -13,7 +13,7 @@ struct CellOverlayModifier: ViewModifier {
                         #if os(visionOS)
                             .fill(Material.thin)
                         #else
-                            .fill(isExpanded ? Color("CellOverlayColor") : .clear)
+                            .fill(isExpanded ? Color("CellColor") : .clear)
                         #endif
                     )
             )
