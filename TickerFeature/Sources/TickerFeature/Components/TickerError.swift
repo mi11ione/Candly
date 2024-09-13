@@ -18,7 +18,7 @@ struct TickerError: View {
                 Text("Try Again")
                     .fontWeight(.semibold)
                     .foregroundColor(.white)
-                    .frame(minWidth: 120, minHeight: 44)
+                    .padding()
                     .background(Color.red)
                     .cornerRadius(10)
             }
