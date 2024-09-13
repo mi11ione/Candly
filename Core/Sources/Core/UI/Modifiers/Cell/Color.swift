@@ -15,6 +15,8 @@ struct CellColor: ViewModifier {
     private var backgroundColor: Color {
         #if os(visionOS)
             .white.opacity(isContent ? 0.05 : (isExpanded ? 0.1 : 0))
+        #elseif os(macOS)
+            isExpanded ? Color("CellColorMac") : .clear
         #else
             isExpanded ? Color("CellColor") : .clear
         #endif
