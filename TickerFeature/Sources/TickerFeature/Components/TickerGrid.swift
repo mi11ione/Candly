@@ -11,8 +11,10 @@ struct TickerGrid: View {
     var body: some View {
         if isLoading {
             ProgressView()
+                .padding()
         } else if let error {
             TickerError(message: error, retryAction: retryAction)
+                .padding()
         } else {
             GridView(items: tickers) { ticker in
                 TickerCell(ticker: ticker)

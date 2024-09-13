@@ -1,27 +1,22 @@
 import Foundation
 import Models
-import Synchronization
 
 public actor DataService: DataServiceProtocol {
     private let fileManager: FileManager
     private let parser: DataParser
-    private let fileAccessMutex: Mutex<Void>
 
     public init(fileManager: FileManager = .default, parser: DataParser = DataParser()) {
         self.fileManager = fileManager
         self.parser = parser
-        fileAccessMutex = Mutex(())
     }
 
-    public func loadPatterns() throws -> [Pattern] {
-        try fileAccessMutex.withLock { _ in
-            guard let url = Bundle.main.url(forResource: "patterns", withExtension: "json") else {
-                throw DataServiceError.fileNotFound
-            }
-
-            let data = try Data(contentsOf: url)
-            return try parser.parsePatterns(from: data)
+    public func loadPatterns() async throws -> [Pattern] {
+        guard let url = Bundle.main.url(forResource: "patterns", withExtension: "json") else {
+            throw DataServiceError.fileNotFound
         }
+
+        let data = try Data(contentsOf: url)
+        return try parser.parsePatterns(from: data)
     }
 
     public func parseTickers(from data: Data) async throws -> [Ticker] {
