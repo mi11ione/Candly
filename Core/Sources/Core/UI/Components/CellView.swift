@@ -25,6 +25,7 @@ public struct CellView<Content: View, Footer: View, ExpandedContent: View>: View
                         isExpanded.toggle()
                     }
                 }
+                .sensoryFeedback(.impact, trigger: isExpanded)
 
             footer()
 
