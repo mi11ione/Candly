@@ -3,7 +3,7 @@ import Models
 import SwiftUICore
 
 struct PatternGrid: View {
-    var patterns: [Pattern]
+    var patterns: [Models.Pattern]
 
     var body: some View {
         GridView(items: patterns) { pattern in

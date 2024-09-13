@@ -3,7 +3,7 @@ import Models
 import SwiftUI
 
 struct PatternView: BaseView {
-    typealias T = Pattern
+    typealias T = Models.Pattern
     typealias I = PatternIntent
     @State var model: PatternModel
 

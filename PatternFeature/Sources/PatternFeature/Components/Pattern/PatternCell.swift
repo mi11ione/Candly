@@ -3,7 +3,7 @@ import Models
 import SwiftUICore
 
 struct PatternCell: View {
-    let pattern: Pattern
+    let pattern: Models.Pattern
 
     var body: some View {
         CellView(
