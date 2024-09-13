@@ -18,6 +18,8 @@ struct FilterButton: View {
         }
         .buttonStyle(PlainButtonStyle())
         .padding(.horizontal, 2)
-        .sensoryFeedback(.impact, trigger: isSelected)
+        #if os(iOS)
+            .sensoryFeedback(.impact, trigger: isSelected)
+        #endif
     }
 }

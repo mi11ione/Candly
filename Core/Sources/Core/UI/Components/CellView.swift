@@ -25,7 +25,9 @@ public struct CellView<Content: View, Footer: View, ExpandedContent: View>: View
                         isExpanded.toggle()
                     }
                 }
+            #if os(iOS)
                 .sensoryFeedback(.impact, trigger: isExpanded)
+            #endif
 
             footer()
 
