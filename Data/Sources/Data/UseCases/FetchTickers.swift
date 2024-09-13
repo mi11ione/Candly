@@ -18,6 +18,9 @@ public final class FetchTickersUseCase: FetchTickersUseCaseProtocol {
 
     public func filterTickers(_ tickers: [Ticker], searchText: String) -> [Ticker] {
         guard !searchText.isEmpty else { return tickers }
-        return tickers.filter { $0.title.lowercased().contains(searchText.lowercased()) }
+        return tickers.filter { ticker in
+            ticker.title.lowercased().contains(searchText.lowercased()) ||
+                ticker.subTitle.lowercased().contains(searchText.lowercased())
+        }
     }
 }
