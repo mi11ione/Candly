@@ -5,8 +5,12 @@ struct CellBackgroundModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .background(Color("BackgroundColor"))
-            .cornerRadius(30)
-            .shadow(color: Color(isExpanded ? "ShadowExpandedColor" : "ShadowColor"), radius: 6)
+        #if os(visionOS)
+        .background(Material.ultraThin)
+        #else
+        .background(Color("BackgroundColor"))
+        #endif
+        .cornerRadius(30)
+        .shadow(color: Color(isExpanded ? "ShadowExpandedColor" : "ShadowColor"), radius: 6)
     }
 }
