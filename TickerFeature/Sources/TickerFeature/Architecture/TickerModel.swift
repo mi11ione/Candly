@@ -19,12 +19,12 @@ public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Send
         await MainActor.run {
             updateItems(fetchedTickers)
             Task {
-                await loadInitialCandles()
+                await loadCandles()
             }
         }
     }
 
-    private func loadInitialCandles() async {
+    private func loadCandles() async {
         let visibleTickers = Array(items.prefix(20))
         for ticker in visibleTickers {
             await fetchCandles(for: ticker.title)
@@ -62,12 +62,6 @@ public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Send
             load()
         case let .updateSearchText(text):
             updateSearchText(text)
-        case let .loadCandles(tickers):
-            Task {
-                for ticker in tickers {
-                    await fetchCandles(for: ticker)
-                }
-            }
         }
     }
 
