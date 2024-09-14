@@ -5,6 +5,7 @@ import Models
 
 @Observable
 public final class TickerModel: BaseModel<Ticker, TickerIntent> {
+    @ObservationIgnored
     private let fetchTickersUseCase: FetchTickersUseCaseProtocol
 
     public init(fetchTickersUseCase: FetchTickersUseCaseProtocol) {

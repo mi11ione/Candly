@@ -11,6 +11,7 @@ public final class Candle: @unchecked Sendable {
     public var lowPrice: Double
     public var ticker: String
 
+    @Transient
     public var formattedTime: String {
         date.formatted(date: .omitted, time: .shortened)
     }
