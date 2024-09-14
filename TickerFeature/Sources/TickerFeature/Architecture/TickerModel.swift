@@ -7,11 +7,9 @@ import Models
 public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Sendable {
     @ObservationIgnored
     private let fetchTickersUseCase: FetchTickersUseCaseProtocol
-    @ObservationIgnored
-    private var candlesCache: [String: [Candle]] = [:]
+    private(set) var candlesCache: [String: [Candle]] = [:]
     @ObservationIgnored
     private var loadingTickers: Set<String> = []
-    private let queue = DispatchQueue(label: "com.candly.tickerModel", attributes: .concurrent)
 
     public init(fetchTickersUseCase: FetchTickersUseCaseProtocol) {
         self.fetchTickersUseCase = fetchTickersUseCase
@@ -22,41 +20,43 @@ public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Send
         let fetchedTickers = try await fetchTickersUseCase.execute()
         await MainActor.run {
             updateItems(fetchedTickers)
+            Task {
+                await loadInitialCandles()
+            }
+        }
+    }
+
+    private func loadInitialCandles() async {
+        let visibleTickers = Array(items.prefix(20))
+        for ticker in visibleTickers {
+            await fetchCandles(for: ticker.title)
         }
     }
 
     public func candles(for ticker: String) -> [Candle] {
-        queue.sync {
-            if candlesCache[ticker] == nil, !loadingTickers.contains(ticker) {
-                loadingTickers.insert(ticker)
-                Task {
-                    await fetchCandles(for: ticker)
-                }
+        if candlesCache[ticker] == nil {
+            Task {
+                await fetchCandles(for: ticker)
             }
-            return candlesCache[ticker] ?? []
         }
+        return candlesCache[ticker] ?? []
     }
 
     private func fetchCandles(for ticker: String) async {
+        guard !loadingTickers.contains(ticker) else { return }
+
+        loadingTickers.insert(ticker)
         do {
             let candles = try await fetchTickersUseCase.fetchCandles(for: ticker, time: .hour)
             let lastTenCandles = Array(candles.suffix(10))
-            await updateCacheAndLoadingState(ticker: ticker, candles: lastTenCandles)
+            await MainActor.run {
+                candlesCache[ticker] = lastTenCandles
+                loadingTickers.remove(ticker)
+            }
         } catch {
             print("Error fetching candles for \(ticker): \(error)")
-            await updateCacheAndLoadingState(ticker: ticker, candles: nil)
-        }
-    }
-
-    @Sendable
-    private func updateCacheAndLoadingState(ticker: String, candles: [Candle]?) async {
-        await withCheckedContinuation { continuation in
-            queue.async(flags: .barrier) {
-                if let candles {
-                    self.candlesCache[ticker] = candles
-                }
-                self.loadingTickers.remove(ticker)
-                continuation.resume()
+            await MainActor.run {
+                loadingTickers.remove(ticker)
             }
         }
     }
@@ -67,6 +67,16 @@ public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Send
             load()
         case let .updateSearchText(text):
             updateSearchText(text)
+        case let .loadCandles(tickers):
+            Task {
+                for ticker in tickers {
+                    await fetchCandles(for: ticker)
+                }
+            }
         }
+    }
+
+    override public var filteredItems: [Ticker] {
+        fetchTickersUseCase.filterTickers(items, searchText: searchText)
     }
 }
