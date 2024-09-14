@@ -24,7 +24,6 @@ struct TickerChart: View {
                     }
                 }
             )
-            .frame(height: 160)
             .chartYScale(domain: yAxisDomain)
         }
     }
