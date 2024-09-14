@@ -12,11 +12,10 @@ public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Send
         super.init()
     }
 
+    @MainActor
     override public func loadItems() async throws {
         let fetchedTickers = try await fetchTickersUseCase.execute()
-        await MainActor.run {
-            updateItems(fetchedTickers)
-        }
+        updateItems(fetchedTickers)
     }
 
     public func candles(for ticker: String) async -> [Candle] {
