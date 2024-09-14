@@ -4,7 +4,8 @@ import SwiftUICore
 
 struct TickerCell: View {
     let ticker: Ticker
-    let candles: [Candle]
+    let tickerCandles: TickerModel
+    @State private var candles: [Candle] = []
 
     var body: some View {
         CellView(
@@ -18,5 +19,8 @@ struct TickerCell: View {
             }
         )
         .padding(.top, 5)
+        .task {
+            candles = await tickerCandles.candles(for: ticker.title)
+        }
     }
 }

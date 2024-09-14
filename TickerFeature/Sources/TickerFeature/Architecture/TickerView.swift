@@ -12,10 +12,10 @@ struct TickerView: BaseView {
             ScrollView {
                 TickerGrid(
                     tickers: model.filteredItems,
+                    candles: model,
                     isLoading: model.isLoading,
                     error: model.error,
-                    retryAction: { handleIntent(.loadTickers) },
-                    candles: { model.candles(for: $0) }
+                    retryAction: { handleIntent(.loadTickers) }
                 )
             }
             .navigationTitle("Tickers")

@@ -6,7 +6,6 @@ import Models
 @Observable
 public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Sendable {
     @ObservationIgnored private let fetchTickersUseCase: FetchTickersUseCaseProtocol
-    private var candlesCache: [String: [Candle]] = [:]
 
     public init(fetchTickersUseCase: FetchTickersUseCaseProtocol) {
         self.fetchTickersUseCase = fetchTickersUseCase
@@ -20,22 +19,13 @@ public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Send
         }
     }
 
-    @MainActor
-    public func candles(for ticker: String) -> [Candle] {
-        if candlesCache[ticker] == nil {
-            Task {
-                await fetchCandles(for: ticker)
-            }
-        }
-        return candlesCache[ticker] ?? []
-    }
-
-    @MainActor
-    private func fetchCandles(for ticker: String) async {
+    public func candles(for ticker: String) async -> [Candle] {
         do {
             let candles = try await fetchTickersUseCase.fetchCandles(for: ticker, time: .hour)
-            candlesCache[ticker] = Array(candles.suffix(10))
-        } catch {}
+            return Array(candles.suffix(10))
+        } catch {
+            return []
+        }
     }
 
     override public func handle(_ intent: TickerIntent) {
