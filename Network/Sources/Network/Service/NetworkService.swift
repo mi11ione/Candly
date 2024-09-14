@@ -27,7 +27,7 @@ public actor NetworkService: NetworkServiceProtocol {
             return cachedData
         }
 
-        guard let url = MoexAPI.Endpoint.allTickers.url() else {
+        guard let url = MoexAPI.Endpoint.allTickers.url(queryItems: []) else {
             throw NetworkError.invalidURL
         }
         let data = try await performRequest(URLRequest(url: url))
@@ -41,7 +41,7 @@ public actor NetworkService: NetworkServiceProtocol {
             return cachedData
         }
 
-        guard let url = MoexAPI.Endpoint.candles(ticker).url(queryItems: [time.queryItem]) else {
+        guard let url = MoexAPI.Endpoint.candles(ticker).url(queryItems: time.queryItems) else {
             throw NetworkError.invalidURL
         }
         let data = try await performRequest(URLRequest(url: url))

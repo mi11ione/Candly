@@ -1,6 +1,12 @@
 import Foundation
 import Models
 
+public protocol DataServiceProtocol: Sendable {
+    func loadPatterns() async throws -> [Pattern]
+    func parseTickers(from data: Data) async throws -> [Ticker]
+    func parseCandles(from data: Data, ticker: String) async throws -> [Candle]
+}
+
 public actor DataService: DataServiceProtocol {
     private let fileManager: FileManager
     private let parser: DataParser
@@ -30,10 +36,4 @@ public actor DataService: DataServiceProtocol {
 
 enum DataServiceError: Error {
     case fileNotFound
-}
-
-public protocol DataServiceProtocol: Sendable {
-    func loadPatterns() async throws -> [Pattern]
-    func parseTickers(from data: Data) async throws -> [Ticker]
-    func parseCandles(from data: Data, ticker: String) async throws -> [Candle]
 }

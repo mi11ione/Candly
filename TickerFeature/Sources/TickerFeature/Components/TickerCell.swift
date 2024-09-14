@@ -4,10 +4,11 @@ import SwiftUICore
 
 struct TickerCell: View {
     let ticker: Ticker
+    let candles: [Candle]
 
     var body: some View {
         CellView(
-            content: { TickerContent(ticker: ticker) },
+            content: { TickerContent(ticker: ticker, candles: candles) },
             footer: { EmptyView() },
             expandedContent: {
                 Text("Detected patterns")

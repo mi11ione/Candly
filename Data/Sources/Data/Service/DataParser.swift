@@ -20,9 +20,7 @@ public struct DataParser {
                   let info = patternData["info"] as? String,
                   let filter = patternData["filter"] as? String,
                   let candlesData = patternData["candles"] as? [[String: Any]]
-            else {
-                return nil
-            }
+            else { return nil }
 
             let candles = candlesData.compactMap { candleData -> Candle? in
                 guard let dateString = candleData["date"] as? String,
@@ -32,9 +30,11 @@ public struct DataParser {
                       let highPrice = candleData["highPrice"] as? Double,
                       let lowPrice = candleData["lowPrice"] as? Double,
                       let ticker = candleData["ticker"] as? String
-                else {
-                    return nil
-                }
+                else { return nil }
+
+                let value = candleData["value"] as? Double ?? 0
+                let volume = candleData["volume"] as? Double ?? 0
+                let endDate = (candleData["endDate"] as? String).flatMap { ISO8601DateFormatter().date(from: $0) } ?? date
 
                 return Candle(
                     id: UUID(),
@@ -43,6 +43,9 @@ public struct DataParser {
                     closePrice: closePrice,
                     highPrice: highPrice,
                     lowPrice: lowPrice,
+                    value: value,
+                    volume: volume,
+                    endDate: endDate,
                     ticker: ticker
                 )
             }
@@ -93,22 +96,29 @@ public struct DataParser {
         }
 
         return candlesList.compactMap { candleData -> Candle? in
-            guard candleData.count >= 7,
+            guard candleData.count >= 8,
                   let openPrice = candleData[0] as? Double,
                   let closePrice = candleData[1] as? Double,
                   let highPrice = candleData[2] as? Double,
                   let lowPrice = candleData[3] as? Double,
-                  let dateString = candleData[6] as? String,
-                  let date = ISO8601DateFormatter().date(from: dateString)
+                  let value = candleData[4] as? Double,
+                  let volume = candleData[5] as? Double,
+                  let beginString = candleData[6] as? String,
+                  let endString = candleData[7] as? String,
+                  let beginDate = DateFormatter.moexDateFormatter.date(from: beginString),
+                  let endDate = DateFormatter.moexDateFormatter.date(from: endString)
             else { return nil }
 
             return Candle(
                 id: UUID(),
-                date: date,
+                date: beginDate,
                 openPrice: openPrice,
                 closePrice: closePrice,
                 highPrice: highPrice,
                 lowPrice: lowPrice,
+                value: value,
+                volume: volume,
+                endDate: endDate,
                 ticker: ticker
             )
         }
@@ -117,4 +127,13 @@ public struct DataParser {
 
 enum DataParserError: Error {
     case invalidData
+}
+
+extension DateFormatter {
+    static let moexDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        formatter.timeZone = TimeZone(identifier: "UTC")
+        return formatter
+    }()
 }

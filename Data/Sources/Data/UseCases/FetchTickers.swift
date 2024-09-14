@@ -1,8 +1,10 @@
 import Models
+import Network
 
 public protocol FetchTickersUseCaseProtocol {
     func execute() async throws -> [Ticker]
     func filterTickers(_ tickers: [Ticker], searchText: String) -> [Ticker]
+    func fetchCandles(for ticker: String, time: Time) async throws -> [Candle]
 }
 
 public final class FetchTickersUseCase: FetchTickersUseCaseProtocol {
@@ -22,5 +24,9 @@ public final class FetchTickersUseCase: FetchTickersUseCaseProtocol {
             ticker.title.lowercased().contains(searchText.lowercased()) ||
                 ticker.subTitle.lowercased().contains(searchText.lowercased())
         }
+    }
+
+    public func fetchCandles(for ticker: String, time: Time) async throws -> [Candle] {
+        try await repository.fetchCandles(for: ticker, time: time)
     }
 }

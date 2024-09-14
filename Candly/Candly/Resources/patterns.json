@@ -10,7 +10,10 @@
                 "closePrice": 120,
                 "highPrice": 122,
                 "lowPrice": 107.5,
-                "ticker": "PATTERN_Three White Soldiers"
+                "ticker": "PATTERN_Three White Soldiers",
+                "value": 692400,
+                "volume": 6328,
+                "endDate": "2016-04-14T10:10:00+00:00"
             },
             {
                 "date": "2016-04-14T11:00:00+0000",
@@ -18,7 +21,10 @@
                 "closePrice": 122,
                 "highPrice": 125,
                 "lowPrice": 109,
-                "ticker": "PATTERN_Three White Soldiers"
+                "ticker": "PATTERN_Three White Soldiers",
+                "value": 221308,
+                "volume": 9970,
+                "endDate": "2016-04-14T11:10:00+00:00"
             },
             {
                 "date": "2016-04-14T12:00:00+0000",
@@ -26,7 +32,10 @@
                 "closePrice": 130,
                 "highPrice": 130,
                 "lowPrice": 121,
-                "ticker": "PATTERN_Three White Soldiers"
+                "ticker": "PATTERN_Three White Soldiers",
+                "value": 783900,
+                "volume": 5804,
+                "endDate": "2016-04-14T12:10:00+00:00"
             }
         ]
     },
@@ -41,7 +50,10 @@
                 "closePrice": 102,
                 "highPrice": 107,
                 "lowPrice": 99,
-                "ticker": "PATTERN_Inverted Hammer"
+                "ticker": "PATTERN_Inverted Hammer",
+                "value": 788970,
+                "volume": 2865,
+                "endDate": "2016-04-21T10:10:00+00:00"
             }
         ]
     },
@@ -56,7 +68,10 @@
                 "closePrice": 105,
                 "highPrice": 110,
                 "lowPrice": 100,
-                "ticker": "PATTERN_Doji"
+                "ticker": "PATTERN_Doji",
+                "value": 947835,
+                "volume": 7879,
+                "endDate": "2016-04-25T10:10:00+00:00"
             }
         ]
     },
@@ -71,7 +86,10 @@
                 "closePrice": 220,
                 "highPrice": 260,
                 "lowPrice": 220,
-                "ticker": "PATTERN_Closing Marubozu"
+                "ticker": "PATTERN_Closing Marubozu",
+                "value": 1603140,
+                "volume": 8832,
+                "endDate": "2016-04-14T10:10:00+00:00"
             }
         ]
     },
@@ -86,7 +104,10 @@
                 "closePrice": 105,
                 "highPrice": 106,
                 "lowPrice": 99,
-                "ticker": "PATTERN_Gartley Pattern"
+                "ticker": "PATTERN_Gartley Pattern",
+                "value": 535815,
+                "volume": 4041,
+                "endDate": "2016-05-18T10:10:00+00:00"
             },
             {
                 "date": "2016-05-18T11:00:00+0000",
@@ -94,7 +115,10 @@
                 "closePrice": 95,
                 "highPrice": 106,
                 "lowPrice": 94,
-                "ticker": "PATTERN_Gartley Pattern"
+                "ticker": "PATTERN_Gartley Pattern",
+                "value": 685045,
+                "volume": 4363,
+                "endDate": "2016-05-18T11:10:00+00:00"
             },
             {
                 "date": "2016-05-18T12:00:00+0000",
@@ -102,7 +126,10 @@
                 "closePrice": 100,
                 "highPrice": 101,
                 "lowPrice": 94,
-                "ticker": "PATTERN_Gartley Pattern"
+                "ticker": "PATTERN_Gartley Pattern",
+                "value": 962300,
+                "volume": 5773,
+                "endDate": "2016-05-18T12:10:00+00:00"
             },
             {
                 "date": "2016-05-18T13:00:00+0000",
@@ -110,7 +137,10 @@
                 "closePrice": 90,
                 "highPrice": 101,
                 "lowPrice": 89,
-                "ticker": "PATTERN_Gartley Pattern"
+                "ticker": "PATTERN_Gartley Pattern",
+                "value": 564750,
+                "volume": 6190,
+                "endDate": "2016-05-18T13:10:00+00:00"
             },
             {
                 "date": "2016-05-18T14:00:00+0000",
@@ -118,7 +148,10 @@
                 "closePrice": 95,
                 "highPrice": 96,
                 "lowPrice": 89,
-                "ticker": "PATTERN_Gartley Pattern"
+                "ticker": "PATTERN_Gartley Pattern",
+                "value": 509010,
+                "volume": 5107,
+                "endDate": "2016-05-18T14:10:00+00:00"
             }
         ]
     },
@@ -133,7 +166,10 @@
                 "closePrice": 200,
                 "highPrice": 260,
                 "lowPrice": 195,
-                "ticker": "PATTERN_Harami"
+                "ticker": "PATTERN_Harami",
+                "value": 957200,
+                "volume": 2330,
+                "endDate": "2016-04-14T10:10:00+00:00"
             },
             {
                 "date": "2016-04-14T11:00:00+0000",
@@ -141,7 +177,10 @@
                 "closePrice": 230,
                 "highPrice": 235,
                 "lowPrice": 205,
-                "ticker": "PATTERN_Harami"
+                "ticker": "PATTERN_Harami",
+                "value": 230920,
+                "volume": 5536,
+                "endDate": "2016-04-14T11:10:00+00:00"
             }
         ]
     },
@@ -156,7 +195,10 @@
                 "closePrice": 200,
                 "highPrice": 255,
                 "lowPrice": 195,
-                "ticker": "PATTERN_Piercing Line"
+                "ticker": "PATTERN_Piercing Line",
+                "value": 1102000,
+                "volume": 4302,
+                "endDate": "2016-04-14T10:10:00+00:00"
             },
             {
                 "date": "2016-04-14T11:00:00+0000",
@@ -164,7 +206,10 @@
                 "closePrice": 240,
                 "highPrice": 245,
                 "lowPrice": 185,
-                "ticker": "PATTERN_Piercing Line"
+                "ticker": "PATTERN_Piercing Line",
+                "value": 1341120,
+                "volume": 3213,
+                "endDate": "2016-04-14T11:10:00+00:00"
             }
         ]
     },
@@ -179,7 +224,10 @@
                 "closePrice": 98,
                 "highPrice": 110,
                 "lowPrice": 97,
-                "ticker": "PATTERN_Shooting Star"
+                "ticker": "PATTERN_Shooting Star",
+                "value": 326536,
+                "volume": 7122,
+                "endDate": "2016-04-15T10:10:00+00:00"
             }
         ]
     },
@@ -194,7 +242,10 @@
                 "closePrice": 90,
                 "highPrice": 102,
                 "lowPrice": 88,
-                "ticker": "PATTERN_Morning Star"
+                "ticker": "PATTERN_Morning Star",
+                "value": 543150,
+                "volume": 1047,
+                "endDate": "2016-04-16T10:10:00+00:00"
             },
             {
                 "date": "2016-04-16T11:00:00+0000",
@@ -202,7 +253,10 @@
                 "closePrice": 89,
                 "highPrice": 91,
                 "lowPrice": 87,
-                "ticker": "PATTERN_Morning Star"
+                "ticker": "PATTERN_Morning Star",
+                "value": 435299,
+                "volume": 9020,
+                "endDate": "2016-04-16T11:10:00+00:00"
             },
             {
                 "date": "2016-04-16T12:00:00+0000",
@@ -210,7 +264,10 @@
                 "closePrice": 98,
                 "highPrice": 100,
                 "lowPrice": 91,
-                "ticker": "PATTERN_Morning Star"
+                "ticker": "PATTERN_Morning Star",
+                "value": 670712,
+                "volume": 5116,
+                "endDate": "2016-04-16T12:10:00+00:00"
             }
         ]
     },
@@ -225,7 +282,10 @@
                 "closePrice": 110,
                 "highPrice": 112,
                 "lowPrice": 99,
-                "ticker": "PATTERN_Evening Star"
+                "ticker": "PATTERN_Evening Star",
+                "value": 1054790,
+                "volume": 7176,
+                "endDate": "2016-04-17T10:10:00+00:00"
             },
             {
                 "date": "2016-04-17T11:00:00+0000",
@@ -233,7 +293,10 @@
                 "closePrice": 111,
                 "highPrice": 114,
                 "lowPrice": 110,
-                "ticker": "PATTERN_Evening Star"
+                "ticker": "PATTERN_Evening Star",
+                "value": 648240,
+                "volume": 6959,
+                "endDate": "2016-04-17T11:10:00+00:00"
             },
             {
                 "date": "2016-04-17T12:00:00+0000",
@@ -241,7 +304,10 @@
                 "closePrice": 102,
                 "highPrice": 109,
                 "lowPrice": 100,
-                "ticker": "PATTERN_Evening Star"
+                "ticker": "PATTERN_Evening Star",
+                "value": 957474,
+                "volume": 8932,
+                "endDate": "2016-04-17T12:10:00+00:00"
             }
         ]
     },
@@ -256,7 +322,10 @@
                 "closePrice": 95,
                 "highPrice": 102,
                 "lowPrice": 94,
-                "ticker": "PATTERN_Three Black Crows"
+                "ticker": "PATTERN_Three Black Crows",
+                "value": 506255,
+                "volume": 7049,
+                "endDate": "2016-04-18T10:10:00+00:00"
             },
             {
                 "date": "2016-04-18T11:00:00+0000",
@@ -264,7 +333,10 @@
                 "closePrice": 89,
                 "highPrice": 95,
                 "lowPrice": 88,
-                "ticker": "PATTERN_Three Black Crows"
+                "ticker": "PATTERN_Three Black Crows",
+                "value": 225971,
+                "volume": 3469,
+                "endDate": "2016-04-18T11:10:00+00:00"
             },
             {
                 "date": "2016-04-18T12:00:00+0000",
@@ -272,7 +344,10 @@
                 "closePrice": 83,
                 "highPrice": 89,
                 "lowPrice": 82,
-                "ticker": "PATTERN_Three Black Crows"
+                "ticker": "PATTERN_Three Black Crows",
+                "value": 236633,
+                "volume": 7826,
+                "endDate": "2016-04-18T12:10:00+00:00"
             }
         ]
     },
@@ -287,7 +362,10 @@
                 "closePrice": 110,
                 "highPrice": 112,
                 "lowPrice": 99,
-                "ticker": "PATTERN_Bullish Flag"
+                "ticker": "PATTERN_Bullish Flag",
+                "value": 198550,
+                "volume": 9545,
+                "endDate": "2016-04-19T10:10:00+00:00"
             },
             {
                 "date": "2016-04-19T11:00:00+0000",
@@ -295,7 +373,10 @@
                 "closePrice": 109,
                 "highPrice": 113,
                 "lowPrice": 108,
-                "ticker": "PATTERN_Bullish Flag"
+                "ticker": "PATTERN_Bullish Flag",
+                "value": 253316,
+                "volume": 1555,
+                "endDate": "2016-04-19T11:10:00+00:00"
             },
             {
                 "date": "2016-04-19T12:00:00+0000",
@@ -303,7 +384,10 @@
                 "closePrice": 108,
                 "highPrice": 111,
                 "lowPrice": 107,
-                "ticker": "PATTERN_Bullish Flag"
+                "ticker": "PATTERN_Bullish Flag",
+                "value": 920052,
+                "volume": 7430,
+                "endDate": "2016-04-19T12:10:00+00:00"
             },
             {
                 "date": "2016-04-19T13:00:00+0000",
@@ -311,7 +395,10 @@
                 "closePrice": 107,
                 "highPrice": 110,
                 "lowPrice": 106,
-                "ticker": "PATTERN_Bullish Flag"
+                "ticker": "PATTERN_Bullish Flag",
+                "value": 665647,
+                "volume": 3190,
+                "endDate": "2016-04-19T13:10:00+00:00"
             },
             {
                 "date": "2016-04-19T14:00:00+0000",
@@ -319,7 +406,10 @@
                 "closePrice": 115,
                 "highPrice": 117,
                 "lowPrice": 107,
-                "ticker": "PATTERN_Bullish Flag"
+                "ticker": "PATTERN_Bullish Flag",
+                "value": 576610,
+                "volume": 3427,
+                "endDate": "2016-04-19T14:10:00+00:00"
             }
         ]
     },
@@ -334,7 +424,10 @@
                 "closePrice": 95,
                 "highPrice": 102,
                 "lowPrice": 94,
-                "ticker": "PATTERN_Bullish Engulfing"
+                "ticker": "PATTERN_Bullish Engulfing",
+                "value": 709460,
+                "volume": 9925,
+                "endDate": "2016-04-20T10:10:00+00:00"
             },
             {
                 "date": "2016-04-20T11:00:00+0000",
@@ -342,7 +435,10 @@
                 "closePrice": 103,
                 "highPrice": 104,
                 "lowPrice": 93,
-                "ticker": "PATTERN_Bullish Engulfing"
+                "ticker": "PATTERN_Bullish Engulfing",
+                "value": 580096,
+                "volume": 8856,
+                "endDate": "2016-04-20T11:10:00+00:00"
             }
         ]
     },
@@ -357,7 +453,10 @@
                 "closePrice": 105,
                 "highPrice": 106,
                 "lowPrice": 99,
-                "ticker": "PATTERN_Bearish Engulfing"
+                "ticker": "PATTERN_Bearish Engulfing",
+                "value": 787815,
+                "volume": 8782,
+                "endDate": "2016-04-21T10:10:00+00:00"
             },
             {
                 "date": "2016-04-21T11:00:00+0000",
@@ -365,7 +464,10 @@
                 "closePrice": 98,
                 "highPrice": 107,
                 "lowPrice": 97,
-                "ticker": "PATTERN_Bearish Engulfing"
+                "ticker": "PATTERN_Bearish Engulfing",
+                "value": 806246,
+                "volume": 6756,
+                "endDate": "2016-04-21T11:10:00+00:00"
             }
         ]
     },
@@ -380,7 +482,10 @@
                 "closePrice": 105,
                 "highPrice": 107,
                 "lowPrice": 99,
-                "ticker": "PATTERN_Tweezer Top"
+                "ticker": "PATTERN_Tweezer Top",
+                "value": 836955,
+                "volume": 9205,
+                "endDate": "2016-04-22T10:10:00+00:00"
             },
             {
                 "date": "2016-04-22T11:00:00+0000",
@@ -388,7 +493,10 @@
                 "closePrice": 101,
                 "highPrice": 107,
                 "lowPrice": 100,
-                "ticker": "PATTERN_Tweezer Top"
+                "ticker": "PATTERN_Tweezer Top",
+                "value": 220584,
+                "volume": 4648,
+                "endDate": "2016-04-22T11:10:00+00:00"
             }
         ]
     },
@@ -403,7 +511,10 @@
                 "closePrice": 105,
                 "highPrice": 106,
                 "lowPrice": 99,
-                "ticker": "PATTERN_Head and Shoulders"
+                "ticker": "PATTERN_Head and Shoulders",
+                "value": 543900,
+                "volume": 4435,
+                "endDate": "2016-04-23T10:10:00+00:00"
             },
             {
                 "date": "2016-04-23T11:00:00+0000",
@@ -411,7 +522,10 @@
                 "closePrice": 110,
                 "highPrice": 112,
                 "lowPrice": 105,
-                "ticker": "PATTERN_Head and Shoulders"
+                "ticker": "PATTERN_Head and Shoulders",
+                "value": 300300,
+                "volume": 6813,
+                "endDate": "2016-04-23T11:10:00+00:00"
             },
             {
                 "date": "2016-04-23T12:00:00+0000",
@@ -419,7 +533,10 @@
                 "closePrice": 108,
                 "highPrice": 111,
                 "lowPrice": 107,
-                "ticker": "PATTERN_Head and Shoulders"
+                "ticker": "PATTERN_Head and Shoulders",
+                "value": 458244,
+                "volume": 7462,
+                "endDate": "2016-04-23T12:10:00+00:00"
             },
             {
                 "date": "2016-04-23T13:00:00+0000",
@@ -427,7 +544,10 @@
                 "closePrice": 115,
                 "highPrice": 116,
                 "lowPrice": 107,
-                "ticker": "PATTERN_Head and Shoulders"
+                "ticker": "PATTERN_Head and Shoulders",
+                "value": 977155,
+                "volume": 7943,
+                "endDate": "2016-04-23T13:10:00+00:00"
             },
             {
                 "date": "2016-04-23T14:00:00+0000",
@@ -435,7 +555,10 @@
                 "closePrice": 105,
                 "highPrice": 116,
                 "lowPrice": 104,
-                "ticker": "PATTERN_Head and Shoulders"
+                "ticker": "PATTERN_Head and Shoulders",
+                "value": 800835,
+                "volume": 9269,
+                "endDate": "2016-04-23T14:10:00+00:00"
             }
         ]
     },
@@ -450,7 +573,10 @@
                 "closePrice": 95,
                 "highPrice": 102,
                 "lowPrice": 94,
-                "ticker": "PATTERN_Cup and Handle"
+                "ticker": "PATTERN_Cup and Handle",
+                "value": 234270,
+                "volume": 4391,
+                "endDate": "2016-04-24T10:10:00+00:00"
             },
             {
                 "date": "2016-04-24T11:00:00+0000",
@@ -458,7 +584,10 @@
                 "closePrice": 98,
                 "highPrice": 99,
                 "lowPrice": 94,
-                "ticker": "PATTERN_Cup and Handle"
+                "ticker": "PATTERN_Cup and Handle",
+                "value": 547232,
+                "volume": 1072,
+                "endDate": "2016-04-24T11:10:00+00:00"
             },
             {
                 "date": "2016-04-24T12:00:00+0000",
@@ -466,7 +595,10 @@
                 "closePrice": 100,
                 "highPrice": 101,
                 "lowPrice": 97,
-                "ticker": "PATTERN_Cup and Handle"
+                "ticker": "PATTERN_Cup and Handle",
+                "value": 981700,
+                "volume": 3080,
+                "endDate": "2016-04-24T12:10:00+00:00"
             },
             {
                 "date": "2016-04-24T13:00:00+0000",
@@ -474,7 +606,10 @@
                 "closePrice": 99,
                 "highPrice": 101,
                 "lowPrice": 98,
-                "ticker": "PATTERN_Cup and Handle"
+                "ticker": "PATTERN_Cup and Handle",
+                "value": 310959,
+                "volume": 7230,
+                "endDate": "2016-04-24T13:10:00+00:00"
             },
             {
                 "date": "2016-04-24T14:00:00+0000",
@@ -482,7 +617,10 @@
                 "closePrice": 103,
                 "highPrice": 104,
                 "lowPrice": 98,
-                "ticker": "PATTERN_Cup and Handle"
+                "ticker": "PATTERN_Cup and Handle",
+                "value": 699988,
+                "volume": 1707,
+                "endDate": "2016-04-24T14:10:00+00:00"
             }
         ]
     },
@@ -497,7 +635,10 @@
                 "closePrice": 102,
                 "highPrice": 103,
                 "lowPrice": 99,
-                "ticker": "PATTERN_Rising Wedge"
+                "ticker": "PATTERN_Rising Wedge",
+                "value": 290496,
+                "volume": 1502,
+                "endDate": "2016-04-25T10:10:00+00:00"
             },
             {
                 "date": "2016-04-25T11:00:00+0000",
@@ -505,7 +646,10 @@
                 "closePrice": 104,
                 "highPrice": 105,
                 "lowPrice": 101,
-                "ticker": "PATTERN_Rising Wedge"
+                "ticker": "PATTERN_Rising Wedge",
+                "value": 800904,
+                "volume": 6590,
+                "endDate": "2016-04-25T11:10:00+00:00"
             },
             {
                 "date": "2016-04-25T12:00:00+0000",
@@ -513,7 +657,10 @@
                 "closePrice": 105,
                 "highPrice": 106,
                 "lowPrice": 103,
-                "ticker": "PATTERN_Rising Wedge"
+                "ticker": "PATTERN_Rising Wedge",
+                "value": 561540,
+                "volume": 4082,
+                "endDate": "2016-04-25T12:10:00+00:00"
             },
             {
                 "date": "2016-04-25T13:00:00+0000",
@@ -521,7 +668,10 @@
                 "closePrice": 106,
                 "highPrice": 107,
                 "lowPrice": 104,
-                "ticker": "PATTERN_Rising Wedge"
+                "ticker": "PATTERN_Rising Wedge",
+                "value": 631972,
+                "volume": 4863,
+                "endDate": "2016-04-25T13:10:00+00:00"
             },
             {
                 "date": "2016-04-25T14:00:00+0000",
@@ -529,7 +679,10 @@
                 "closePrice": 104,
                 "highPrice": 107,
                 "lowPrice": 103,
-                "ticker": "PATTERN_Rising Wedge"
+                "ticker": "PATTERN_Rising Wedge",
+                "value": 642512,
+                "volume": 2486,
+                "endDate": "2016-04-25T14:10:00+00:00"
             }
         ]
     }

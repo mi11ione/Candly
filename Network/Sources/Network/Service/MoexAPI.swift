@@ -18,7 +18,7 @@ enum MoexAPI {
             }
         }
 
-        func url(queryItems: [URLQueryItem]? = nil) -> URL? {
+        func url(queryItems: [URLQueryItem]) -> URL? {
             var components = URLComponents()
             components.scheme = MoexAPI.scheme
             components.host = MoexAPI.host

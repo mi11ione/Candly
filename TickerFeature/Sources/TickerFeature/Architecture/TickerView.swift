@@ -13,8 +13,10 @@ struct TickerView: BaseView {
                 TickerGrid(
                     tickers: model.filteredItems,
                     isLoading: model.isLoading,
-                    error: model.error
-                ) { handleIntent(.loadTickers) }
+                    error: model.error,
+                    retryAction: { handleIntent(.loadTickers) },
+                    candles: { model.candles(for: $0) }
+                )
             }
             .navigationTitle("Tickers")
             .searchable(text: .init(
