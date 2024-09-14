@@ -5,11 +5,9 @@ import Models
 
 @Observable
 public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Sendable {
-    @ObservationIgnored
-    private let fetchTickersUseCase: FetchTickersUseCaseProtocol
+    @ObservationIgnored private let fetchTickersUseCase: FetchTickersUseCaseProtocol
+    @ObservationIgnored private var loadingTickers: Set<String> = []
     private(set) var candlesCache: [String: [Candle]] = [:]
-    @ObservationIgnored
-    private var loadingTickers: Set<String> = []
 
     public init(fetchTickersUseCase: FetchTickersUseCaseProtocol) {
         self.fetchTickersUseCase = fetchTickersUseCase
@@ -54,10 +52,7 @@ public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Send
                 loadingTickers.remove(ticker)
             }
         } catch {
-            print("Error fetching candles for \(ticker): \(error)")
-            await MainActor.run {
-                loadingTickers.remove(ticker)
-            }
+            loadingTickers.remove(ticker)
         }
     }
 
