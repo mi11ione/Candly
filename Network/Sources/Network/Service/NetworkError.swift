@@ -7,7 +7,7 @@ public enum NetworkError: Error {
     case notFound
     case serverError
 
-    public var errorDescription: String? {
+    public var errorDescription: String {
         switch self {
         case .invalidURL: "Invalid URL"
         case .requestFailed: "Network request failed"
