@@ -26,13 +26,3 @@ public enum Time: String, Sendable {
         }
     }
 }
-
-public struct CandleKey {
-    private let ticker: String
-    private let time: Time
-
-    public init(ticker: String, time: Time) {
-        self.ticker = ticker
-        self.time = time
-    }
-}

@@ -16,7 +16,7 @@ public actor PatternRepository: PatternRepositoryProtocol {
 
     public func fetchPatterns() async throws -> [Pattern] {
         guard let url = Bundle.main.url(forResource: "patterns", withExtension: "json") else {
-            throw DataError.fileNotFound
+            throw URLError(.fileDoesNotExist)
         }
 
         let data = try Data(contentsOf: url)
@@ -28,8 +28,4 @@ public actor PatternRepository: PatternRepositoryProtocol {
         try await PersistenceActor.shared.save()
         return patterns
     }
-}
-
-enum DataError: Error {
-    case fileNotFound
 }

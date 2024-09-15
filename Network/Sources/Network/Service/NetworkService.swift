@@ -1,5 +1,4 @@
 import Foundation
-import Synchronization
 
 public protocol NetworkServiceProtocol: Sendable {
     func getMoexTickers() async throws -> Data

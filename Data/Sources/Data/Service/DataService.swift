@@ -10,12 +10,11 @@ public actor DataService {
     }
 
     public func parsePatterns(from data: Data) throws -> [Pattern] {
-        let json = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]]
-        guard let patternsData = json else {
-            throw DataServiceError.invalidData
+        guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] else {
+            throw URLError(.cannotParseResponse)
         }
 
-        return patternsData.compactMap { patternData -> Pattern? in
+        return json.compactMap { patternData -> Pattern? in
             guard let name = patternData["name"] as? String,
                   let info = patternData["info"] as? String,
                   let filter = patternData["filter"] as? String,
@@ -61,11 +60,11 @@ public actor DataService {
     }
 
     public func parseTickers(from data: Data) throws -> [Ticker] {
-        let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-        guard let securitiesData = json?["securities"] as? [String: Any],
+        guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+              let securitiesData = json["securities"] as? [String: Any],
               let tickersData = securitiesData["data"] as? [[Any]]
         else {
-            throw DataServiceError.invalidData
+            throw URLError(.cannotParseResponse)
         }
 
         return tickersData.compactMap { tickerData -> Ticker? in
@@ -88,11 +87,11 @@ public actor DataService {
     }
 
     public func parseCandles(from data: Data, ticker: String) throws -> [Candle] {
-        let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-        guard let candlesData = json?["candles"] as? [String: Any],
+        guard let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+              let candlesData = json["candles"] as? [String: Any],
               let candlesList = candlesData["data"] as? [[Any]]
         else {
-            throw DataServiceError.invalidData
+            throw URLError(.cannotParseResponse)
         }
 
         return candlesList.compactMap { candleData -> Candle? in
@@ -123,10 +122,6 @@ public actor DataService {
             )
         }
     }
-}
-
-enum DataServiceError: Error {
-    case invalidData
 }
 
 extension DateFormatter {
