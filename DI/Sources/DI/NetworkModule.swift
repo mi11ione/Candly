@@ -3,7 +3,7 @@ import Network
 
 extension Container {
     var cacheProtocol: Factory<CacheProtocol> {
-        self { self.cacheModel() as CacheProtocol }.singleton
+        self { self.cacheService() as CacheProtocol }.singleton
     }
 
     var cacheManager: Factory<CacheManager> {

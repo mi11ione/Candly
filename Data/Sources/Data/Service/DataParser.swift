@@ -1,7 +1,7 @@
 import Foundation
 import Models
 
-public struct DataParser {
+public actor DataParser {
     private let decoder: JSONDecoder
 
     public init(decoder: JSONDecoder = JSONDecoder()) {

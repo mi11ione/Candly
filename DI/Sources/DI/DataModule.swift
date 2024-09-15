@@ -2,20 +2,20 @@ import Data
 import Factory
 
 public extension Container {
-    var dataService: Factory<DataServiceProtocol> {
-        self { DataService() }.singleton
+    var dataParser: Factory<DataParser> {
+        self { DataParser() }.singleton
     }
 
-    var cacheModel: Factory<CacheModel> {
-        self { CacheModel() }.singleton
+    var cacheService: Factory<CacheService> {
+        self { CacheService() }.singleton
     }
 
     var patternRepository: Factory<PatternRepositoryProtocol> {
-        self { PatternRepository(dataService: self.dataService()) }.singleton
+        self { PatternRepository(parser: self.dataParser()) }.singleton
     }
 
     var tickerRepository: Factory<TickerRepositoryProtocol> {
-        self { TickerRepository(networkService: self.networkService(), dataService: self.dataService()) }.singleton
+        self { TickerRepository(networkService: self.networkService()) }.singleton
     }
 
     var fetchPatternsUseCase: Factory<FetchPatternsUseCaseProtocol> {

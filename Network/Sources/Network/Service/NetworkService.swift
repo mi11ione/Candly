@@ -9,16 +9,12 @@ public protocol NetworkServiceProtocol: Sendable {
 public actor NetworkService: NetworkServiceProtocol {
     private let session: URLSession
     private let cacheManager: CacheManager
-    private let lastRequestTime: Mutex<Date?>
-    private let minimumRequestInterval: TimeInterval = 1.0
-    private let maxRetries = 3
 
     public init(session: URLSession = .shared,
                 cacheManager: CacheManager)
     {
         self.session = session
         self.cacheManager = cacheManager
-        lastRequestTime = Mutex(nil)
     }
 
     public func getMoexTickers() async throws -> Data {
@@ -50,42 +46,21 @@ public actor NetworkService: NetworkServiceProtocol {
     }
 
     private func performRequest(_ request: URLRequest) async throws -> Data {
-        for attempt in 1 ... maxRetries {
-            do {
-                return try await rateLimitedRequest(request)
-            } catch {
-                if attempt == maxRetries {
-                    throw NetworkError.requestFailed
-                }
-                try await Task.sleep(for: .seconds(Double(attempt) * 2))
-            }
-        }
-        throw NetworkError.requestFailed
-    }
+        let requestKey = request.url?.absoluteString ?? ""
 
-    private func rateLimitedRequest(_ request: URLRequest) async throws -> Data {
-        let shouldWait = lastRequestTime.withLock { lastRequest in
-            if let lastRequest {
-                let timeSinceLastRequest = Date().timeIntervalSince(lastRequest)
-                if timeSinceLastRequest < minimumRequestInterval {
-                    return true
-                }
-            }
-            lastRequest = Date()
-            return false
-        }
-
-        if shouldWait {
-            try await Task.sleep(for: .seconds(minimumRequestInterval))
+        if let cachedData = await cacheManager.getCachedData(forKey: requestKey) {
+            return cachedData
         }
 
         let (data, response) = try await session.data(for: request)
+
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkError.invalidResponse
         }
 
         switch httpResponse.statusCode {
         case 200 ... 299:
+            await cacheManager.cacheData(data, forKey: requestKey)
             return data
         case 401:
             throw NetworkError.unauthorized
