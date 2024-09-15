@@ -2,13 +2,7 @@ import SwiftData
 
 @ModelActor
 public final actor PersistenceActor: ModelContextProtocol {
-    public static let shared = PersistenceActor(modelContainer: try! PersistenceActor.createContainer())
-
-    private static func createContainer() throws -> ModelContainer {
-        let schema = Schema([Pattern.self, Ticker.self, Candle.self])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-        return try ModelContainer(for: schema, configurations: [modelConfiguration])
-    }
+    public static let shared = PersistenceActor(modelContainer: try! ModelContainer(for: Schema([Pattern.self, Ticker.self, Candle.self])))
 
     public func insert(_ model: any PersistentModel) {
         modelContext.insert(model)

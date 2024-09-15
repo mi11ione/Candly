@@ -17,7 +17,7 @@ public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Send
     override public func loadItems() async throws {
         let fetchedTickers = try await fetchTickersUseCase.execute()
         updateItems(fetchedTickers)
-        
+
         for ticker in fetchedTickers {
             Task {
                 if let candles = try? await fetchTickersUseCase.fetchCandles(for: ticker.title, time: .hour), !candles.isEmpty {
@@ -30,12 +30,12 @@ public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Send
     public func candles(for ticker: String) async -> [Candle] {
         do {
             let allCandles = try await fetchTickersUseCase.fetchCandles(for: ticker, time: .hour)
-            
+
             let uniqueCandles = Dictionary(grouping: allCandles) { $0.formattedTime }
                 .mapValues { $0.last! }
                 .values
                 .sorted { $0.date < $1.date }
-            
+
             return Array(uniqueCandles.suffix(10))
         } catch {
             return []

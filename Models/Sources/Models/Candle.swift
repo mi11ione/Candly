@@ -19,7 +19,7 @@ public final class Candle: @unchecked Sendable {
         date.formatted(date: .omitted, time: .shortened)
     }
 
-    public init(id: UUID = UUID(), date: Date, openPrice: Double, closePrice: Double, highPrice: Double, lowPrice: Double, value: Double, volume: Double, endDate: Date, ticker: String) {
+    public init(id: UUID = UUID(), date: Date, openPrice: Double, closePrice: Double, highPrice: Double, lowPrice: Double, value: Double?, volume: Double?, endDate: Date?, ticker: String) {
         self.id = id
         self.date = date
         self.openPrice = openPrice
