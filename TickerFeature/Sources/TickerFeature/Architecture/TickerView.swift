@@ -25,6 +25,6 @@ struct TickerView: BaseView {
             ), prompt: "Search tickers")
         }
         .onAppear { handleIntent(.loadTickers) }
-        .animation(.spring(response: 0.5, dampingFraction: 0.7, blendDuration: 0.3), value: model.filteredItems)
+        .animation(.spring, value: model.filteredItems)
     }
 }
