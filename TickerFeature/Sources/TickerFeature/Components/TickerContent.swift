@@ -6,10 +6,13 @@ struct TickerContent: View {
     var candles: [Candle]
 
     var body: some View {
-        HStack {
-            TickerInfo(ticker: ticker)
-            Spacer()
-            TickerChart(candles: candles)
+        GeometryReader { geometry in
+            HStack {
+                TickerInfo(ticker: ticker)
+                Spacer()
+                TickerChart(candles: candles)
+                    .frame(width: geometry.size.width / 1.7)
+            }
         }
         .padding()
         .frame(height: 160)
