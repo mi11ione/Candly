@@ -8,38 +8,40 @@ public protocol NetworkServiceProtocol: Sendable {
 public actor NetworkService: NetworkServiceProtocol {
     private let session: URLSession
     private let cacheManager: CacheManager
+    private var lastRequestTime: [String: Date] = [:]
+    private let config: NetworkConfig
 
-    public init(session: URLSession = .shared,
-                cacheManager: CacheManager)
-    {
+    public init(
+        session: URLSession = .shared,
+        cacheManager: CacheManager,
+        config: NetworkConfig = NetworkConfig()
+    ) {
         self.session = session
         self.cacheManager = cacheManager
+        self.config = config
     }
 
     public func getMoexTickers() async throws -> Data {
-        let cacheKey = "moexTickers"
-        if let cachedData = await cacheManager.getCachedData(forKey: cacheKey) {
-            return cachedData
-        }
-
-        guard let url = MoexAPI.Endpoint.allTickers.url(queryItems: []) else {
-            throw NetworkError.invalidURL
-        }
-        let data = try await performRequest(URLRequest(url: url))
-        await cacheManager.cacheData(data, forKey: cacheKey)
-        return data
+        try await fetchData(for: .allTickers, cacheKey: "moexTickers")
     }
 
     public func getMoexCandles(ticker: String, time: Time) async throws -> Data {
-        let cacheKey = "moexCandles_\(ticker)_\(time.rawValue)"
+        try await fetchData(for: .candles(ticker), cacheKey: "moexCandles_\(ticker)_\(time.rawValue)", queryItems: time.queryItems)
+    }
+
+    private func fetchData(for endpoint: MoexAPI.Endpoint, cacheKey: String, queryItems: [URLQueryItem] = []) async throws -> Data {
         if let cachedData = await cacheManager.getCachedData(forKey: cacheKey) {
             return cachedData
         }
 
-        guard let url = MoexAPI.Endpoint.candles(ticker).url(queryItems: time.queryItems) else {
+        guard let url = endpoint.url(queryItems: queryItems) else {
             throw NetworkError.invalidURL
         }
-        let data = try await performRequest(URLRequest(url: url))
+
+        var request = URLRequest(url: url)
+        request.cachePolicy = config.cachePolicy
+
+        let data = try await performRequest(request)
         await cacheManager.cacheData(data, forKey: cacheKey)
         return data
     }
@@ -47,10 +49,22 @@ public actor NetworkService: NetworkServiceProtocol {
     private func performRequest(_ request: URLRequest) async throws -> Data {
         let requestKey = request.url?.absoluteString ?? ""
 
-        if let cachedData = await cacheManager.getCachedData(forKey: requestKey) {
-            return cachedData
+        for attempt in 0 ... config.maxRetries {
+            do {
+                try await waitForMinInterval(for: requestKey)
+                return try await sendRequest(request)
+            } catch {
+                if attempt == config.maxRetries {
+                    throw error
+                }
+                try await Task.sleep(nanoseconds: UInt64(pow(config.retryDelay, Double(attempt + 1)) * 1_000_000_000))
+            }
         }
 
+        throw NetworkError.requestFailed
+    }
+
+    private func sendRequest(_ request: URLRequest) async throws -> Data {
         let (data, response) = try await session.data(for: request)
 
         guard let httpResponse = response as? HTTPURLResponse else {
@@ -59,18 +73,27 @@ public actor NetworkService: NetworkServiceProtocol {
 
         switch httpResponse.statusCode {
         case 200 ... 299:
-            await cacheManager.cacheData(data, forKey: requestKey)
             return data
         case 401:
             throw NetworkError.unauthorized
         case 404:
             throw NetworkError.notFound
-        case 429:
-            throw NetworkError.requestFailed
         case 500 ... 599:
             throw NetworkError.serverError
         default:
             throw NetworkError.invalidResponse
         }
+    }
+
+    private func waitForMinInterval(for requestKey: String) async throws {
+        let now = Date()
+        if let lastRequest = lastRequestTime[requestKey] {
+            let timeSinceLastRequest = now.timeIntervalSince(lastRequest)
+            if timeSinceLastRequest < config.minRequestInterval {
+                let waitTime = config.minRequestInterval - timeSinceLastRequest
+                try await Task.sleep(nanoseconds: UInt64(waitTime * 1_000_000_000))
+            }
+        }
+        lastRequestTime[requestKey] = now
     }
 }

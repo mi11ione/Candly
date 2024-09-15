@@ -2,11 +2,37 @@ import Foundation
 import Models
 
 public actor DataService {
-    private let decoder: JSONDecoder
+    public init() {}
 
-    public init(decoder: JSONDecoder = JSONDecoder()) {
-        self.decoder = decoder
-        self.decoder.dateDecodingStrategy = .iso8601
+    private func parseDate(_ dateString: String, isPattern: Bool) -> Date? {
+        isPattern ? ISO8601DateFormatter().date(from: dateString) : DateFormatter.moexDateFormatter.date(from: dateString)
+    }
+
+    public func parseCandle(from data: [String: Any], isPattern: Bool) -> Candle? {
+        guard let openPrice = data["openPrice"] as? Double,
+              let closePrice = data["closePrice"] as? Double,
+              let highPrice = data["highPrice"] as? Double,
+              let lowPrice = data["lowPrice"] as? Double,
+              let value = data["value"] as? Double,
+              let volume = data["volume"] as? Double,
+              let dateString = data["date"] as? String,
+              let date = parseDate(dateString, isPattern: isPattern)
+        else { return nil }
+
+        let endDate = (data["endDate"] as? String).flatMap { parseDate($0, isPattern: isPattern) }
+        let ticker = data["ticker"] as? String ?? ""
+
+        return Candle(
+            date: date,
+            openPrice: openPrice,
+            closePrice: closePrice,
+            highPrice: highPrice,
+            lowPrice: lowPrice,
+            value: value,
+            volume: volume,
+            endDate: endDate,
+            ticker: ticker
+        )
     }
 
     public func parsePatterns(from data: Data) throws -> [Pattern] {
@@ -21,33 +47,7 @@ public actor DataService {
                   let candlesData = patternData["candles"] as? [[String: Any]]
             else { return nil }
 
-            let candles = candlesData.compactMap { candleData -> Candle? in
-                guard let dateString = candleData["date"] as? String,
-                      let date = ISO8601DateFormatter().date(from: dateString),
-                      let openPrice = candleData["openPrice"] as? Double,
-                      let closePrice = candleData["closePrice"] as? Double,
-                      let highPrice = candleData["highPrice"] as? Double,
-                      let lowPrice = candleData["lowPrice"] as? Double,
-                      let ticker = candleData["ticker"] as? String
-                else { return nil }
-
-                let value = candleData["value"] as? Double ?? 0
-                let volume = candleData["volume"] as? Double ?? 0
-                let endDate = (candleData["endDate"] as? String).flatMap { ISO8601DateFormatter().date(from: $0) } ?? date
-
-                return Candle(
-                    id: UUID(),
-                    date: date,
-                    openPrice: openPrice,
-                    closePrice: closePrice,
-                    highPrice: highPrice,
-                    lowPrice: lowPrice,
-                    value: value,
-                    volume: volume,
-                    endDate: endDate,
-                    ticker: ticker
-                )
-            }
+            let candles = candlesData.compactMap { parseCandle(from: $0, isPattern: true) }
 
             return Pattern(
                 id: UUID(),
@@ -95,40 +95,21 @@ public actor DataService {
         }
 
         return candlesList.compactMap { candleData -> Candle? in
-            guard candleData.count >= 8,
-                  let openPrice = candleData[0] as? Double,
-                  let closePrice = candleData[1] as? Double,
-                  let highPrice = candleData[2] as? Double,
-                  let lowPrice = candleData[3] as? Double,
-                  let value = candleData[4] as? Double,
-                  let volume = candleData[5] as? Double,
-                  let beginString = candleData[6] as? String,
-                  let endString = candleData[7] as? String,
-                  let beginDate = DateFormatter.moexDateFormatter.date(from: beginString),
-                  let endDate = DateFormatter.moexDateFormatter.date(from: endString)
-            else { return nil }
+            guard candleData.count >= 8 else { return nil }
 
-            return Candle(
-                id: UUID(),
-                date: beginDate,
-                openPrice: openPrice,
-                closePrice: closePrice,
-                highPrice: highPrice,
-                lowPrice: lowPrice,
-                value: value,
-                volume: volume,
-                endDate: endDate,
-                ticker: ticker
-            )
+            let candleDict: [String: Any] = [
+                "openPrice": candleData[0],
+                "closePrice": candleData[1],
+                "highPrice": candleData[2],
+                "lowPrice": candleData[3],
+                "value": candleData[4],
+                "volume": candleData[5],
+                "date": candleData[6],
+                "endDate": candleData[7],
+                "ticker": ticker,
+            ]
+
+            return parseCandle(from: candleDict, isPattern: false)
         }
     }
-}
-
-extension DateFormatter {
-    static let moexDateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        formatter.timeZone = TimeZone(identifier: "UTC")
-        return formatter
-    }()
 }
