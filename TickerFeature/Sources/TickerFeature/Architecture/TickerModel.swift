@@ -6,6 +6,7 @@ import Models
 @Observable
 public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Sendable {
     @ObservationIgnored private let fetchTickersUseCase: FetchTickersUseCaseProtocol
+    private(set) var tickersWithCandles: Set<String> = []
 
     public init(fetchTickersUseCase: FetchTickersUseCaseProtocol) {
         self.fetchTickersUseCase = fetchTickersUseCase
@@ -16,6 +17,14 @@ public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Send
     override public func loadItems() async throws {
         let fetchedTickers = try await fetchTickersUseCase.execute()
         updateItems(fetchedTickers)
+        
+        for ticker in fetchedTickers {
+            Task {
+                if let candles = try? await fetchTickersUseCase.fetchCandles(for: ticker.title, time: .hour), !candles.isEmpty {
+                    tickersWithCandles.insert(ticker.title)
+                }
+            }
+        }
     }
 
     public func candles(for ticker: String) async -> [Candle] {
@@ -38,5 +47,6 @@ public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Send
 
     override public var filteredItems: [Ticker] {
         fetchTickersUseCase.filterTickers(items, searchText: searchText)
+            .filter { tickersWithCandles.contains($0.title) }
     }
 }
