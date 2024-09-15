@@ -2,12 +2,12 @@ import Data
 import Factory
 
 public extension Container {
-    var dataService: Factory<DataServiceProtocol> {
+    var dataService: Factory<DataService> {
         self { DataService() }.singleton
     }
 
-    var cacheModel: Factory<CacheModel> {
-        self { CacheModel() }.singleton
+    var cacheService: Factory<CacheService> {
+        self { CacheService() }.singleton
     }
 
     var patternRepository: Factory<PatternRepositoryProtocol> {
@@ -15,7 +15,7 @@ public extension Container {
     }
 
     var tickerRepository: Factory<TickerRepositoryProtocol> {
-        self { TickerRepository(networkService: self.networkService(), dataService: self.dataService()) }.singleton
+        self { TickerRepository(networkService: self.networkService()) }.singleton
     }
 
     var fetchPatternsUseCase: Factory<FetchPatternsUseCaseProtocol> {

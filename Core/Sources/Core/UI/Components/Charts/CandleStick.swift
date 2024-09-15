@@ -2,11 +2,11 @@ import Charts
 import SwiftUICore
 
 public struct CandleStick: ChartContent {
-    private let time: String
-    private let openPrice: Double
-    private let closePrice: Double
-    private let highPrice: Double
-    private let lowPrice: Double
+    public let time: String
+    public let openPrice: Double
+    public let closePrice: Double
+    public let highPrice: Double
+    public let lowPrice: Double
 
     public init(time: String, openPrice: Double, closePrice: Double, highPrice: Double, lowPrice: Double) {
         self.time = time

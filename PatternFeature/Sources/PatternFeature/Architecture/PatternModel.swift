@@ -5,8 +5,7 @@ import Models
 
 @Observable
 public final class PatternModel: BaseModel<Pattern, PatternIntent> {
-    @ObservationIgnored
-    private let fetchPatternsUseCase: FetchPatternsUseCaseProtocol
+    @ObservationIgnored private let fetchPatternsUseCase: FetchPatternsUseCaseProtocol
     public var selectedFilter: String = ""
 
     public init(fetchPatternsUseCase: FetchPatternsUseCaseProtocol) {

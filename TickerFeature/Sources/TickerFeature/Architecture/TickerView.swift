@@ -12,9 +12,11 @@ struct TickerView: BaseView {
             ScrollView {
                 TickerGrid(
                     tickers: model.filteredItems,
+                    candles: model,
                     isLoading: model.isLoading,
-                    error: model.error
-                ) { handleIntent(.loadTickers) }
+                    error: model.error,
+                    retryAction: { handleIntent(.loadTickers) }
+                )
             }
             .navigationTitle("Tickers")
             .searchable(text: .init(
@@ -23,5 +25,6 @@ struct TickerView: BaseView {
             ), prompt: "Search tickers")
         }
         .onAppear { handleIntent(.loadTickers) }
+        .animation(.spring, value: model.filteredItems)
     }
 }

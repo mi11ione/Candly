@@ -1,3 +1,4 @@
+import Foundation
 import Models
 
 public protocol PatternRepositoryProtocol {
@@ -5,14 +6,22 @@ public protocol PatternRepositoryProtocol {
 }
 
 public actor PatternRepository: PatternRepositoryProtocol {
-    private let dataService: DataServiceProtocol
+    private let fileManager: FileManager
+    private let dataService: DataService
 
-    public init(dataService: DataServiceProtocol) {
+    public init(fileManager: FileManager = .default, dataService: DataService = DataService()) {
+        self.fileManager = fileManager
         self.dataService = dataService
     }
 
     public func fetchPatterns() async throws -> [Pattern] {
-        let patterns = try await dataService.loadPatterns()
+        guard let url = Bundle.main.url(forResource: "patterns", withExtension: "json") else {
+            throw URLError(.fileDoesNotExist)
+        }
+
+        let data = try Data(contentsOf: url)
+
+        let patterns = try await dataService.parsePatterns(from: data)
         for pattern in patterns {
             await PersistenceActor.shared.insert(pattern)
         }

@@ -4,6 +4,7 @@ import SwiftUI
 
 struct TickerGrid: View {
     var tickers: [Ticker]
+    var candles: TickerModel
     var isLoading: Bool
     var error: String?
     var retryAction: () -> Void
@@ -17,7 +18,7 @@ struct TickerGrid: View {
                 .padding()
         } else {
             GridView(items: tickers) { ticker in
-                TickerCell(ticker: ticker)
+                TickerCell(ticker: ticker, tickerCandles: candles)
             }
         }
     }

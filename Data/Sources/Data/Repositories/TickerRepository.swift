@@ -8,9 +8,9 @@ public protocol TickerRepositoryProtocol {
 
 public actor TickerRepository: TickerRepositoryProtocol {
     private let networkService: NetworkServiceProtocol
-    private let dataService: DataServiceProtocol
+    private let dataService: DataService
 
-    public init(networkService: NetworkServiceProtocol, dataService: DataServiceProtocol) {
+    public init(networkService: NetworkServiceProtocol, dataService: DataService = DataService()) {
         self.networkService = networkService
         self.dataService = dataService
     }
