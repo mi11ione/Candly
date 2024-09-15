@@ -1,3 +1,4 @@
+import Charts
 import Core
 import Models
 import SwiftUI
@@ -19,6 +20,7 @@ struct TickerChart: View {
                     lowPrice: candle.lowPrice
                 )
             })
+            .chartXAxis(.hidden)
         }
     }
 }
