@@ -1,7 +1,7 @@
 import Foundation
 import Models
 
-public actor DataParser {
+public actor DataService {
     private let decoder: JSONDecoder
 
     public init(decoder: JSONDecoder = JSONDecoder()) {
@@ -12,7 +12,7 @@ public actor DataParser {
     public func parsePatterns(from data: Data) throws -> [Pattern] {
         let json = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]]
         guard let patternsData = json else {
-            throw DataParserError.invalidData
+            throw DataServiceError.invalidData
         }
 
         return patternsData.compactMap { patternData -> Pattern? in
@@ -65,7 +65,7 @@ public actor DataParser {
         guard let securitiesData = json?["securities"] as? [String: Any],
               let tickersData = securitiesData["data"] as? [[Any]]
         else {
-            throw DataParserError.invalidData
+            throw DataServiceError.invalidData
         }
 
         return tickersData.compactMap { tickerData -> Ticker? in
@@ -92,7 +92,7 @@ public actor DataParser {
         guard let candlesData = json?["candles"] as? [String: Any],
               let candlesList = candlesData["data"] as? [[Any]]
         else {
-            throw DataParserError.invalidData
+            throw DataServiceError.invalidData
         }
 
         return candlesList.compactMap { candleData -> Candle? in
@@ -125,7 +125,7 @@ public actor DataParser {
     }
 }
 
-enum DataParserError: Error {
+enum DataServiceError: Error {
     case invalidData
 }
 

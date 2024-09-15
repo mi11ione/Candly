@@ -7,11 +7,11 @@ public protocol PatternRepositoryProtocol {
 
 public actor PatternRepository: PatternRepositoryProtocol {
     private let fileManager: FileManager
-    private let parser: DataParser
+    private let dataService: DataService
 
-    public init(fileManager: FileManager = .default, parser: DataParser = DataParser()) {
+    public init(fileManager: FileManager = .default, dataService: DataService = DataService()) {
         self.fileManager = fileManager
-        self.parser = parser
+        self.dataService = dataService
     }
 
     public func fetchPatterns() async throws -> [Pattern] {
@@ -21,7 +21,7 @@ public actor PatternRepository: PatternRepositoryProtocol {
 
         let data = try Data(contentsOf: url)
 
-        let patterns = try await parser.parsePatterns(from: data)
+        let patterns = try await dataService.parsePatterns(from: data)
         for pattern in patterns {
             await PersistenceActor.shared.insert(pattern)
         }
