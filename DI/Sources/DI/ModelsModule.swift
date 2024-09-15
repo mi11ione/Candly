@@ -1,8 +1,9 @@
 import Factory
 import Models
+import SwiftData
 
 extension Container {
-    var modelContext: Factory<ModelContextProtocol> {
-        self { PersistenceActor.shared }.singleton
+    var modelContainer: Factory<ModelContainer> {
+        self { try! ModelContainer(for: Pattern.self, Ticker.self, Candle.self) }.singleton
     }
 }

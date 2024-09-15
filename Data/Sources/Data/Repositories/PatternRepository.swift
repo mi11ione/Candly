@@ -1,16 +1,17 @@
 import Foundation
 import Models
+import SwiftData
 
 public protocol PatternRepositoryProtocol {
     func fetchPatterns() async throws -> [Pattern]
 }
 
 public actor PatternRepository: PatternRepositoryProtocol {
-    private let fileManager: FileManager
+    private let modelContainer: ModelContainer
     private let dataService: DataService
 
-    public init(fileManager: FileManager = .default, dataService: DataService = DataService()) {
-        self.fileManager = fileManager
+    public init(modelContainer: ModelContainer, dataService: DataService = DataService()) {
+        self.modelContainer = modelContainer
         self.dataService = dataService
     }
 
@@ -20,12 +21,13 @@ public actor PatternRepository: PatternRepositoryProtocol {
         }
 
         let data = try Data(contentsOf: url)
-
         let patterns = try await dataService.parsePatterns(from: data)
+
+        let context = ModelContext(modelContainer)
         for pattern in patterns {
-            await PersistenceActor.shared.insert(pattern)
+            context.insert(pattern)
         }
-        try await PersistenceActor.shared.save()
+        try context.save()
         return patterns
     }
 }
