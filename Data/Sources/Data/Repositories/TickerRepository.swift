@@ -1,42 +1,37 @@
 import Models
 import Network
-import SwiftData
 
 public protocol TickerRepositoryProtocol {
     func fetchTickers() async throws -> [Ticker]
     func fetchCandles(for ticker: String, time: Time) async throws -> [Candle]
 }
 
-public actor TickerRepository: TickerRepositoryProtocol {
+public class TickerRepository: TickerRepositoryProtocol {
     private let networkService: NetworkServiceProtocol
     private let dataService: DataService
-    private let modelContainer: ModelContainer
 
-    public init(networkService: NetworkServiceProtocol, dataService: DataService = DataService(), modelContainer: ModelContainer) {
+    public init(networkService: NetworkServiceProtocol, dataService: DataService = DataService()) {
         self.networkService = networkService
         self.dataService = dataService
-        self.modelContainer = modelContainer
     }
 
     public func fetchTickers() async throws -> [Ticker] {
         let data = try await networkService.getMoexTickers()
         let tickers = try await dataService.parseTickers(from: data)
-        let context = ModelContext(modelContainer)
         for ticker in tickers {
-            context.insert(ticker)
+            await PersistenceActor.shared.insert(ticker)
         }
-        try context.save()
+        try await PersistenceActor.shared.save()
         return tickers
     }
 
     public func fetchCandles(for ticker: String, time: Time) async throws -> [Candle] {
         let data = try await networkService.getMoexCandles(ticker: ticker, time: time)
         let candles = try await dataService.parseCandles(from: data, ticker: ticker)
-        let context = ModelContext(modelContainer)
         for candle in candles {
-            context.insert(candle)
+            await PersistenceActor.shared.insert(candle)
         }
-        try context.save()
+        try await PersistenceActor.shared.save()
         return candles
     }
 }

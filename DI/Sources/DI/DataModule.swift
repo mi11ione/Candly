@@ -11,11 +11,11 @@ public extension Container {
     }
 
     var patternRepository: Factory<PatternRepositoryProtocol> {
-        self { PatternRepository(modelContainer: self.modelContainer(), dataService: self.dataService()) }.singleton
+        self { PatternRepository(dataService: self.dataService()) }.singleton
     }
 
     var tickerRepository: Factory<TickerRepositoryProtocol> {
-        self { TickerRepository(networkService: self.networkService(), dataService: self.dataService(), modelContainer: self.modelContainer()) }.singleton
+        self { TickerRepository(networkService: self.networkService(), dataService: self.dataService()) }.singleton
     }
 
     var fetchPatternsUseCase: Factory<FetchPatternsUseCaseProtocol> {

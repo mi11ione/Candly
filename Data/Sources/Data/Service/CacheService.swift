@@ -33,7 +33,7 @@ public actor CacheService: CacheProtocol {
     }
 }
 
-private class CacheEntry {
+private actor CacheEntry {
     let data: Data
     let timestamp: Date
 

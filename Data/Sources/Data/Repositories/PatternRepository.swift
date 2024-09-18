@@ -6,12 +6,10 @@ public protocol PatternRepositoryProtocol {
     func fetchPatterns() async throws -> [Pattern]
 }
 
-public actor PatternRepository: PatternRepositoryProtocol {
-    private let modelContainer: ModelContainer
+public class PatternRepository: PatternRepositoryProtocol {
     private let dataService: DataService
 
-    public init(modelContainer: ModelContainer, dataService: DataService = DataService()) {
-        self.modelContainer = modelContainer
+    public init(dataService: DataService = DataService()) {
         self.dataService = dataService
     }
 
@@ -23,11 +21,6 @@ public actor PatternRepository: PatternRepositoryProtocol {
         let data = try Data(contentsOf: url)
         let patterns = try await dataService.parsePatterns(from: data)
 
-        let context = ModelContext(modelContainer)
-        for pattern in patterns {
-            context.insert(pattern)
-        }
-        try context.save()
         return patterns
     }
 }
