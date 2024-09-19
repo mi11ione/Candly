@@ -5,7 +5,7 @@ struct CellBackground: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-        #if os(visionOS)
+        #if os(visionOS) || os(tvOS)
         .background(Material.ultraThin)
         #else
         .background(Color("BackgroundColor"))

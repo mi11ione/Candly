@@ -2,7 +2,7 @@ import Charts
 import SwiftUICore
 
 public enum ChartConfig {
-    public static func applyCommonConfig(_ chart: Chart<some ChartContent>) -> some View {
+    public static func apply(_ chart: Chart<some ChartContent>) -> some View {
         chart
             .chartXAxis {
                 AxisMarks(position: .bottom, values: .automatic(desiredCount: 6)) {
@@ -15,7 +15,7 @@ public enum ChartConfig {
             }
     }
 
-    public static func calculateYAxisDomain(minValue: Double, maxValue: Double) -> ClosedRange<Double> {
+    public static func yAxisDomain(minValue: Double, maxValue: Double) -> ClosedRange<Double> {
         let padding = (maxValue - minValue) * 0.1
         return (minValue - padding) ... (maxValue + padding)
     }

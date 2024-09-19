@@ -15,7 +15,7 @@ struct SelectButtonStyle: ViewModifier {
     }
 
     private var foregroundColor: Color {
-        #if os(visionOS)
+        #if os(visionOS) || os(tvOS)
             isSelected ? .black : .white
         #else
             isSelected ? Color("InvertedTextColor") : .primary
@@ -23,7 +23,7 @@ struct SelectButtonStyle: ViewModifier {
     }
 
     private var backgroundColor: Color {
-        #if os(visionOS)
+        #if os(visionOS) || os(tvOS)
             .white.opacity(isSelected ? 1 : 0.2)
         #else
             isSelected ? .primary : Color("BackgroundColor")

@@ -9,7 +9,7 @@ public struct ChartView: View {
     }
 
     public var body: some View {
-        ChartConfig.applyCommonConfig(
+        ChartConfig.apply(
             Chart {
                 ForEach(candles, id: \.time) { candle in
                     candle
@@ -23,6 +23,6 @@ public struct ChartView: View {
         let prices = candles.flatMap { [$0.lowPrice, $0.highPrice] }
         let min = prices.min() ?? 0
         let max = prices.max() ?? 100
-        return ChartConfig.calculateYAxisDomain(minValue: min, maxValue: max)
+        return ChartConfig.yAxisDomain(minValue: min, maxValue: max)
     }
 }
