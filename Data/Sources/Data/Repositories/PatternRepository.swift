@@ -19,7 +19,7 @@ public class PatternRepository: PatternRepositoryProtocol {
         }
 
         let data = try Data(contentsOf: url)
-        let patterns = try await dataService.parsePatterns(from: data)
+        let patterns = try dataService.parsePatterns(from: data)
 
         return patterns
     }

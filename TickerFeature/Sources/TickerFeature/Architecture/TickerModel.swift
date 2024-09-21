@@ -4,7 +4,7 @@ import Foundation
 import Models
 
 @Observable
-public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Sendable {
+public final class TickerModel: BaseModel<Ticker, TickerIntent> {
     @ObservationIgnored private let fetchTickersUseCase: FetchTickersUseCaseProtocol
     private(set) var tickersWithCandles: Set<String> = []
 
@@ -27,6 +27,7 @@ public final class TickerModel: BaseModel<Ticker, TickerIntent>, @unchecked Send
         }
     }
 
+    @MainActor
     public func candles(for ticker: String) async -> [Candle] {
         do {
             let allCandles = try await fetchTickersUseCase.fetchCandles(for: ticker, time: .hour)

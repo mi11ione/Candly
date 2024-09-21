@@ -1,7 +1,7 @@
 import Models
 import Network
 
-public protocol FetchTickersUseCaseProtocol {
+public protocol FetchTickersUseCaseProtocol: Sendable {
     func execute() async throws -> [Ticker]
     func filterTickers(_ tickers: [Ticker], searchText: String) -> [Ticker]
     func fetchCandles(for ticker: String, time: Time) async throws -> [Candle]

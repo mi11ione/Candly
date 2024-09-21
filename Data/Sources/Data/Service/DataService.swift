@@ -1,7 +1,7 @@
 import Foundation
 import Models
 
-public actor DataService {
+public final class DataService: Sendable {
     public init() {}
 
     private func parseDate(_ dateString: String, isPattern: Bool) -> Date? {

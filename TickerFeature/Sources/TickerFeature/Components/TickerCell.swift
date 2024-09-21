@@ -2,6 +2,7 @@ import Core
 import Models
 import SwiftUICore
 
+@MainActor
 struct TickerCell: View {
     let ticker: Ticker
     let tickerCandles: TickerModel
@@ -20,7 +21,10 @@ struct TickerCell: View {
         )
         .padding(.top, 5)
         .task {
-            candles = await tickerCandles.candles(for: ticker.title)
+            let candles = await tickerCandles.candles(for: ticker.title)
+            withAnimation(.spring()) {
+                self.candles = candles
+            }
         }
     }
 }

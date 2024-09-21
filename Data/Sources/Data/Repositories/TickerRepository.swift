@@ -1,12 +1,12 @@
 import Models
 import Network
 
-public protocol TickerRepositoryProtocol {
+public protocol TickerRepositoryProtocol: Sendable {
     func fetchTickers() async throws -> [Ticker]
     func fetchCandles(for ticker: String, time: Time) async throws -> [Candle]
 }
 
-public class TickerRepository: TickerRepositoryProtocol {
+public final class TickerRepository: TickerRepositoryProtocol {
     private let networkService: NetworkServiceProtocol
     private let dataService: DataService
 
@@ -17,7 +17,7 @@ public class TickerRepository: TickerRepositoryProtocol {
 
     public func fetchTickers() async throws -> [Ticker] {
         let data = try await networkService.getMoexTickers()
-        let tickers = try await dataService.parseTickers(from: data)
+        let tickers = try dataService.parseTickers(from: data)
         for ticker in tickers {
             await PersistenceActor.shared.insert(ticker)
         }
@@ -27,7 +27,7 @@ public class TickerRepository: TickerRepositoryProtocol {
 
     public func fetchCandles(for ticker: String, time: Time) async throws -> [Candle] {
         let data = try await networkService.getMoexCandles(ticker: ticker, time: time)
-        let candles = try await dataService.parseCandles(from: data, ticker: ticker)
+        let candles = try dataService.parseCandles(from: data, ticker: ticker)
         for candle in candles {
             await PersistenceActor.shared.insert(candle)
         }
