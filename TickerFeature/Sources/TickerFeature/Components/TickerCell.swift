@@ -2,7 +2,6 @@ import Core
 import Models
 import SwiftUICore
 
-@MainActor
 struct TickerCell: View {
     let ticker: Ticker
     let tickerCandles: TickerModel
