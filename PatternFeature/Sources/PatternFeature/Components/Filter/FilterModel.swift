@@ -17,7 +17,7 @@ enum FilterModel: String, CaseIterable {
         }
     }
 
-    var symbolImage: String {
+    var symbol: String {
         switch self {
         case .single: "chevron.up.right.dotted.2"
         case .double: "distribute.horizontal.center.fill"
