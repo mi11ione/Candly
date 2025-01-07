@@ -10,7 +10,10 @@ struct PatternView: BaseView {
     var body: some View {
         NavigationStack {
             ScrollView {
-                FilterView(activeFilter: $model.selectedFilter)
+                HStack {
+                    FilterView(activeFilter: $model.selectedFilter)
+                    Spacer()
+                }
                 PatternGrid(patterns: model.filteredItems)
             }
             .navigationTitle("Patterns")

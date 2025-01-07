@@ -14,12 +14,13 @@ struct FilterView: View {
 
                 if activeFilter == "All Patterns" {
                     FilterButton(activeFilter: $activeFilter, filter: .allPatterns)
-                        .transition(.offset(x: geo.size.width - (40 * CGFloat(FilterModel.allCases.count - 1))))
+                        .transition(.offset(x: geo.size.width - (40 * CGFloat(FilterModel.allCases.count - 1))).combined(with: .opacity))
                 }
             }
             .padding(.horizontal, 15)
         }
-        .frame(height: 48, alignment: .top)
+        .frame(maxWidth: 450)
+        .frame(height: 48)
         .padding(.bottom, 10)
     }
 }
