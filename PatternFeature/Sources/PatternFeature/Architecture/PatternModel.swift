@@ -6,7 +6,7 @@ import Models
 @Observable
 public final class PatternModel: BaseModel<Pattern, PatternIntent> {
     @ObservationIgnored private let fetchPatternsUseCase: FetchPatternsUseCaseProtocol
-    public var selectedFilter: String = ""
+    public var selectedFilter: String = FilterModel.allPatterns.rawValue
 
     public init(fetchPatternsUseCase: FetchPatternsUseCaseProtocol) {
         self.fetchPatternsUseCase = fetchPatternsUseCase
@@ -28,7 +28,7 @@ public final class PatternModel: BaseModel<Pattern, PatternIntent> {
     }
 
     override public var filteredItems: [Pattern] {
-        selectedFilter.isEmpty ? items : items.filter { $0.filter == selectedFilter }
+        selectedFilter.isEmpty || selectedFilter == "All Patterns" ? items : items.filter { $0.filter == selectedFilter }
     }
 
     override public func handle(_ intent: PatternIntent) {

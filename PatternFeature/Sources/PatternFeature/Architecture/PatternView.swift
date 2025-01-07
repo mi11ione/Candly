@@ -10,12 +10,7 @@ struct PatternView: BaseView {
     var body: some View {
         NavigationStack {
             ScrollView {
-                FilterView(
-                    selectedFilter: model.selectedFilter,
-                    onFilterSelected: { filter in
-                        handleIntent(.filterSelected(filter))
-                    }
-                )
+                FilterView(activeFilter: $model.selectedFilter)
                 PatternGrid(patterns: model.filteredItems)
             }
             .navigationTitle("Patterns")
